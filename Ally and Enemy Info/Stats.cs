@@ -2,20 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**/
+
 public class Stats : MonoBehaviour {
 
-    public string entityName;
-    public int level;
-    public int exp;
+    public string m_entityName;
+    public int m_level;
+    public int m_exp;
 
-    public int hp;
-    public int atk;
-    public int def;
-    public int matk;
-    public int mdef;
-    // Every 4 stats, percentage increases by 1. 
-    public int luck;
+    public int m_hp;
+    public int m_atk;
+    public int m_def;
 
+    // Determines the turn order
+    public int initiative;
+
+    public bool isEnemy;
+    public HealthManager healthManager; 
+
+    void Stats(string a_name)
+    {
+
+    }
+
+    // Use this for initialization
+    void Start ()
+    { 
+
+        //healthManager = GetComponent<HealthManager>();
+	}
+
+    public void levelUp()
+    {
+        level++; 
+    }
+
+    public void generateInitiative()
+    {
+        initiative = Random.Range(1, 100); 
+    }
+}
+
+/*
     public enum status{
         // The default status
         Normal, 
@@ -28,38 +56,5 @@ public class Stats : MonoBehaviour {
         // Cannot attack, wont wake up until the player leaves the area
         Unconcious
     };
-    public status currentStatus; 
-
-    // Determines the turn order
-    public int initiative;
-
-    public bool isEnemy;
-    public HealthManager healthManager; 
-
-    // Use this for initialization
-    void Start () {
-        //Test stats:
-        level = 1;
-        exp = 0;
-        hp = 10;
-        atk = 10;
-        def = 10;
-        matk = 10;
-        mdef = 10;
-        luck = 10;
-
-        healthManager = GetComponent<HealthManager>(); 
-        currentStatus = status.Normal;   
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    public void levelUp()
-    {
-        level++; 
-    }
-}
+    */
+// public status currentStatus; 

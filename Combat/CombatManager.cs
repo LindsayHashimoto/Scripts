@@ -29,9 +29,10 @@ public class CombatManager : MonoBehaviour {
     {
         totalEntities = numAllies + numEnemies;
         // generates initiative values
+        Random rand = new Random(); 
         for (int i = 0; i < totalEntities; i++)
         {
-            entities[i].initiative = Random.Range(1, 21);
+            entities[i].initiative = rand.Range(1, 100);
         }
         quickSort.quicksort(entities, 0, totalEntities);
         for (int i = 0; i < totalEntities; i++)
