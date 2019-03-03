@@ -29,10 +29,10 @@ public class CombatManager : MonoBehaviour {
     {
         totalEntities = numAllies + numEnemies;
         // generates initiative values
-        Random rand = new Random(); 
+         
         for (int i = 0; i < totalEntities; i++)
         {
-            entities[i].initiative = rand.Range(1, 100);
+            entities[i].generateInitiative(); 
         }
         quickSort.quicksort(entities, 0, totalEntities);
         for (int i = 0; i < totalEntities; i++)
