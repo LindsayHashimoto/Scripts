@@ -13,16 +13,21 @@ public class Stats : MonoBehaviour {
     public int m_hp;
     public int m_atk;
     public int m_def;
-
     // Determines the turn order
     public int m_initiative;
-
     public bool m_isEnemy;
+
     public HealthManager m_healthManager; 
 
-    void Stats(string a_name)
+    public Stats(string a_name, int a_level, int a_exp, int a_hp, int a_atk, int a_def, bool a_isEnemy)
     {
-
+        m_entityName = a_name;
+        m_level = a_level;
+        m_exp = a_exp;
+        m_hp = a_hp;
+        m_atk = a_atk;
+        m_def = a_def;
+        m_isEnemy = a_isEnemy; 
     }
 
     public void levelUp()
