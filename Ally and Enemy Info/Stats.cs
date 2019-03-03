@@ -15,31 +15,24 @@ public class Stats : MonoBehaviour {
     public int m_def;
 
     // Determines the turn order
-    public int initiative;
+    public int m_initiative;
 
-    public bool isEnemy;
-    public HealthManager healthManager; 
+    public bool m_isEnemy;
+    public HealthManager m_healthManager; 
 
     void Stats(string a_name)
     {
 
     }
 
-    // Use this for initialization
-    void Start ()
-    { 
-
-        //healthManager = GetComponent<HealthManager>();
-	}
-
     public void levelUp()
     {
-        level++; 
+        m_level++; 
     }
 
     public void generateInitiative()
     {
-        initiative = Random.Range(1, 100); 
+        m_initiative = Random.Range(1, 100); 
     }
 }
 
