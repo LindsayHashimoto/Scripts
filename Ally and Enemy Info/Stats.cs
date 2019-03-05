@@ -27,7 +27,8 @@ public class Stats : MonoBehaviour {
         m_hp = a_hp;
         m_atk = a_atk;
         m_def = a_def;
-        m_isEnemy = a_isEnemy; 
+        m_isEnemy = a_isEnemy;
+        m_initiative = 0; 
     }
 
     public void levelUp()
