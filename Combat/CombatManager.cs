@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class CombatManager : MonoBehaviour {
 
-    public int numAllies;
-    public int numEnemies;
-    public int totalEntities;
+    public int m_totalEntities;
 
-    public Stats[] entities;
-    private CircularLinkedList turnOrder; 
+    //public Stats[] m_entities;
+    //private CircularLinkedList m_turnOrder;
+    private Stats[] m_turnOrder;
+    private Stats m_currentTurn; 
+    public GameObject[] m_turnOrderUI; 
 
 
     private Stats currentEntity; 
-    
-    private QuickSort quickSort;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
 	}
 	
 	// Update is called once per frame
@@ -25,24 +25,33 @@ public class CombatManager : MonoBehaviour {
 		
 	}
 
-    void generateTurnOrder()
+    private void InsertionSort(Stats [] a_sortArray)
     {
-        totalEntities = numAllies + numEnemies;
-        // generates initiative values
-         
-        for (int i = 0; i < totalEntities; i++)
+
+    }
+    private void GenerateTurnOrder()
+    {    
+        for (int i = 0; i < m_totalEntities; i++)
         {
-            entities[i].generateInitiative(); 
+            m_turnOrder[i].generateInitiative(); 
         }
-        quickSort.quicksort(entities, 0, totalEntities);
-        for (int i = 0; i < totalEntities; i++)
+        InsertionSort(m_turnOrder); 
+
+        
+        /*
+        for (int i = 0; i < m_totalEntities; i++)
         {
-            turnOrder.addNodeToEnd(entities[i]); 
+            m_turnOrder.addNodeToEnd(m_entities[i]); 
         }
+        */
     }
 
-    void nextTurn()
+
+
+    void NextTurn()
     {
-        turnOrder.current = turnOrder.current.next;  
+        //turnOrder.current = turnOrder.current.next;  
     }
+
+
 }
