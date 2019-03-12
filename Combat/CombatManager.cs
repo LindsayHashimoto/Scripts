@@ -4,12 +4,8 @@ using UnityEngine;
 
 public class CombatManager : MonoBehaviour {
 
-    public int m_totalEntities;
-
-    //public Stats[] m_entities;
-    //private CircularLinkedList m_turnOrder;
     private Stats[] m_turnOrder;
-    private Stats m_currentTurn; 
+    private int m_currentTurn = 0; 
     public GameObject[] m_turnOrderUI; 
 
 
@@ -24,14 +20,15 @@ public class CombatManager : MonoBehaviour {
 	void Update () {
 		
 	}
-
+    //Although Quicksort has a faster average runtime, Insertion sort is faster in smaller sizes. n should be <10. 
+    //https://en.wikipedia.org/wiki/Insertion_sort 
     private void InsertionSort(Stats [] a_sortArray)
     {
 
     }
     private void GenerateTurnOrder()
     {    
-        for (int i = 0; i < m_totalEntities; i++)
+        for (int i = 0; i < m_turnOrder.Length; i++)
         {
             m_turnOrder[i].generateInitiative(); 
         }
@@ -46,11 +43,47 @@ public class CombatManager : MonoBehaviour {
         */
     }
 
-
-
-    void NextTurn()
+    //returns true if all enemies have been defeated.
+    private bool PlayerWins()
     {
-        //turnOrder.current = turnOrder.current.next;  
+        for (int i = 0; i < m_turnOrder.Length; i++)
+        {
+            if (m_turnOrder[i].m_isEnemy && m_turnOrder[i].m_hp > 0) 
+            {
+                return false; 
+            }
+        }
+        return true; 
+    }
+
+    //return true if all allies are defeated
+    private bool EnemyWins()
+    {
+        for (int i = 0; i < m_turnOrder.Length; i++)
+        {
+            if (!m_turnOrder[i].m_isEnemy && m_turnOrder[i].m_hp > 0)
+            {
+                return false;
+            }
+        }
+        return true; 
+    }
+
+    //Moves onto the next person in combat
+    private void NextTurn()
+    {
+        do
+        {
+            if (m_currentTurn >= m_turnOrder.Length)
+            {
+                m_currentTurn = 0;
+            }
+            else
+            {
+                m_currentTurn++;
+            }
+        //move onto next enitity if current is dead. 
+        } while (m_turnOrder[m_currentTurn].m_hp <= 0);
     }
 
 
