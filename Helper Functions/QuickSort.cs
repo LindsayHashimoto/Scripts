@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,4 +46,4 @@ public class QuickSort : MonoBehaviour {
         array[index1] = array[index2];
         array[index2] = tmp;
     }
-}
+}*/
