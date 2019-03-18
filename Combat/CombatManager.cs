@@ -14,6 +14,9 @@ public class CombatManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        m_turnOrder[0] = new Stats("Jerry", 1, 0, 10, 10, 10, false);
+        m_turnOrder[1] = new Stats("Wolf", 1, 0, 5, 5, 5, true); 
+        GenerateTurnOrder(); 
 	}
 	
 	// Update is called once per frame
@@ -21,10 +24,24 @@ public class CombatManager : MonoBehaviour {
 		
 	}
     //Although Quicksort has a faster average runtime, Insertion sort is faster in smaller sizes. n should be <10. 
-    //https://en.wikipedia.org/wiki/Insertion_sort 
+    //https://www.geeksforgeeks.org/insertion-sort/
     private void InsertionSort(Stats [] a_sortArray)
     {
-
+        for(int i = 1; i < a_sortArray.Length; i++)
+        {
+            Stats key = a_sortArray[i];
+            for(int j = i - 1; j >= 0; j--)
+            {
+                if(a_sortArray[j].m_initiative <= key.m_initiative)
+                {
+                    //Swap
+                    a_sortArray[j + 1] = a_sortArray[j]; 
+                    continue; 
+                }
+                //Move the elements one spot ahead
+                a_sortArray[j + 1] = a_sortArray[j];
+            }
+        }
     }
     private void GenerateTurnOrder()
     {    
