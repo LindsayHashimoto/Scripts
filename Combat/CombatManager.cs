@@ -1,63 +1,65 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 
 public class CombatManager : MonoBehaviour {
 
-    private Stats[] m_turnOrder;
+    public Stats[] m_turnOrder;
+    
     private int m_currentTurn = 0; 
     public GameObject[] m_turnOrderUI; 
-
 
     private Stats currentEntity; 
 
     // Use this for initialization
     void Start ()
     {
-        m_turnOrder[0] = new Stats("Jerry", 1, 0, 10, 10, 10, false);
-        m_turnOrder[1] = new Stats("Wolf", 1, 0, 5, 5, 5, true); 
-        GenerateTurnOrder(); 
+        GenerateTurnOrder();
+        BuildUIOrder(); 
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	void Update ()
+    {
+    }
     //Although Quicksort has a faster average runtime, Insertion sort is faster in smaller sizes. n should be <10. 
     //https://www.geeksforgeeks.org/insertion-sort/
     private void InsertionSort(Stats [] a_sortArray)
     {
-        for(int i = 1; i < a_sortArray.Length; i++)
+        int n = a_sortArray.Length; 
+        for (int i = 1; i < n; ++i)
         {
             Stats key = a_sortArray[i];
-            for(int j = i - 1; j >= 0; j--)
+            int j = i - 1;
+            while (j >= 0 && a_sortArray[j].m_initiative >= key.m_initiative)
             {
-                if(a_sortArray[j].m_initiative <= key.m_initiative)
-                {
-                    //Swap
-                    a_sortArray[j + 1] = a_sortArray[j]; 
-                    continue; 
-                }
                 //Move the elements one spot ahead
                 a_sortArray[j + 1] = a_sortArray[j];
+                j--; 
             }
+            //Swap
+            a_sortArray[j + 1] = key;
         }
     }
+
     private void GenerateTurnOrder()
     {    
         for (int i = 0; i < m_turnOrder.Length; i++)
         {
             m_turnOrder[i].generateInitiative(); 
         }
-        InsertionSort(m_turnOrder); 
+        InsertionSort(m_turnOrder);
+    }
 
-        
-        /*
-        for (int i = 0; i < m_totalEntities; i++)
+    private void BuildUIOrder()
+    {
+        for(int i = 0; i < m_turnOrder.Length; ++i)
         {
-            m_turnOrder.addNodeToEnd(m_entities[i]); 
+            m_turnOrderUI[i].GetComponent<Text>().text = m_turnOrder[i].m_entityName + ": " + m_turnOrder[i].m_initiative;
+            m_turnOrderUI[i].SetActive(true);     
         }
-        */
+        m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative + "<";
     }
 
     //returns true if all enemies have been defeated.
@@ -87,11 +89,12 @@ public class CombatManager : MonoBehaviour {
     }
 
     //Moves onto the next person in combat
-    private void NextTurn()
+    public void NextTurn()
     {
+        m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative;
         do
         {
-            if (m_currentTurn >= m_turnOrder.Length)
+            if (m_currentTurn >= (m_turnOrder.Length - 1))
             {
                 m_currentTurn = 0;
             }
@@ -101,6 +104,7 @@ public class CombatManager : MonoBehaviour {
             }
         //move onto next enitity if current is dead. 
         } while (m_turnOrder[m_currentTurn].m_hp <= 0);
+        m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative + "<";
     }
 
 
