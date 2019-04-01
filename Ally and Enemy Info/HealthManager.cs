@@ -5,63 +5,68 @@ using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour {
 
-    public int myMaxHealth;
-    public int myCurrentHealth;
-    public Slider healthBar;
-    public Text healthText;
+    private int m_maxHealth;
+    public int m_currentHealth;
+    public Slider m_healthBar;
+    public Text m_healthText;
 
-    public Image fill;  
-
-    private float healthPercentage;
+    public Image m_fill;  
 
 	// Use this for initialization
 	void Start () { 
-        myCurrentHealth = myMaxHealth;
-        updateHealth();
+        m_currentHealth = m_maxHealth;
+        UpdateHealth();
 	}
 	
 	// Update is called once per frame
 	void Update () {
         
-        if (myCurrentHealth <= 0)
+        // Remove the current entity when they have been defeated
+        if (m_currentHealth <= 0)
         {
             gameObject.SetActive(false); 
         }
 	}
-    public void dealDamage(int damage)
+    public void DealDamage(int a_damage)
     {
-        myCurrentHealth -= damage;
-        updateHealth();
+        m_currentHealth -= a_damage;
+        UpdateHealth();
     }
-    public void heal(int amountToHeal)
+    public void Heal(int a_amountToHeal)
     {
-        myCurrentHealth += amountToHeal;
-        if (myCurrentHealth > myMaxHealth)
+        m_currentHealth += a_amountToHeal;
+        // Cannot have more than the set max health. 
+        if (m_currentHealth > m_maxHealth)
         {
-            myCurrentHealth = myMaxHealth; 
+            m_currentHealth = m_maxHealth; 
         }
-        updateHealth(); 
+        UpdateHealth(); 
     }
-    public void updateHealth()
+    // Updates the UI health bar.  
+    public void UpdateHealth()
     {
-        healthBar.maxValue = myMaxHealth;
-        healthBar.value = myCurrentHealth;
-        healthText.text = "HP: " + myCurrentHealth + " / " + myMaxHealth;
-        healthPercentage = (float) myCurrentHealth / myMaxHealth; 
+        m_healthBar.maxValue = m_maxHealth;
+        m_healthBar.value = m_currentHealth;
+        m_healthText.text = "HP: " + m_currentHealth + " / " + m_maxHealth;
+        float healthPercentage = (float) m_currentHealth / m_maxHealth; 
         if (healthPercentage > 0.50)
         {
             //set color to green
-            fill.color = new Color (0, 255, 0);
+            m_fill.color = new Color (0, 255, 0);
         }
         else if (healthPercentage <= 0.25)
         {
             //set color to red
-            fill.color = new Color(255, 0, 0);
+            m_fill.color = new Color(255, 0, 0);
         }
         else
         {
             //set color to yellow
-            fill.color = new Color(250, 255, 0);
+            m_fill.color = new Color(250, 255, 0);
         }
+    }
+    public void SetMaxHealth(int a_hp)
+    {
+        m_maxHealth = a_hp; 
     }
 }
