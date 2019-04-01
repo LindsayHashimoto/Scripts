@@ -10,7 +10,8 @@ public class CombatManager : MonoBehaviour {
     private int m_currentTurn = 0; 
     public GameObject[] m_turnOrderUI; 
 
-    private Stats currentEntity; 
+    private Stats m_currentEntity;
+    private HealthManager m_healthManager; 
 
     // Use this for initialization
     void Start ()
@@ -67,7 +68,7 @@ public class CombatManager : MonoBehaviour {
     {
         for (int i = 0; i < m_turnOrder.Length; i++)
         {
-            if (m_turnOrder[i].m_isEnemy && m_turnOrder[i].m_hp > 0) 
+            if (m_turnOrder[i].m_isEnemy && m_turnOrder[i].m_healthManager.m_currentHealth > 0) 
             {
                 return false; 
             }
@@ -80,7 +81,7 @@ public class CombatManager : MonoBehaviour {
     {
         for (int i = 0; i < m_turnOrder.Length; i++)
         {
-            if (!m_turnOrder[i].m_isEnemy && m_turnOrder[i].m_hp > 0)
+            if (!m_turnOrder[i].m_isEnemy && m_turnOrder[i].m_healthManager.m_currentHealth > 0)
             {
                 return false;
             }
@@ -103,9 +104,35 @@ public class CombatManager : MonoBehaviour {
                 m_currentTurn++;
             }
         //move onto next enitity if current is dead. 
-        } while (m_turnOrder[m_currentTurn].m_hp <= 0);
+        } while (m_turnOrder[m_currentTurn].m_healthManager.m_currentHealth <= 0);
         m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative + "<";
     }
 
+    public void BasicAttack()
+    {
+        Stats target = GetTarget();
+        Stats user = m_turnOrder[m_currentTurn]; 
+        // Basic Attack should be realatively weak 
+        int damageToDo = CalculateDamage(user, target, 5);
+        target.m_healthManager.DealDamage(damageToDo); 
+        // Performing this aciton ends the turn. 
+        NextTurn(); 
+    }
 
+    
+    private int CalculateDamage(Stats a_user, Stats a_target, int a_baseDamage)
+    {
+        int damage = a_baseDamage + a_user.m_atk - a_target.m_def;
+        // Prevents the damage value from being negative
+        if (damage < 1)
+            damage = 1;
+        return damage; 
+    }
+
+    
+    private Stats GetTarget()
+    {
+        return m_turnOrder[0]; 
+    }
+    
 }
