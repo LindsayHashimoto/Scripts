@@ -25,7 +25,7 @@ public class WeaponCollisions : MonoBehaviour
         {
             if (other.gameObject.tag == "Enemy")
             {
-                other.gameObject.GetComponent<EnemyHealthManager>().dealDamage(1);
+                other.gameObject.GetComponent<HealthManager>().DealDamage(1);
                 throwWeapon.weaponStop(thrownWeaponData);
                 throwWeapon.resetWeaponPosition(thrownWeaponData); 
             }
