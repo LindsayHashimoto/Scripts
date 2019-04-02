@@ -9,7 +9,6 @@ public class Stats : MonoBehaviour {
     public string m_entityName;
     public int m_level;
     public int m_exp;
-
     public int m_atk;
     public int m_def;
     // Determines the turn order
