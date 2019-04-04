@@ -26,7 +26,8 @@ public class HealthManager : MonoBehaviour {
         {
             gameObject.SetActive(false); 
         }
-	}
+        UpdateHealth();
+    }
     public void DealDamage(int a_damage)
     {
         m_currentHealth -= a_damage;
