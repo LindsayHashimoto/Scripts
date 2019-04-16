@@ -20,7 +20,6 @@ public class Stats : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        m_healthManager.SetMaxHealth(10);
     }
 
     public Stats(string a_name, int a_level, int a_exp, int a_hp, int a_atk, int a_def, bool a_isEnemy)
@@ -43,7 +42,7 @@ public class Stats : MonoBehaviour {
 
     public void generateInitiative()
     {
-        m_initiative = Random.Range(1, 100); 
+        m_initiative = Random.Range(1, 101); 
     }
 }
 
