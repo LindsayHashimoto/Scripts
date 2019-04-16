@@ -14,7 +14,7 @@ public class HealthManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () { 
-        m_currentHealth = m_maxHealth;
+       // m_currentHealth = m_maxHealth;
         UpdateHealth();
 	}
 	
