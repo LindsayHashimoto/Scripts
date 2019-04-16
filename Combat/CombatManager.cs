@@ -7,7 +7,7 @@ public class CombatManager : MonoBehaviour {
 
     public Stats[] m_turnOrder;
     
-    private int m_currentTurn = 0; 
+    public int m_currentTurn = 0; 
     public GameObject[] m_turnOrderUI; 
 
     private Stats m_currentEntity;
@@ -24,7 +24,7 @@ public class CombatManager : MonoBehaviour {
 	void Update ()
     {
     }
-    //Although Quicksort has a faster average runtime, Insertion sort is faster in smaller sizes. n should be <10. 
+    //Although Quicksort has a faster average runtime, Insertion sort is faster in smaller sizes. n should be <=8. 
     //https://www.geeksforgeeks.org/insertion-sort/
     private void InsertionSort(Stats [] a_sortArray)
     {
@@ -33,7 +33,7 @@ public class CombatManager : MonoBehaviour {
         {
             Stats key = a_sortArray[i];
             int j = i - 1;
-            while (j >= 0 && a_sortArray[j].m_initiative >= key.m_initiative)
+            while (j >= 0 && a_sortArray[j].m_initiative <= key.m_initiative)
             {
                 //Move the elements one spot ahead
                 a_sortArray[j + 1] = a_sortArray[j];
@@ -120,7 +120,7 @@ public class CombatManager : MonoBehaviour {
     }
 
     
-    private int CalculateDamage(Stats a_user, Stats a_target, int a_baseDamage)
+    public int CalculateDamage(Stats a_user, Stats a_target, int a_baseDamage)
     {
         int damage = a_baseDamage + a_user.m_atk - a_target.m_def;
         // Prevents the damage value from being negative
