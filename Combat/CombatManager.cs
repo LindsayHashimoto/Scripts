@@ -11,18 +11,33 @@ public class CombatManager : MonoBehaviour {
     public GameObject[] m_turnOrderUI; 
 
     private Stats m_currentEntity;
-    private HealthManager m_healthManager; 
+
+    public GameObject m_turnMenu;
+    public GameObject m_backButton;
+
+    private bool m_attackClicked = false;
+    private bool m_itemClicked = false;
+    
 
     // Use this for initialization
     void Start ()
     {
         GenerateTurnOrder();
-        BuildUIOrder(); 
-	}
+        BuildUIOrder();
+        if (!m_turnOrder[0].m_isEnemy)
+        {
+            m_turnMenu.SetActive(true);
+        }
+        else
+        {
+            m_turnMenu.SetActive(false);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
+       
     }
     //Although Quicksort has a faster average runtime, Insertion sort is faster in smaller sizes. n should be <=8. 
     //https://www.geeksforgeeks.org/insertion-sort/
@@ -48,7 +63,7 @@ public class CombatManager : MonoBehaviour {
     {    
         for (int i = 0; i < m_turnOrder.Length; i++)
         {
-            m_turnOrder[i].generateInitiative(); 
+            m_turnOrder[i].GenerateInitiative(); 
         }
         InsertionSort(m_turnOrder);
     }
@@ -68,7 +83,7 @@ public class CombatManager : MonoBehaviour {
     {
         for (int i = 0; i < m_turnOrder.Length; i++)
         {
-            if (m_turnOrder[i].m_isEnemy && m_turnOrder[i].m_healthManager.m_currentHealth > 0) 
+            if (m_turnOrder[i].m_isEnemy && m_turnOrder[i].GetHealthManager().m_currentHealth > 0) 
             {
                 return false; 
             }
@@ -81,7 +96,7 @@ public class CombatManager : MonoBehaviour {
     {
         for (int i = 0; i < m_turnOrder.Length; i++)
         {
-            if (!m_turnOrder[i].m_isEnemy && m_turnOrder[i].m_healthManager.m_currentHealth > 0)
+            if (!m_turnOrder[i].m_isEnemy && m_turnOrder[i].GetHealthManager().m_currentHealth > 0)
             {
                 return false;
             }
@@ -92,6 +107,7 @@ public class CombatManager : MonoBehaviour {
     //Moves onto the next person in combat
     public void NextTurn()
     {
+        m_turnOrder[m_currentTurn].NoLongerTurn(); 
         m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative;
         do
         {
@@ -104,17 +120,28 @@ public class CombatManager : MonoBehaviour {
                 m_currentTurn++;
             }
         //move onto next enitity if current is dead. 
-        } while (m_turnOrder[m_currentTurn].m_healthManager.m_currentHealth <= 0);
+        } while (m_turnOrder[m_currentTurn].GetHealthManager().m_currentHealth <= 0);
         m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative + "<";
+        if (!m_turnOrder[m_currentTurn].m_isEnemy)
+        {
+            m_turnMenu.SetActive(true);
+        }
+        else
+        {
+            m_turnMenu.SetActive(false);
+        }
+        m_backButton.SetActive(false);
+        m_turnOrder[m_currentTurn].OnCurrentTurn(); 
     }
 
-    public void BasicAttack()
+    
+
+    public void BasicAttack(Stats a_target)
     {
-        Stats target = GetTarget();
         Stats user = m_turnOrder[m_currentTurn]; 
         // Basic Attack should be realatively weak 
-        int damageToDo = CalculateDamage(user, target, 5);
-        target.m_healthManager.DealDamage(damageToDo); 
+        int damageToDo = CalculateDamage(user, a_target, 5);
+        a_target.GetHealthManager().DealDamage(damageToDo); 
         // Performing this aciton ends the turn. 
         NextTurn(); 
     }
@@ -130,9 +157,28 @@ public class CombatManager : MonoBehaviour {
     }
 
     
-    private Stats GetTarget()
+    public void GetTargetFromUser(Stats a_target)
     {
-        return m_turnOrder[0]; 
+        if (m_attackClicked)
+        {
+            BasicAttack(a_target); 
+        }
     }
-    
+
+
+    public void OnAttackClick()
+    {
+        m_attackClicked = true;
+        m_turnMenu.SetActive(false);
+        m_backButton.SetActive(true);
+    }
+
+    public void OnBackClick()
+    {
+        m_attackClicked = false;
+        m_itemClicked = false; 
+        m_turnMenu.SetActive(true);
+        m_backButton.SetActive(false);
+    }
+
 }

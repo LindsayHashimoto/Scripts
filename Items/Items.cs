@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Items : MonoBehaviour {
 
-    public int numberOf;
-    public int maxNumber;
-    // Use this for initialization
-    void Start () {
+    public int m_durability; 
+	// Use this for initialization
+	void Start () {
 		
 	}
 	

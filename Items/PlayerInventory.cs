@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿/*
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -40,14 +41,14 @@ public class PlayerInventory : MonoBehaviour
                     setUI(j); 
                 }
                 inventory[i] = newObject;
-                inventory[i].numberOf = 1;
+                inventory[i].m_durability = 1;
                 setUI(i);
                 mm.numNodes++; 
                 return; 
             }
             else if (newName.CompareTo(inventory[i]) == 0)
             {
-                inventory[i].numberOf++;
+                inventory[i].m_durability++;
                 setUI(i); 
             }
         }
@@ -64,3 +65,4 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 }
+*/

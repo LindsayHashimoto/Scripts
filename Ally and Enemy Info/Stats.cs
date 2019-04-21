@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 
 /**/
 
@@ -15,34 +16,75 @@ public class Stats : MonoBehaviour {
     public int m_initiative;
     public bool m_isEnemy;
 
-    public HealthManager m_healthManager;
+    private HealthManager m_healthManager;
+    private CombatManager m_combatManager;
+
+    private Light m_highlight; 
+    private Color m_highlightColor; 
+
+    private bool m_currentTurn;
 
     // Use this for initialization
     void Start()
     {
+        m_combatManager = FindObjectOfType<CombatManager>();
+        m_healthManager = GetComponent<HealthManager>();
+        m_highlight = GetComponent<Light>();
+        m_currentTurn = false;
     }
 
-    public Stats(string a_name, int a_level, int a_exp, int a_hp, int a_atk, int a_def, bool a_isEnemy)
+    private void Update()
     {
-        m_entityName = a_name;
-        m_level = a_level;
-        m_exp = a_exp;
-        m_healthManager.SetMaxHealth(a_hp); 
-        m_atk = a_atk;
-        m_def = a_def;
-        m_isEnemy = a_isEnemy;
-        m_initiative = 0; 
-    }
 
+    }
 
     public void levelUp()
     {
         m_level++; 
     }
 
-    public void generateInitiative()
+    public void GenerateInitiative()
     {
         m_initiative = Random.Range(1, 101); 
+    }
+
+    public void OnCurrentTurn()
+    {
+        m_highlight.color = new Color(0, 255, 0);
+        m_highlight.enabled = true;
+        m_currentTurn = true; 
+    }
+
+    public void NoLongerTurn()
+    {
+        m_highlight.color = new Color(255, 255, 0);
+        m_highlight.enabled = false;
+        m_currentTurn = false; 
+    }
+    private void OnMouseOver()
+    {
+        if (!m_currentTurn)
+        {
+            m_highlight.enabled = true;
+        }  
+    }
+
+    private void OnMouseExit()
+    {
+        if (!m_currentTurn)
+        {
+            m_highlight.enabled = false;
+        }
+    }
+
+    private void OnMouseDown()
+    {
+        m_combatManager.GetTargetFromUser(this);
+    }
+
+    public HealthManager GetHealthManager()
+    {
+        return m_healthManager;
     }
 }
 

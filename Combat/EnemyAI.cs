@@ -37,7 +37,7 @@ public class EnemyAI : MonoBehaviour {
         for (int i = 0; i < a_targets.Length; i++)
         {
             // If the attack will kill the current target
-            if (a_targets[i].m_healthManager.m_currentHealth <= a_damageDone[i])
+            if (a_targets[i].GetHealthManager().m_currentHealth <= a_damageDone[i])
             {
                 ExecuteAttack(a_targets[i], a_damageDone[i], a_accuracy);
                 return true; 
@@ -65,7 +65,7 @@ public class EnemyAI : MonoBehaviour {
     {
         if (Random.Range(1, 101) <= a_accuracy)
         {
-            a_target.m_healthManager.DealDamage(a_damageToDo); 
+            a_target.GetHealthManager().DealDamage(a_damageToDo); 
         }
         m_combatManager.NextTurn(); 
     }
@@ -77,7 +77,7 @@ public class EnemyAI : MonoBehaviour {
         int counter = 0; 
         foreach (Stats entity in m_combatManager.m_turnOrder)
         {
-            if (!entity.m_isEnemy && entity.m_healthManager.m_currentHealth > 0)
+            if (!entity.m_isEnemy && entity.GetHealthManager().m_currentHealth > 0)
             {
                 maxTargets[counter] = entity;
                 counter++; 
