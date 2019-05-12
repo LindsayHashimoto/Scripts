@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Weapons : Items {
 
-    public int m_damage;
-    public int m_accuracy;
-    public bool m_throwable; 
+    private int m_damage;
+    private int m_accuracy;
+    private bool m_isThrowable; 
 	// Use this for initialization
 	void Start () {
 		
@@ -16,4 +16,29 @@ public class Weapons : Items {
 	void Update () {
 		
 	}
+
+    public Weapons(string a_name, int a_durability, int a_damage, int a_accuracy, bool a_isThrowable)
+    {
+        m_name = a_name;
+        m_durability = a_durability;
+        m_damage = a_damage;
+        m_accuracy = a_accuracy;
+        m_isThrowable = a_isThrowable;
+        m_isWeapon = true; 
+    }
+
+    public int GetDamage()
+    {
+        return m_damage; 
+    }
+
+    public int GetAccuracy()
+    {
+        return m_accuracy; 
+    }
+
+    public bool GetIsThrowable()
+    {
+        return m_isThrowable; 
+    }
 }

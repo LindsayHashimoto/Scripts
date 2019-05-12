@@ -20,9 +20,8 @@ public class Stats : MonoBehaviour {
     private CombatManager m_combatManager;
 
     private Light m_highlight; 
-    private Color m_highlightColor; 
 
-    private bool m_currentTurn;
+    private bool m_currentTurn = false;
 
     // Use this for initialization
     void Start()
@@ -30,7 +29,7 @@ public class Stats : MonoBehaviour {
         m_combatManager = FindObjectOfType<CombatManager>();
         m_healthManager = GetComponent<HealthManager>();
         m_highlight = GetComponent<Light>();
-        m_currentTurn = false;
+        
     }
 
     private void Update()

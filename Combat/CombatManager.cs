@@ -14,6 +14,7 @@ public class CombatManager : MonoBehaviour {
 
     public GameObject m_turnMenu;
     public GameObject m_backButton;
+    public GameObject m_inventory; 
 
     private bool m_attackClicked = false;
     private bool m_itemClicked = false;
@@ -32,6 +33,7 @@ public class CombatManager : MonoBehaviour {
         {
             m_turnMenu.SetActive(false);
         }
+        m_turnOrder[m_currentTurn].OnCurrentTurn();
     }
 	
 	// Update is called once per frame
@@ -146,6 +148,10 @@ public class CombatManager : MonoBehaviour {
         NextTurn(); 
     }
 
+    public void UseWeapon(Stats a_target, Items a_items)
+    {
+
+    }
     
     public int CalculateDamage(Stats a_user, Stats a_target, int a_baseDamage)
     {
@@ -173,11 +179,19 @@ public class CombatManager : MonoBehaviour {
         m_backButton.SetActive(true);
     }
 
+    public void OnInventoryClick()
+    {
+        m_turnMenu.SetActive(false);
+        m_backButton.SetActive(true);
+        m_inventory.SetActive(true); 
+    }
+
     public void OnBackClick()
     {
         m_attackClicked = false;
         m_itemClicked = false; 
         m_turnMenu.SetActive(true);
+        m_inventory.SetActive(false);
         m_backButton.SetActive(false);
     }
 

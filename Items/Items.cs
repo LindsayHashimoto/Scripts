@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Items : MonoBehaviour {
 
-    public int m_durability; 
+    protected int m_durability;
+    protected string m_name;
+    protected bool m_isWeapon = false;
+    protected bool m_isPotion = false; 
 	// Use this for initialization
 	void Start () {
 		
@@ -14,4 +17,29 @@ public class Items : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    protected void RemoveDurability()
+    {
+        m_durability--; 
+    }
+
+    public string GetName()
+    {
+        return m_name; 
+    }
+
+    public int GetDurability()
+    {
+        return m_durability;
+    }
+
+    public bool GetIsWeapon()
+    {
+        return m_isWeapon; 
+    }
+
+    public bool GetIsPotion()
+    {
+        return m_isPotion; 
+    }
 }
