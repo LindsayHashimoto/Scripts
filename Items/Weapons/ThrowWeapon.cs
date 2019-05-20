@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿/*
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
  
@@ -39,7 +40,7 @@ public class ThrowWeapon : MonoBehaviour {
         {
             if (Input.GetAxis("Fire") >= 0.5f)
             {
-                /*  //if no weapon is set, display error message
+                 //if no weapon is set, display error message
                       if (currentWeapon == null)
                       {
                           error.displayMessage("No Weapon Set!"); 
@@ -52,7 +53,9 @@ public class ThrowWeapon : MonoBehaviour {
                           if(currentWeapon.numberOf <= 0)
                           {
                               error.displayMessage("The set weapon is out of ammo!"); 
-                          }*/
+                          }
+                 
+                          
                 // throw first weapon
                 if (!weaponEntities[0].weaponMoving)
                 {
@@ -91,14 +94,14 @@ public class ThrowWeapon : MonoBehaviour {
                     weaponEntities[i].weaponBody.velocity = new Vector2(weaponEntities[i].moveX * weaponEntities[i].moveSpeed, 
                         weaponEntities[i].moveY * weaponEntities[i].moveSpeed) * diagonalModifier;
                     //set weapon to be active and have it travel in one direction for a certain range before stopping
-                    /* weaponRange--;
+                     weaponRange--;
                      if (weaponRange <= 0)
                      {
                          weaponStop();
                          dropWeapon();
                          weaponRange = 60; 
                      }
-                     */
+                     
                 }
             }
         }
@@ -208,3 +211,5 @@ public class ThrowWeapon : MonoBehaviour {
 
    
 }
+
+*/

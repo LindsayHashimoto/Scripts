@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour {
+public class EnemyTurn : MonoBehaviour {
+    public Inventory m_enemyInventory; 
 
-    public CombatManager m_combatManager; 
+    private CombatManager m_combatManager; 
 	// Use this for initialization
 	void Start ()
     {
-	}
+        m_combatManager = GetComponentInParent<CombatManager>();
+
+    }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if (m_combatManager.m_turnOrder[m_combatManager.m_currentTurn].m_isEnemy)
+        if (m_combatManager.GetTurnOrder()[m_combatManager.GetCurrentTurn()].m_isEnemy)
         {
             PerformAction(); 
         }
@@ -24,7 +27,7 @@ public class EnemyAI : MonoBehaviour {
         Stats[] attackTargets = GetAttackTargets();
         int[] basicDamageDone = CalculateBasicDamage(attackTargets);
 
-        Inventory inventory = m_combatManager.m_turnOrder[m_combatManager.m_currentTurn].m_EnemyInventory; 
+        Inventory inventory = m_combatManager.GetTurnOrder()[m_combatManager.GetCurrentTurn()].m_EnemyInventory; 
         // What should the enemy do? 
         // Take out a player if possible
         if (AttackForKill(attackTargets, basicDamageDone, 100)) return;
@@ -76,7 +79,7 @@ public class EnemyAI : MonoBehaviour {
     {
         Stats[] maxTargets = new Stats[4];
         int counter = 0; 
-        foreach (Stats entity in m_combatManager.m_turnOrder)
+        foreach (Stats entity in m_combatManager.GetTurnOrder())
         {
             if (!entity.m_isEnemy && entity.GetHealthManager().m_currentHealth > 0)
             {
@@ -97,7 +100,7 @@ public class EnemyAI : MonoBehaviour {
         int[] damageDone = new int[4];
         for (int i = 0; i < a_targets.Length; i++)
         {
-            damageDone[i] = m_combatManager.CalculateDamage(m_combatManager.m_turnOrder[m_combatManager.m_currentTurn], a_targets[i], 5);
+            damageDone[i] = m_combatManager.CalculateDamage(m_combatManager.GetTurnOrder()[m_combatManager.GetCurrentTurn()], a_targets[i], 5);
         }
         return damageDone;
     }

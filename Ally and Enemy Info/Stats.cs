@@ -16,17 +16,19 @@ public class Stats : MonoBehaviour {
     public int m_initiative;
     public bool m_isEnemy;
 
-    private HealthManager m_healthManager;
-    private CombatManager m_combatManager;
+    public Inventory m_EnemyInventory; 
 
-    private Light m_highlight; 
+    private HealthManager m_healthManager;
+    private PlayerTurn m_playerTurn;
+
+    private Light m_highlight = new Light(); 
 
     private bool m_currentTurn = false;
 
     // Use this for initialization
     void Start()
     {
-        m_combatManager = FindObjectOfType<CombatManager>();
+        m_playerTurn = FindObjectOfType<PlayerTurn>();
         m_healthManager = GetComponent<HealthManager>();
         m_highlight = GetComponent<Light>();
         
@@ -49,8 +51,8 @@ public class Stats : MonoBehaviour {
 
     public void OnCurrentTurn()
     {
-        m_highlight.enabled = true;
         m_highlight.color = new Color(0, 255, 0);
+        m_highlight.enabled = true;
         m_currentTurn = true; 
     }
 
@@ -78,7 +80,7 @@ public class Stats : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        m_combatManager.GetTargetFromUser(this);
+        m_playerTurn.GetTargetFromUser(this);
     }
 
     public HealthManager GetHealthManager()

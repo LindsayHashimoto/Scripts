@@ -6,34 +6,26 @@ using System;
 
 public class CombatManager : MonoBehaviour {
 
-    public Stats[] m_turnOrder;
+    private Stats[] m_turnOrder;
     
-    public int m_currentTurn = 0; 
-    public GameObject[] m_turnOrderUI; 
+    private int m_currentTurn = 0; 
 
-    private Stats m_currentEntity;
-
-    public GameObject m_turnMenu;
-    public GameObject m_backButton;
-    public GameObject m_inventory;
-    public Inventory m_playerInventory; 
-
-    private bool m_attackClicked = false;
-    private bool m_itemClicked = false;
-    
+    private UnityCombatComponents m_components; 
 
     // Use this for initialization
     void Start ()
     {
+        m_components = FindObjectOfType<UnityCombatComponents>();
+        m_turnOrder = m_components.GetAllEntities(); 
         GenerateTurnOrder();
         BuildUIOrder();
         if (!m_turnOrder[0].m_isEnemy)
         {
-            m_turnMenu.SetActive(true);
+            m_components.GetTurnMenu().SetActive(true);
         }
         else
         {
-            m_turnMenu.SetActive(false);
+            m_components.GetTurnMenu().SetActive(false);
         }
         m_turnOrder[m_currentTurn].OnCurrentTurn();
     }
@@ -76,10 +68,10 @@ public class CombatManager : MonoBehaviour {
     {
         for(int i = 0; i < m_turnOrder.Length; ++i)
         {
-            m_turnOrderUI[i].GetComponent<Text>().text = m_turnOrder[i].m_entityName + ": " + m_turnOrder[i].m_initiative;
-            m_turnOrderUI[i].SetActive(true);     
+            m_components.GetUITurnOrder()[i].text = m_turnOrder[i].m_entityName + ": " + m_turnOrder[i].m_initiative;
+            m_components.GetUITurnOrder()[i].gameObject.SetActive(true);     
         }
-        m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative + "<";
+        m_components.GetUITurnOrder()[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative + "<";
     }
 
     //returns true if all enemies have been defeated.
@@ -112,7 +104,7 @@ public class CombatManager : MonoBehaviour {
     public void NextTurn()
     {
         m_turnOrder[m_currentTurn].NoLongerTurn(); 
-        m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative;
+        m_components.GetUITurnOrder()[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative;
         do
         {
             if (m_currentTurn >= (m_turnOrder.Length - 1))
@@ -125,20 +117,18 @@ public class CombatManager : MonoBehaviour {
             }
         //move onto next enitity if current is dead. 
         } while (m_turnOrder[m_currentTurn].GetHealthManager().m_currentHealth <= 0);
-        m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative + "<";
+        m_components.GetUITurnOrder()[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative + "<";
         if (!m_turnOrder[m_currentTurn].m_isEnemy)
         {
-            m_turnMenu.SetActive(true);
+            m_components.GetTurnMenu().SetActive(true);
         }
         else
         {
-            m_turnMenu.SetActive(false);
+            m_components.GetTurnMenu().SetActive(false);
         }
-        m_backButton.SetActive(false);
+        m_components.GetBackBtn().gameObject.SetActive(false);
         m_turnOrder[m_currentTurn].OnCurrentTurn(); 
-    }
-
-    
+    } 
 
     public void BasicAttack(Stats a_target)
     {
@@ -196,58 +186,13 @@ public class CombatManager : MonoBehaviour {
         return damage; 
     }
 
-    
-    public void GetTargetFromUser(Stats a_target)
+    public Stats [] GetTurnOrder()
     {
-        if (m_attackClicked)
-        {
-            BasicAttack(a_target); 
-        }
-        else if (m_itemClicked)
-        {
-            Inventory inventory = FindObjectOfType<Inventory>();
-            Items activeItem = inventory.GetActiveItem();
-            if (activeItem.GetIsWeapon())
-            {
-                UseWeapon(a_target, (Weapons)activeItem); 
-            }
-            else if (activeItem.GetIsPotion())
-            {
-                UsePotion(a_target, (Potions)activeItem); 
-            }
-            m_playerInventory.UpdateUIInventory();
-        }
+        return m_turnOrder;
     }
 
-
-    public void OnAttackClick()
+    public int GetCurrentTurn()
     {
-        m_attackClicked = true;
-        m_turnMenu.SetActive(false);
-        m_backButton.SetActive(true);
-    }
-
-    public void OnInventoryClick()
-    {
-        m_turnMenu.SetActive(false);
-        m_backButton.SetActive(true);
-        m_inventory.SetActive(true); 
-    }
-
-    public void OnBackClick()
-    {
-        m_attackClicked = false;
-        m_itemClicked = false; 
-        m_turnMenu.SetActive(true);
-        m_inventory.SetActive(false);
-        m_backButton.SetActive(false);
-    }
-
-    public void OnUseClick()
-    {
-        m_inventory.SetActive(false);
-        m_itemClicked = true;
-        m_turnMenu.SetActive(false);
-        m_backButton.SetActive(true);
+        return m_currentTurn;
     }
 }
