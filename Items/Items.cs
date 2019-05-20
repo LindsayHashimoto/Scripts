@@ -9,16 +9,18 @@ public class Items : MonoBehaviour {
     protected bool m_isWeapon = false;
     protected bool m_isPotion = false; 
 	// Use this for initialization
-	void Start () {
-		
+	void Start ()
+    {
+        
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		
 	}
 
-    protected void RemoveDurability()
+    public void RemoveDurability()
     {
         m_durability--; 
     }

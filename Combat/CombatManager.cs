@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
+using System;
 
 public class CombatManager : MonoBehaviour {
 
@@ -14,7 +15,8 @@ public class CombatManager : MonoBehaviour {
 
     public GameObject m_turnMenu;
     public GameObject m_backButton;
-    public GameObject m_inventory; 
+    public GameObject m_inventory;
+    public Inventory m_playerInventory; 
 
     private bool m_attackClicked = false;
     private bool m_itemClicked = false;
@@ -148,9 +150,41 @@ public class CombatManager : MonoBehaviour {
         NextTurn(); 
     }
 
-    public void UseWeapon(Stats a_target, Items a_items)
+    public void UseWeapon(Stats a_target, Weapons a_item)
     {
+        if(a_item.GetDurability() <= 0)
+        {
+            Console.WriteLine("Cannot use item with no durability");
+            return;
+        }
+        // miss
+        if(UnityEngine.Random.Range(1,101) >= a_item.GetAccuracy())
+        {
+            // change this to message box later
+            Console.WriteLine("The attack missed");
+            return; 
+        }
+        //hit
+        else
+        {
+            int damageToDo = CalculateDamage(m_turnOrder[m_currentTurn], a_target, a_item.GetDamage());
+            a_target.GetHealthManager().DealDamage(damageToDo);
+            a_item.RemoveDurability();
+            NextTurn(); 
+        }
 
+    }
+
+    public void UsePotion(Stats a_target, Potions a_item)
+    {
+        if (a_item.GetDurability() <= 0)
+        {
+            Console.WriteLine("Cannot use item with no durability");
+            return;
+        }
+        a_target.GetHealthManager().Heal(a_item.GetHeal());
+        a_item.RemoveDurability();
+        NextTurn(); 
     }
     
     public int CalculateDamage(Stats a_user, Stats a_target, int a_baseDamage)
@@ -168,6 +202,20 @@ public class CombatManager : MonoBehaviour {
         if (m_attackClicked)
         {
             BasicAttack(a_target); 
+        }
+        else if (m_itemClicked)
+        {
+            Inventory inventory = FindObjectOfType<Inventory>();
+            Items activeItem = inventory.GetActiveItem();
+            if (activeItem.GetIsWeapon())
+            {
+                UseWeapon(a_target, (Weapons)activeItem); 
+            }
+            else if (activeItem.GetIsPotion())
+            {
+                UsePotion(a_target, (Potions)activeItem); 
+            }
+            m_playerInventory.UpdateUIInventory();
         }
     }
 
@@ -195,4 +243,11 @@ public class CombatManager : MonoBehaviour {
         m_backButton.SetActive(false);
     }
 
+    public void OnUseClick()
+    {
+        m_inventory.SetActive(false);
+        m_itemClicked = true;
+        m_turnMenu.SetActive(false);
+        m_backButton.SetActive(true);
+    }
 }

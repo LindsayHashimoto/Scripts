@@ -22,14 +22,15 @@ public class EnemyAI : MonoBehaviour {
     private void PerformAction()
     {
         Stats[] attackTargets = GetAttackTargets();
-        int[] damageDone = CalculateBasicDamage(attackTargets);
-        // What should the enemy do? 
+        int[] basicDamageDone = CalculateBasicDamage(attackTargets);
 
+        Inventory inventory = m_combatManager.m_turnOrder[m_combatManager.m_currentTurn].m_EnemyInventory; 
+        // What should the enemy do? 
         // Take out a player if possible
-        if (AttackForKill(attackTargets, damageDone, 100)) return;
+        if (AttackForKill(attackTargets, basicDamageDone, 100)) return;
         // Heal himself or an ally with low health if possible 
         // Deal the most damage
-        AttackForDamage(attackTargets, damageDone, 100);
+        AttackForDamage(attackTargets, basicDamageDone, 100);
     }
 
     private bool AttackForKill(Stats [] a_targets, int [] a_damageDone, int a_accuracy)

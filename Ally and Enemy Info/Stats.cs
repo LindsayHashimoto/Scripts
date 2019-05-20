@@ -49,8 +49,8 @@ public class Stats : MonoBehaviour {
 
     public void OnCurrentTurn()
     {
-        m_highlight.color = new Color(0, 255, 0);
         m_highlight.enabled = true;
+        m_highlight.color = new Color(0, 255, 0);
         m_currentTurn = true; 
     }
 
