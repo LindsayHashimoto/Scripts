@@ -39,6 +39,8 @@ public class CombatManager : MonoBehaviour {
         m_cancelBtn = GameObject.FindGameObjectWithTag("CancelBtn").GetComponent<Button>();
 
         m_inventoryManager = FindObjectOfType<InventoryManager>();
+        m_explinationText = FindObjectOfType<ExplinationText>();
+        m_explinationText.gameObject.SetActive(false); 
 
         SetListeners();
 
@@ -316,6 +318,7 @@ public class CombatManager : MonoBehaviour {
 
     private void OnUseClick()
     {
+        m_itemClicked = true; 
         m_inventoryManager.gameObject.SetActive(false);
         m_turnMenu.SetActive(false);
         m_backBtn.gameObject.SetActive(true);

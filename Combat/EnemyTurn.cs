@@ -6,7 +6,8 @@ using System.Linq;
 public class EnemyTurn : MonoBehaviour {
     public Inventory m_enemyInventory; 
 
-    private CombatManager m_combatManager; 
+    private CombatManager m_combatManager;
+    private Stats m_lastTurn; 
 
 	// Use this for initialization
 	void Start ()
@@ -18,9 +19,15 @@ public class EnemyTurn : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (m_combatManager.GetTurnOrder()[m_combatManager.GetCurrentTurn()].m_isEnemy)
+        //Prevents enemies from taking more than one aciton in a turn due to race conditions
+        Stats thisTurn = m_combatManager.GetTurnOrder()[m_combatManager.GetCurrentTurn()]; 
+        if (thisTurn != m_lastTurn)
         {
-            PerformAction(); 
+            m_lastTurn = thisTurn;
+            if (thisTurn.m_isEnemy)
+            {
+                PerformAction();
+            }
         }
 	}
 
@@ -29,7 +36,6 @@ public class EnemyTurn : MonoBehaviour {
         m_enemyInventory.AddItems(ItemList.m_claw, 1);
         m_enemyInventory.AddItems(ItemList.m_knife, 1);
         m_enemyInventory.AddItems(ItemList.m_minorPotion, 5);
-        m_enemyInventory.AddItems(ItemList.m_legendarySword, 1); 
     }
 
     private void PerformAction()
@@ -68,7 +74,8 @@ public class EnemyTurn : MonoBehaviour {
         {
             if(friend.GetHealthManager().GetHealthPercentage() <= 0.5)
             {
-                m_combatManager.UsePotion(friend, potions[0]); 
+                m_combatManager.UsePotion(friend, potions[0]);
+                return;  
             }
         }
         // Deal the most damage
