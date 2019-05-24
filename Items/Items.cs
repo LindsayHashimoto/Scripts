@@ -43,4 +43,9 @@ public class Items {
     {
         return m_isPotion; 
     }
+
+    public int SetDurability()
+    {
+        return m_durability; 
+    }
 }

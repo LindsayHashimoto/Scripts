@@ -1,18 +1,19 @@
-﻿/*
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponCollisions : MonoBehaviour
 {
    
-    public ThrowWeapon throwWeapon;
-    private ThrownWeaponData thrownWeaponData; 
+    private ThrowWeapon m_throwWeapon;
+    private Stats m_player;
+    private Stats m_enemy; 
 
     // Use this for initialization
     void Start()
     {
-        thrownWeaponData = FindObjectOfType<ThrownWeaponData>(); 
+        m_throwWeapon = GetComponentInParent<ThrowWeapon>();
+        m_player = GetComponentInParent<Stats>(); 
     }
 
     // Update is called once per frame
@@ -26,17 +27,27 @@ public class WeaponCollisions : MonoBehaviour
         {
             if (other.gameObject.tag == "Enemy")
             {
-                other.gameObject.GetComponent<HealthManager>().DealDamage(1);
-                throwWeapon.weaponStop(thrownWeaponData);
-                throwWeapon.resetWeaponPosition(thrownWeaponData); 
+                m_enemy = other.gameObject.GetComponent<Stats>(); 
+                other.gameObject.GetComponent<HealthManager>().DealDamage(CalculateThrownDamage());
+                m_throwWeapon.WeaponStop();
+                m_throwWeapon.ResetWeaponPosition(); 
             }
             if (other.gameObject.tag == "Collision")
             {
-                throwWeapon.weaponStop(thrownWeaponData);
-                throwWeapon.dropWeapon(thrownWeaponData);
-                throwWeapon.resetWeaponPosition(thrownWeaponData); 
+                m_throwWeapon.WeaponStop();
+                m_throwWeapon.DropWeapon();
+                m_throwWeapon.ResetWeaponPosition(); 
             }
         }
     }
+
+    private int CalculateThrownDamage()
+    {
+        int damage = m_throwWeapon.GetInventoryManager().GetRegisteredWeapon().GetDamage();
+        damage += m_player.m_atk - m_enemy.m_def;
+        if (damage < 1)
+            damage = 1;
+        return damage;
+    }
 }
-*/
+

@@ -16,8 +16,6 @@ public class Stats : MonoBehaviour {
     public int m_initiative;
     public bool m_isEnemy;
 
-    public Inventory m_EnemyInventory; 
-
     private HealthManager m_healthManager;
     private PlayerTurn m_playerTurn;
 

@@ -7,9 +7,10 @@ public struct ItemList
     
     public static Weapons m_knife = new Weapons("Knife", 30, 10, 95, true);
     public static Weapons m_legendarySword = new Weapons("Legendary Sword", 999, 100, 95, false);
-    public static Weapons m_claw = new Weapons("Claw", 999, 10, 95, false); 
+    public static Weapons m_claw = new Weapons("Claw", 999, 10, 95, false);
+    public static Weapons m_toySword = new Weapons("Toy Sword", 30, 0, 95, false); 
 
-    public static Potions m_minorPotion = new Potions("Minor Health Potion", 1, 20);
-    public static Potions m_normalPotion = new Potions("Health Potion", 1, 50);
+    public static Potions m_minorPotion = new Potions("Minor Health Potion", 3, 20);
+    public static Potions m_normalPotion = new Potions("Health Potion", 3, 50);
 
 }

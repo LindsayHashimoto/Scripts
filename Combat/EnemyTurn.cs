@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq; 
 
 public class EnemyTurn : MonoBehaviour {
     public Inventory m_enemyInventory; 
 
     private CombatManager m_combatManager; 
+
 	// Use this for initialization
 	void Start ()
     {
         m_combatManager = GetComponentInParent<CombatManager>();
-
+        GenerateInventory(); 
     }
 	
 	// Update is called once per frame
@@ -22,56 +24,100 @@ public class EnemyTurn : MonoBehaviour {
         }
 	}
 
+    private void GenerateInventory()
+    {
+        m_enemyInventory.AddItems(ItemList.m_claw, 1);
+        m_enemyInventory.AddItems(ItemList.m_knife, 1);
+        m_enemyInventory.AddItems(ItemList.m_minorPotion, 5);
+        m_enemyInventory.AddItems(ItemList.m_legendarySword, 1); 
+    }
+
     private void PerformAction()
     {
         Stats[] attackTargets = GetAttackTargets();
-        int[] basicDamageDone = CalculateBasicDamage(attackTargets);
-
-        Inventory inventory = m_combatManager.GetTurnOrder()[m_combatManager.GetCurrentTurn()].m_EnemyInventory; 
+        Stats[] friendlyTargets = GetFriendlyTargets(); 
+        int[] basicDamageDone = CalculateDamageForEachTarget(attackTargets);
+        List<Weapons> weapons = new List<Weapons>();
+        List<Potions> potions = new List<Potions>(); 
+ 
         // What should the enemy do? 
         // Take out a player if possible
-        if (AttackForKill(attackTargets, basicDamageDone, 100)) return;
+        if (AttackForKill(attackTargets, basicDamageDone)) return;
+
+        foreach (Items item in m_enemyInventory.GetInventory())
+        {
+            if (item.GetIsWeapon())
+            {
+                weapons.Add((Weapons)item);
+            }
+            if (item.GetIsPotion())
+            {
+                potions.Add((Potions)item); 
+            }
+        }
+        //https://stackoverflow.com/questions/3309188/how-to-sort-a-listt-by-a-property-in-the-object
+         weapons = weapons.OrderBy(o => o.GetDamage()).ToList<Weapons>(); 
+
+        foreach (Weapons weapon in weapons)
+        {
+            if (AttackForKill(attackTargets, CalculateDamageForEachTarget(attackTargets, weapon), weapon)) return;
+        }
+
         // Heal himself or an ally with low health if possible 
+        foreach (Stats friend in friendlyTargets)
+        {
+            if(friend.GetHealthManager().GetHealthPercentage() <= 0.5)
+            {
+                m_combatManager.UsePotion(friend, potions[0]); 
+            }
+        }
         // Deal the most damage
-        AttackForDamage(attackTargets, basicDamageDone, 100);
+        AttackForDamage(attackTargets, CalculateDamageForEachTarget(attackTargets, weapons[0]), weapons[0]);
+        //AttackForDamage(attackTargets, basicDamageDone);
     }
 
-    private bool AttackForKill(Stats [] a_targets, int [] a_damageDone, int a_accuracy)
+    private bool AttackForKill(Stats [] a_targets, int [] a_damageDone, Weapons a_weapon = null)
     {
         for (int i = 0; i < a_targets.Length; i++)
         {
             // If the attack will kill the current target
             if (a_targets[i].GetHealthManager().m_currentHealth <= a_damageDone[i])
             {
-                ExecuteAttack(a_targets[i], a_damageDone[i], a_accuracy);
+                if (a_weapon == null)
+                {
+                    m_combatManager.BasicAttack(a_targets[i]);
+                }
+                else
+                {
+                    m_combatManager.UseWeapon(a_targets[i], a_weapon); 
+                }
                 return true; 
             }
         }
         return false; 
     }
 
-    private void AttackForDamage(Stats[] a_targets, int[] a_damageDone, int a_accuracy)
+    private void AttackForDamage(Stats[] a_targets, int[] a_damageDone, Weapons a_weapon = null)
     {
         int highest = 0;
-        int highestCount = -1; 
-        for (int i = 0; i < a_damageDone.Length; i++)
+        int highestCount = -1;
+        for (int i = 0; i < a_targets.Length; i++)
         {
             if (a_damageDone[i] > highest)
             {
                 highest = a_damageDone[i];
-                highestCount = i; 
+                highestCount = i;
             }
         }
-        ExecuteAttack(a_targets[highestCount], a_damageDone[highestCount], a_accuracy); 
-    }
-
-    private void ExecuteAttack(Stats a_target, int a_damageToDo, int a_accuracy)
-    {
-        if (Random.Range(1, 101) <= a_accuracy)
+        if (a_weapon == null)
         {
-            a_target.GetHealthManager().DealDamage(a_damageToDo); 
+            m_combatManager.BasicAttack(a_targets[highestCount]);
         }
-        m_combatManager.NextTurn(); 
+        else
+        {
+            m_combatManager.UseWeapon(a_targets[highestCount], a_weapon); 
+        }
+        
     }
 
     // Get the targets the Enemy can hit 
@@ -95,12 +141,43 @@ public class EnemyTurn : MonoBehaviour {
         return targets;  
     }
 
-    private int[] CalculateBasicDamage(Stats[] a_targets)
+    // Get the friendly targets
+    private Stats[] GetFriendlyTargets()
     {
+        Stats[] maxTargets = new Stats[4];
+        int counter = 0;
+        foreach (Stats entity in m_combatManager.GetTurnOrder())
+        {
+            if (entity.m_isEnemy && entity.GetHealthManager().m_currentHealth > 0)
+            {
+                maxTargets[counter] = entity;
+                counter++;
+            }
+        }
+        Stats[] targets = new Stats[counter];
+        for (int i = 0; i < counter; i++)
+        {
+            targets[i] = maxTargets[i];
+        }
+        return targets;
+    }
+
+
+    private int[] CalculateDamageForEachTarget (Stats[] a_targets, Weapons a_weapon = null)
+    {
+        int power; 
+        if (a_weapon == null)
+        {
+            power = 5; 
+        }
+        else
+        {
+            power = a_weapon.GetDamage(); 
+        }
         int[] damageDone = new int[4];
         for (int i = 0; i < a_targets.Length; i++)
         {
-            damageDone[i] = m_combatManager.CalculateDamage(m_combatManager.GetTurnOrder()[m_combatManager.GetCurrentTurn()], a_targets[i], 5);
+            damageDone[i] = m_combatManager.CalculateDamage(m_combatManager.GetTurnOrder()[m_combatManager.GetCurrentTurn()], a_targets[i], power);
         }
         return damageDone;
     }

@@ -13,8 +13,9 @@ public class EnemyBehavior : MonoBehaviour {
     private Animator anim;
     private Vector3 displacement; 
 	// Use this for initialization
-	void Start () {
-		
+	void Start ()
+    {
+        anim = GetComponent<Animator>(); 
 	}
 	
 	// Update is called once per frame

@@ -70,4 +70,19 @@ public class HealthManager : MonoBehaviour {
     {
         m_maxHealth = a_hp; 
     }
+
+    public int GetMaxHealth()
+    {
+        return m_maxHealth; 
+    }
+
+    public int GetCurrentHealth()
+    {
+        return m_currentHealth; 
+    }
+
+    public float GetHealthPercentage()
+    {
+        return (float) m_currentHealth / m_maxHealth;
+    }
 }

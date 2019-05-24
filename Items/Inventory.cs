@@ -1,30 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems; 
 
 public class Inventory : MonoBehaviour {
 
     private List<Items> m_inventory = new List<Items>();
     private int m_currency;
 
-    private Items m_activeItem;
-    public bool m_isPlayer;
+    private bool m_NeedToUpdate = false; 
 
-    private UnityCombatComponents m_components; 
 	// Use this for initialization
 	void Start ()
     {
-        m_components = FindObjectOfType<UnityCombatComponents>(); 
         //test data
         m_inventory.Add(ItemList.m_knife);
         m_inventory.Add(ItemList.m_legendarySword);
         m_inventory.Add(ItemList.m_minorPotion);
-
-        BuildUIInventory();
-
-	}
+        m_inventory.Add(ItemList.m_toySword);
+        m_NeedToUpdate = true; 
+    }
 	
 	// Update is called once per frame
 	void Update ()
@@ -36,18 +30,22 @@ public class Inventory : MonoBehaviour {
     {
         m_currency -= a_cost; 
         m_inventory.Add(a_item);
-        UpdateUIInventory(); 
+        UpdateInventory(); 
     }
 
     public void PickUpItem(Items a_item)
     {
         m_inventory.Add(a_item);
-        UpdateUIInventory(); 
+        UpdateInventory(); 
     }
 
-    public Items GetActiveItem()
+    public void AddItems(Items a_item, int a_amountToAdd)
     {
-        return m_activeItem; 
+        for(int i = 0; i<= a_amountToAdd; i++)
+        {
+            m_inventory.Add(a_item); 
+        }
+        UpdateInventory();
     }
 
     public List<Items> GetInventory()
@@ -55,73 +53,27 @@ public class Inventory : MonoBehaviour {
         return m_inventory; 
     }
 
-    public void UpdateUIInventory()
+    public void UpdateInventory()
     {
-        if (!m_isPlayer)
-        {
-            return;
-        }
-        foreach (Button button in m_components.GetUIBtns())
-        {
-            button.gameObject.SetActive(false); 
-        }
-        List<Items> newList = new List<Items>();  
+        List<Items> newList = new List<Items>();
         foreach (Items item in m_inventory)
         {
             if (item.GetDurability() > 0)
             {
-                newList.Add(item); 
+                newList.Add(item);
             }
         }
-        m_inventory = newList; 
-        BuildUIInventory();
-        m_components.GetUseBtn().gameObject.SetActive(false);
-        m_activeItem = null;
-        m_components.GetItemDescription().text = "No Item Currently Selected.";
-    }
-    //https://docs.unity3d.com/ScriptReference/UI.Button-onClick.html
-    private void BuildUIInventory()
+        m_inventory = newList;
+        m_NeedToUpdate = true; 
+    }  
+
+    public void Updated()
     {
-        if (!m_isPlayer)
-        {
-            return; 
-        }
-        for (int i = 0; i < m_inventory.Count; i++)
-        {
-            m_components.GetUIBtns()[i].GetComponentInChildren<Text>().text = m_inventory[i].GetName();
-            m_components.GetUIBtns()[i].onClick.AddListener(OnItemClick);
-            m_components.GetUIBtns()[i].gameObject.SetActive(true); 
-        }
+        m_NeedToUpdate = false; 
     }
 
-    private void OnItemClick()
+    public bool GetIfNeedUpdate()
     {
-        //https://answers.unity.com/questions/828666/46-how-to-get-name-of-button-that-was-clicked.html
-        GameObject thisButton = EventSystem.current.currentSelectedGameObject.gameObject;
-        string itemName = thisButton.GetComponentInChildren<Text>().text;
-        foreach (Items item in m_inventory)
-        {
-            if(itemName == item.GetName())
-            {
-                m_activeItem = item;
-                break; 
-            }
-        }
-        
-        if (m_activeItem.GetIsWeapon())
-        {
-            m_components.GetItemDescription().text = "This is a weapon called " + m_activeItem.GetName() +
-                ". It can be used " + m_activeItem.GetDurability() + " more times. " +
-                "It has a power of " + ((Weapons)m_activeItem).GetDamage() + " and an accuracy of " +
-                ((Weapons)m_activeItem).GetAccuracy();
-                    
-        }
-        if (m_activeItem.GetIsPotion())
-        {
-            m_components.GetItemDescription().text = "This is a potion called " + m_activeItem.GetName() +
-                ". It can be used " + m_activeItem.GetDurability() + " more times. " +
-                "It will heal for " + ((Potions)m_activeItem).GetHeal() + " health. ";
-        }
-        m_components.GetUseBtn().gameObject.SetActive(true); 
+        return m_NeedToUpdate; 
     }
 }

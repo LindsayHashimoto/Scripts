@@ -6,16 +6,15 @@ using UnityEngine.UI;
 public class PlayerTurn : MonoBehaviour {
     public Inventory m_playerInventory;
 
-    private bool m_attackClicked = false;
-    private bool m_itemClicked = false;
+    private CombatManager m_combatManager;
 
-    private UnityCombatComponents m_components; 
+    private InventoryManager m_inventoryManager; 
 
     // Use this for initialization
     void Start ()
     {
-        m_components = FindObjectOfType<UnityCombatComponents>();
-        SetListeners(); 
+        m_combatManager = FindObjectOfType<CombatManager>();
+        m_inventoryManager = FindObjectOfType<InventoryManager>();
     }
 	
 	// Update is called once per frame
@@ -27,69 +26,26 @@ public class PlayerTurn : MonoBehaviour {
     //Is called when the player clicks on a target
     public void GetTargetFromUser(Stats a_target)
     {
-        if (m_attackClicked)
+        if (m_combatManager.GetAttackClicked())
         {
-            m_components.GetCombatManager().BasicAttack(a_target);
+            m_combatManager.BasicAttack(a_target);
         }
-        else if (m_itemClicked)
+        else if (m_combatManager.GetItemClicked())
         {
-            Items activeItem = m_playerInventory.GetActiveItem();
+            Items activeItem = m_inventoryManager.GetActiveItem();
             if (activeItem.GetIsWeapon())
             {
-                m_components.GetCombatManager().UseWeapon(a_target, (Weapons)activeItem);
+                m_combatManager.UseWeapon(a_target, (Weapons)activeItem);
             }
             else if (activeItem.GetIsPotion())
             {
-                m_components.GetCombatManager().UsePotion(a_target, (Potions)activeItem);
+                m_combatManager.UsePotion(a_target, (Potions)activeItem);
             }
-            m_playerInventory.UpdateUIInventory();
+            m_playerInventory.UpdateInventory();
         }
-        m_attackClicked = false;
-        m_itemClicked = false;
+        m_combatManager.SetAttackClicked(false);
+        m_combatManager.SetItemClicked(false); 
     }
 
-    private void SetListeners()
-    {
-        m_components.GetAttackBtn().onClick.AddListener(OnAttackClick);
-        m_components.GetInventoryBtn().onClick.AddListener(OnInventoryClick);
-        m_components.GetPassBtn().onClick.AddListener(OnPassClick);
-        m_components.GetBackBtn().onClick.AddListener(OnBackClick);
-        m_components.GetUseBtn().onClick.AddListener(OnUseClick);
-        m_components.GetCancelBtn().onClick.AddListener(OnBackClick);
-    }
-
-    private void OnAttackClick()
-    {
-        m_attackClicked = true;
-        m_components.GetTurnMenu().SetActive(false);
-        m_components.GetBackBtn().gameObject.SetActive(true);
-    }
-
-    private void OnInventoryClick()
-    {
-        m_components.GetTurnMenu().SetActive(false);
-        m_components.GetInventoryUI().SetActive(true);
-    }
-
-    private void OnPassClick()
-    {
-        m_components.GetCombatManager().NextTurn(); 
-    }
-
-    private void OnBackClick()
-    {
-        m_attackClicked = false;
-        m_itemClicked = false;
-        m_components.GetTurnMenu().SetActive(true);
-        m_components.GetInventoryUI().SetActive(false);
-        m_components.GetBackBtn().gameObject.SetActive(false);
-    }
-
-    private void OnUseClick()
-    {
-        m_components.GetInventoryUI().SetActive(false);
-        m_itemClicked = true;
-        m_components.GetTurnMenu().SetActive(false);
-        m_components.GetBackBtn().gameObject.SetActive(true);
-    }
+    
 }

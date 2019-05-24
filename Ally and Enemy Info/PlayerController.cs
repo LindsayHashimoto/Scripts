@@ -4,31 +4,31 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    public float moveSpeed;
+    private float m_moveSpeed = 7;
     private float currentSpeed;
 
-    public float diagonalMoveModifier;
-    public float sprintModifier; 
+    private float m_diagonalMoveModifier = 0.75f;
+    private float m_sprintModifier = 2; 
 
-    private Animator anim;
-    private Rigidbody2D myRigidBody; 
+    private Animator m_anim;
+    private Rigidbody2D m_rigidBody; 
 
-    private bool playerMoving;
-    public Vector2 lastMove;
+    private bool m_playerMoving;
+    private Vector2 m_lastMove;
 
-    private static bool playerExists;
+    private static bool m_playerExists;
 
-    public bool canMove;
+    public bool m_canMove;
 
 	// Use this for initialization
 	void Start () {
-        canMove = true; 
-        anim = GetComponent<Animator>();
-        myRigidBody = GetComponent<Rigidbody2D>();
+        m_canMove = true; 
+        m_anim = GetComponent<Animator>();
+        m_rigidBody = GetComponent<Rigidbody2D>();
 
-        if (!playerExists)
+        if (!m_playerExists)
         {
-            playerExists = true; 
+            m_playerExists = true; 
             DontDestroyOnLoad(transform.gameObject);
         }
         else
@@ -39,64 +39,69 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!canMove)
+        if (!m_canMove)
         {
-            myRigidBody.velocity = Vector2.zero; 
+            m_rigidBody.velocity = Vector2.zero; 
         }
-        playerMoving = false;
+        m_playerMoving = false;
         
         //Player is moving left or right
         
 		if(Input.GetAxisRaw("Horizontal") > 0.5f || Input.GetAxisRaw("Horizontal") < -0.5f)
         {
-            myRigidBody.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * currentSpeed, myRigidBody.velocity.y); 
-            playerMoving = true;
-            lastMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); 
+            m_rigidBody.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * currentSpeed, m_rigidBody.velocity.y); 
+            m_playerMoving = true;
+            m_lastMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); 
         }
         //Player is moving up or down
         if (Input.GetAxisRaw("Vertical") > 0.5f || Input.GetAxisRaw("Vertical") < -0.5f)
         {
-            myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, Input.GetAxisRaw("Vertical") * currentSpeed);
-            playerMoving = true;
-            lastMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); 
+            m_rigidBody.velocity = new Vector2(m_rigidBody.velocity.x, Input.GetAxisRaw("Vertical") * currentSpeed);
+            m_playerMoving = true;
+            m_lastMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")); 
         }
         //Player stopped moving in the x direction
         if (Input.GetAxisRaw("Horizontal") < 0.5f && Input.GetAxisRaw("Horizontal") > -0.5f)
         {
-            myRigidBody.velocity = new Vector2(0f, myRigidBody.velocity.y); 
+            m_rigidBody.velocity = new Vector2(0f, m_rigidBody.velocity.y); 
         }
         //Player stopped moving in the y direction
         if (Input.GetAxisRaw("Vertical") < 0.5f && Input.GetAxisRaw("Vertical") > -0.5f)
         {
-            myRigidBody.velocity = new Vector2(myRigidBody.velocity.x, 0f);
+            m_rigidBody.velocity = new Vector2(m_rigidBody.velocity.x, 0f);
         }
         //Player is moving diagonally
         if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5f && Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.5f)
         {
-            currentSpeed = moveSpeed * diagonalMoveModifier; 
+            currentSpeed = m_moveSpeed * m_diagonalMoveModifier; 
         }
         else
         {
-            currentSpeed = moveSpeed; 
+            currentSpeed = m_moveSpeed; 
         }
         //Player is sprinting
        if (Input.GetKey(KeyCode.LeftShift))
         {
-            currentSpeed = moveSpeed * sprintModifier; 
+            currentSpeed = m_moveSpeed * m_sprintModifier; 
         }
        //Player stopped sprinting
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            currentSpeed = moveSpeed; 
+            currentSpeed = m_moveSpeed; 
         }
         // Game is not paused
         if(Time.timeScale > 0f)
         {
-            anim.SetFloat("MoveX", Input.GetAxisRaw("Horizontal"));
-            anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
-            anim.SetBool("PlayerMoving", playerMoving);
-            anim.SetFloat("LastMoveX", lastMove.x);
-            anim.SetFloat("LastMoveY", lastMove.y);
+            m_anim.SetFloat("MoveX", Input.GetAxisRaw("Horizontal"));
+            m_anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
+            m_anim.SetBool("PlayerMoving", m_playerMoving);
+            m_anim.SetFloat("LastMoveX", m_lastMove.x);
+            m_anim.SetFloat("LastMoveY", m_lastMove.y);
         }
+    }
+
+    public Vector2 GetLastMove()
+    {
+        return m_lastMove; 
     }
 }
