@@ -20,13 +20,16 @@ public class EnemyTurn : MonoBehaviour {
 	void Update ()
     {
         //Prevents enemies from taking more than one aciton in a turn due to race conditions
-        Stats thisTurn = m_combatManager.GetTurnOrder()[m_combatManager.GetCurrentTurn()]; 
-        if (thisTurn != m_lastTurn)
+        if (Time.timeScale > 0f)
         {
-            m_lastTurn = thisTurn;
-            if (thisTurn.m_isEnemy)
+            Stats thisTurn = m_combatManager.GetTurnOrder()[m_combatManager.GetCurrentTurn()];
+            if (thisTurn != m_lastTurn)
             {
-                PerformAction();
+                m_lastTurn = thisTurn;
+                if (thisTurn.m_isEnemy)
+                {
+                    PerformAction();
+                }
             }
         }
 	}
@@ -79,7 +82,7 @@ public class EnemyTurn : MonoBehaviour {
             }
         }
         // Deal the most damage
-        AttackForDamage(attackTargets, CalculateDamageForEachTarget(attackTargets, weapons[0]), weapons[0]);
+        AttackForDamage(attackTargets, CalculateDamageForEachTarget(attackTargets, weapons.Last()), weapons.Last());
         //AttackForDamage(attackTargets, basicDamageDone);
     }
 

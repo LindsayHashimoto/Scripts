@@ -8,19 +8,36 @@ public class PlayerTurn : MonoBehaviour {
 
     private CombatManager m_combatManager;
 
-    private InventoryManager m_inventoryManager; 
+    private InventoryManager m_inventoryManager;
+
+    private GameObject m_turnMenu;
+
+    private bool m_activateMenu = false; 
 
     // Use this for initialization
     void Start ()
     {
         m_combatManager = FindObjectOfType<CombatManager>();
+        m_turnMenu = GameObject.FindGameObjectWithTag("TurnMenu");
         m_inventoryManager = FindObjectOfType<InventoryManager>();
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-		
+		if(Time.timeScale > 0)
+        {
+            if (m_activateMenu)
+            {
+                m_turnMenu.SetActive(true);
+                m_activateMenu = false; 
+            }
+        }
+        else
+        {
+            m_turnMenu.SetActive(false);
+            m_activateMenu = true; 
+        }
 	}
 
     //Is called when the player clicks on a target

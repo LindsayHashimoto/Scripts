@@ -9,6 +9,7 @@ public class ExplinationText : MonoBehaviour {
 
     private Text m_messageBox;
     private Thread m_tr;
+    private List<string> m_awaitingMessages = new List<string>(); 
 
     // Use this for initialization
     void Start()
@@ -19,16 +20,35 @@ public class ExplinationText : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (this.gameObject.activeSelf)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            Thread.Sleep(2000);
-            this.gameObject.SetActive(false);
+            if (this.gameObject.activeSelf)
+            {
+                this.gameObject.SetActive(false);
+                Time.timeScale = 1f;
+                if (m_awaitingMessages[0] != null)
+                {
+                    m_messageBox.text = m_awaitingMessages[0];
+                    m_awaitingMessages.RemoveAt(0);
+                    this.gameObject.SetActive(true);
+                    Time.timeScale = 0f;
+                }
+            }
         }
     }
 
     public void SetMessage(string a_message)
     {
-        //m_messageBox.text = a_message;
-        //this.gameObject.SetActive(true);
+        if (this.gameObject.activeSelf)
+        {
+            m_awaitingMessages.Add(a_message); 
+        }
+        else
+        {
+            m_messageBox.text = a_message;
+            this.gameObject.SetActive(true);
+            Time.timeScale = 0f; 
+        }
+
     }
 }

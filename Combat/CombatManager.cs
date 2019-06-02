@@ -218,6 +218,7 @@ public class CombatManager : MonoBehaviour {
         if(UnityEngine.Random.Range(1,101) >= a_item.GetAccuracy())
         {
             m_explinationText.SetMessage(m_turnOrder[m_currentTurn].m_entityName + "'s attack missed!");
+            NextTurn();
             return; 
         }
         //hit
@@ -227,7 +228,8 @@ public class CombatManager : MonoBehaviour {
             int damageToDo = CalculateDamage(m_turnOrder[m_currentTurn], a_target, a_item.GetDamage());
             a_target.GetHealthManager().DealDamage(damageToDo);
             a_item.RemoveDurability();
-            NextTurn(); 
+            NextTurn();
+            return; 
         }
 
     }

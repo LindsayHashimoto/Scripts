@@ -14,7 +14,7 @@ public class Inventory : MonoBehaviour {
     {
         //test data
         m_inventory.Add(ItemList.m_knife);
-        m_inventory.Add(ItemList.m_legendarySword);
+        //m_inventory.Add(ItemList.m_legendarySword);
         m_inventory.Add(ItemList.m_minorPotion);
         m_inventory.Add(ItemList.m_toySword);
         m_NeedToUpdate = true; 
