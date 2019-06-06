@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Threading;
-using UnityEditor;
 
 public class ExplinationText : MonoBehaviour {
 
     private Text m_messageBox;
-    private Thread m_tr;
     private List<string> m_awaitingMessages = new List<string>(); 
 
     // Use this for initialization
     void Start()
     {
         m_messageBox = GetComponentInChildren<Text>();
+        this.gameObject.SetActive(false); 
     }
 
     // Update is called once per frame
@@ -26,7 +24,8 @@ public class ExplinationText : MonoBehaviour {
             {
                 this.gameObject.SetActive(false);
                 Time.timeScale = 1f;
-                if (m_awaitingMessages[0] != null)
+                
+                if (m_awaitingMessages.Count > 0)
                 {
                     m_messageBox.text = m_awaitingMessages[0];
                     m_awaitingMessages.RemoveAt(0);

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using System.Threading; 
 
 public class PlayerTurn : MonoBehaviour {
     public Inventory m_playerInventory;
@@ -17,9 +17,12 @@ public class PlayerTurn : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+         
         m_combatManager = FindObjectOfType<CombatManager>();
-        m_turnMenu = GameObject.FindGameObjectWithTag("TurnMenu");
-        m_inventoryManager = FindObjectOfType<InventoryManager>();
+
+        Thread t = new Thread(new ThreadStart(WaitForAssignment));
+        t.Start(); 
+        
     }
 	
 	// Update is called once per frame
@@ -64,5 +67,16 @@ public class PlayerTurn : MonoBehaviour {
         m_combatManager.SetItemClicked(false); 
     }
 
-    
+    private void WaitForAssignment()
+    {
+        //These while loops makes sure the functions are not called before the items are given values. 
+        while (m_turnMenu == null)
+        {
+            m_turnMenu = m_combatManager.GetTurnMenu();
+        }
+        while (m_inventoryManager == null)
+        {
+            m_inventoryManager = m_combatManager.GetInventoryManager();
+        }
+    }
 }

@@ -7,14 +7,23 @@ public class HealthManager : MonoBehaviour {
 
     public int m_maxHealth;
     public int m_currentHealth;
-    public Slider m_healthBar;
-    public Text m_healthText;
 
-    public Image m_fill;  
+    private GameObject m_hpObj; 
+    private Slider m_healthBar;
+    private Text m_healthText;
+    private Image m_fill;  
 
 	// Use this for initialization
-	void Start () { 
-       // m_currentHealth = m_maxHealth;
+	void Start ()
+    {
+        m_hpObj = GameObject.FindGameObjectsWithTag(this.tag)[0];
+        if (m_hpObj == this.gameObject)
+        {
+            m_hpObj = GameObject.FindGameObjectsWithTag(this.tag)[1];
+        }
+        m_healthBar = m_hpObj.GetComponentInChildren<Slider>();
+        m_healthText = m_hpObj.GetComponentInChildren<Text>();
+        m_fill = m_hpObj.GetComponentsInChildren<Image>()[1];
         UpdateHealth();
 	}
 	
@@ -22,15 +31,17 @@ public class HealthManager : MonoBehaviour {
 	void Update () {
         
         // Remove the current entity when they have been defeated
-        if (m_currentHealth <= 0)
-        {
-            gameObject.SetActive(false); 
-        }
-        UpdateHealth();
+       
+        
+        //UpdateHealth();
     }
     public void DealDamage(int a_damage)
     {
         m_currentHealth -= a_damage;
+        if (m_currentHealth <= 0)
+        {
+            gameObject.SetActive(false);
+        }
         UpdateHealth();
     }
     public void Heal(int a_amountToHeal)
@@ -40,6 +51,10 @@ public class HealthManager : MonoBehaviour {
         if (m_currentHealth > m_maxHealth)
         {
             m_currentHealth = m_maxHealth; 
+        }
+        if(m_currentHealth > 0)
+        {
+            gameObject.SetActive(true);
         }
         UpdateHealth(); 
     }
@@ -69,6 +84,11 @@ public class HealthManager : MonoBehaviour {
     public void SetMaxHealth(int a_hp)
     {
         m_maxHealth = a_hp; 
+    }
+
+    public void SetCurrentHealth(int a_hp)
+    {
+        m_currentHealth = a_hp; 
     }
 
     public int GetMaxHealth()

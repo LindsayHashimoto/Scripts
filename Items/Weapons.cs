@@ -17,10 +17,11 @@ public class Weapons : Items {
 		
 	}
 
-    public Weapons(string a_name, int a_durability, int a_damage, int a_accuracy, bool a_isThrowable)
+    public Weapons(string a_name, int a_durability, int a_sellPrice, int a_damage, int a_accuracy, bool a_isThrowable)
     {
         m_name = a_name;
         m_durability = a_durability;
+        m_sellPrice = a_sellPrice; 
         m_damage = a_damage;
         m_accuracy = a_accuracy;
         m_isThrowable = a_isThrowable;

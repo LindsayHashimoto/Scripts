@@ -17,6 +17,7 @@ public class Inventory : MonoBehaviour {
         //m_inventory.Add(ItemList.m_legendarySword);
         m_inventory.Add(ItemList.m_minorPotion);
         m_inventory.Add(ItemList.m_toySword);
+        m_currency = 100; 
         m_NeedToUpdate = true; 
     }
 	
@@ -26,11 +27,18 @@ public class Inventory : MonoBehaviour {
 		
 	}
 
-    public void BuyItem(Items a_item, int a_cost)
+    public void BuyItem(Items a_item)
     {
-        m_currency -= a_cost; 
+        m_currency -= a_item.GetSellPrice(); 
         m_inventory.Add(a_item);
         UpdateInventory(); 
+    }
+
+    public void SellItem(Items a_item)
+    {
+        m_currency += a_item.GetSellPrice();
+        m_inventory.Remove(a_item);
+        UpdateInventory();
     }
 
     public void PickUpItem(Items a_item)
@@ -76,4 +84,15 @@ public class Inventory : MonoBehaviour {
     {
         return m_NeedToUpdate; 
     }
+
+    public int GetCurrency()
+    {
+        return m_currency;
+    }
+
+    public void RecieveCurrency(int a_amountToGive)
+    {
+        m_currency += a_amountToGive;
+    }
+
 }

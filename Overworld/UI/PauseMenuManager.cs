@@ -5,16 +5,22 @@ using UnityEngine.UI;
 
 public class PauseMenuManager : MonoBehaviour {
 
-    public GameObject m_pauseMenu; 
+    private GameObject m_pauseMenu; 
 
-    public GameObject m_inventoryObj; 
-    public Button m_inventoryBtn;
+    private GameObject m_inventoryObj; 
+    private Button m_inventoryBtn;
 
-    public Button m_closeBtn; 
+    private Button m_closeBtn; 
     // Use this for initialization
     void Start () {
+        m_pauseMenu = this.gameObject.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
+        m_inventoryObj = GameObject.FindGameObjectWithTag("InventoryMenu");
+        m_inventoryBtn = this.gameObject.GetComponentsInChildren<Button>()[0];
+        m_closeBtn = this.gameObject.GetComponentsInChildren<Button>()[1];
         m_inventoryBtn.onClick.AddListener(OpenInventory);
-        m_closeBtn.onClick.AddListener(ClosePauseMenu); 
+        m_closeBtn.onClick.AddListener(ClosePauseMenu);
+        m_pauseMenu.SetActive(false);
+        m_inventoryObj.SetActive(false);
     }
 	
 	// Update is called once per frame

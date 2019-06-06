@@ -32,7 +32,6 @@ public class InventoryManager : MonoBehaviour {
 
         m_useBtn.gameObject.SetActive(false);
         m_registerBtn.gameObject.SetActive(false);
-        this.gameObject.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -156,7 +155,12 @@ public class InventoryManager : MonoBehaviour {
         {
             m_registeredWeapon = (Weapons)m_activeItem;
         }
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
         ResetActiveItem(); 
+    }
+
+    public Inventory GetPlayerInventory()
+    {
+        return m_playerInventory; 
     }
 }

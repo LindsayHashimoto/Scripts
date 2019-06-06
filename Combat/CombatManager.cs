@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
+using UnityEngine.SceneManagement; 
 
 public class CombatManager : MonoBehaviour {
 
@@ -10,6 +10,9 @@ public class CombatManager : MonoBehaviour {
 
     private int m_currentTurn = 0;
 
+    private Stats[] m_players;
+    private Stats[] m_enemies; 
+    private GameObject m_turnOrderUIObj; 
     private Text [] m_turnOrderUI;
     private GameObject m_turnMenu;
 
@@ -24,24 +27,35 @@ public class CombatManager : MonoBehaviour {
     private bool m_itemClicked;
     private InventoryManager m_inventoryManager;
 
-    private ExplinationText m_explinationText; 
+    private ExplinationText m_explinationText;
+    private OnCombatStart m_onCombatStart;
+
+    private GameObject m_smsobj;
+    private SceneManagerScript m_sms; 
 
     // Use this for initialization
     void Start()
     {
         m_turnMenu = GameObject.FindGameObjectWithTag("TurnMenu");
-        Button[] turnMenuBtns = m_turnMenu.GetComponentsInChildren<Button>();
+        Button[] turnMenuBtns = m_turnMenu.GetComponentsInChildren<Button>(true);
         m_attackBtn = turnMenuBtns[0];
         m_inventoryBtn = turnMenuBtns[1];
         m_passBtn = turnMenuBtns[2];
         m_backBtn = GameObject.FindGameObjectWithTag("BackBtn").GetComponent<Button>();
-        m_useBtn = GameObject.FindGameObjectWithTag("UseBtn").GetComponent<Button>();
-        m_cancelBtn = GameObject.FindGameObjectWithTag("CancelBtn").GetComponent<Button>();
 
-        m_inventoryManager = FindObjectOfType<InventoryManager>();
-        m_explinationText = FindObjectOfType<ExplinationText>();
-        m_explinationText.gameObject.SetActive(false); 
+        m_smsobj = SceneManagerScript.m_sm.gameObject;
+        m_sms = m_smsobj.GetComponent<SceneManagerScript>(); 
 
+        m_inventoryManager = m_smsobj.GetComponentInChildren<InventoryManager>(true);
+        Button[] btns = m_inventoryManager.gameObject.GetComponentsInChildren<Button>(true);
+        m_useBtn = btns[0];
+        m_cancelBtn = btns[btns.Length - 1];
+
+        m_explinationText = m_smsobj.GetComponentInChildren<ExplinationText>(true);
+
+        m_onCombatStart = FindObjectOfType<OnCombatStart>();
+
+        m_turnOrderUIObj = GameObject.FindGameObjectWithTag("TurnOrder"); 
         SetListeners();
 
         BuildInitialTurnOrder(); 
@@ -64,7 +78,7 @@ public class CombatManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void SetListeners()
@@ -76,31 +90,33 @@ public class CombatManager : MonoBehaviour {
         m_useBtn.onClick.AddListener(OnUseClick);
         m_cancelBtn.onClick.AddListener(OnBackClick);
     }
+
     private void BuildInitialTurnOrder()
     {
-        Stats[] players = GameObject.FindGameObjectWithTag("Allies").GetComponentsInChildren<Stats>();
-        Stats[] enemies = GameObject.FindGameObjectWithTag("Enemies").GetComponentsInChildren<Stats>();
-        m_turnOrder = new Stats[players.Length + enemies.Length];
+        m_players = SceneManagerScript.m_sm.transform.Find("Allies").GetComponentsInChildren<Stats>(true);
+        m_enemies = SceneManagerScript.m_sm.transform.Find("Enemies").GetComponentsInChildren<Stats>(true);
+        m_turnOrder = new Stats[m_players.Length + m_enemies.Length];
 
         int index = 0;
-        foreach (Stats player in players)
+        foreach (Stats player in m_players)
         {
             m_turnOrder[index] = player;
             index++;
         }
-        foreach (Stats enemy in enemies)
+        foreach (Stats enemy in m_enemies)
         {
             m_turnOrder[index] = enemy;
             index++;
         }
 
-        Text[] tmpTurnOrder = GameObject.FindGameObjectWithTag("TurnOrder").GetComponentsInChildren<Text>();
+        Text[] tmpTurnOrder = m_turnOrderUIObj.GetComponentsInChildren<Text>();
         m_turnOrderUI = new Text[tmpTurnOrder.Length - 1];
         for (int i = 0; i < m_turnOrderUI.Length; i++)
         {
             m_turnOrderUI[i] = tmpTurnOrder[i + 1];
         }
     }
+
     //Although Quicksort has a faster average runtime, Insertion sort is faster in smaller sizes. n should be <=8. 
     //https://www.geeksforgeeks.org/insertion-sort/
     private void InsertionSort(Stats [] a_sortArray)
@@ -169,6 +185,56 @@ public class CombatManager : MonoBehaviour {
     //Moves onto the next person in combat
     public void NextTurn()
     {
+        if (PlayerWins())
+        {
+            //Calculate prize money. Player should get more money the more powerful the foe is. 
+            int prizeMoney; 
+            int totalEnemyLevel = 0; 
+            foreach (Stats enemy in m_enemies)
+            {
+                totalEnemyLevel += enemy.m_level; 
+            }
+            prizeMoney = 10 * totalEnemyLevel;
+            m_inventoryManager.GetPlayerInventory().RecieveCurrency(prizeMoney);
+            m_explinationText.SetMessage("You recieved $" + prizeMoney + " for winning.");
+            foreach (Stats player in m_players)
+            {
+                PlayerController pc = player.gameObject.GetComponent<PlayerController>();
+                if (pc != null)
+                {
+                    pc.SetCanMove(true);
+                }
+                FollowerController fc = player.gameObject.GetComponent<FollowerController>();
+                if (fc != null)
+                {
+                    fc.SetCanMove(true);
+                }
+                player.gameObject.SetActive(true);
+            }
+            SceneManager.LoadScene(m_sms.GetLastScene());
+        }
+        if (EnemyWins())
+        {
+            m_explinationText.SetMessage("Game Over!");
+           
+            //Reset health
+            foreach(Stats player in m_turnOrder)
+            {
+                PlayerController pc = player.gameObject.GetComponent<PlayerController>();
+                if (pc != null)
+                {
+                    pc.SetCanMove(true); 
+                }
+                FollowerController fc = player.gameObject.GetComponent<FollowerController>();
+                if (fc != null)
+                {
+                    fc.SetCanMove(true);
+                }
+                player.gameObject.SetActive(true); 
+                player.GetHealthManager().SetCurrentHealth(player.GetHealthManager().GetMaxHealth()); 
+            }
+            SceneManager.LoadScene("a");
+        }
         m_turnOrder[m_currentTurn].NoLongerTurn();
         m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative;
         do
@@ -202,7 +268,8 @@ public class CombatManager : MonoBehaviour {
         // Basic Attack should be realatively weak 
         int damageToDo = CalculateDamage(user, a_target, 5);
         m_explinationText.SetMessage(user.m_entityName + " used a basic attack on " + a_target.m_entityName);
-        a_target.GetHealthManager().DealDamage(damageToDo); 
+        a_target.GetHealthManager().DealDamage(damageToDo);
+        OnDefeat(a_target);
         // Performing this aciton ends the turn. 
         NextTurn(); 
     }
@@ -228,6 +295,7 @@ public class CombatManager : MonoBehaviour {
             int damageToDo = CalculateDamage(m_turnOrder[m_currentTurn], a_target, a_item.GetDamage());
             a_target.GetHealthManager().DealDamage(damageToDo);
             a_item.RemoveDurability();
+            OnDefeat(a_target); 
             NextTurn();
             return; 
         }
@@ -281,6 +349,11 @@ public class CombatManager : MonoBehaviour {
         return m_itemClicked;
     }
 
+    public InventoryManager GetInventoryManager()
+    {
+        return m_inventoryManager; 
+    }
+
     public void SetAttackClicked(bool a_input)
     {
         m_attackClicked = a_input;
@@ -289,6 +362,34 @@ public class CombatManager : MonoBehaviour {
     public void SetItemClicked(bool a_input)
     {
         m_itemClicked = a_input;
+    }
+
+    // Perform action when someone loses all HP. 
+    private void OnDefeat(Stats a_target)
+    {
+        // Return if the target is still alive
+        if (a_target.GetHealthManager().GetCurrentHealth() > 0)
+        {
+            return; 
+        }
+        m_explinationText.SetMessage(a_target.m_entityName + " has been defeated!"); 
+        // Give players experience
+        if (a_target.m_isEnemy)
+        {
+            foreach (Stats player in m_players)
+            {
+                if (player.GetHealthManager().GetCurrentHealth() > 0)
+                {
+                    int experienceToGive = a_target.GetBaseExp() * a_target.m_level / player.m_level;
+                    if(experienceToGive <= 0)
+                    {
+                        experienceToGive = 1; 
+                    }
+                    m_explinationText.SetMessage(player.m_entityName + " gained " + experienceToGive + " experience.");
+                    player.GainExp(experienceToGive, m_explinationText);
+                }
+            }
+        }
     }
 
     private void OnAttackClick()
@@ -301,6 +402,7 @@ public class CombatManager : MonoBehaviour {
     private void OnInventoryClick()
     {
         m_turnMenu.SetActive(false);
+        m_turnOrderUIObj.SetActive(false); 
         m_inventoryManager.gameObject.SetActive(true);
     }
 
@@ -314,6 +416,7 @@ public class CombatManager : MonoBehaviour {
         m_attackClicked = false;
         m_itemClicked = false;
         m_turnMenu.SetActive(true);
+        m_turnOrderUIObj.SetActive(true);
         m_inventoryManager.gameObject.SetActive(false);
         m_backBtn.gameObject.SetActive(false);
     }
@@ -323,6 +426,12 @@ public class CombatManager : MonoBehaviour {
         m_itemClicked = true; 
         m_inventoryManager.gameObject.SetActive(false);
         m_turnMenu.SetActive(false);
+        m_turnOrderUIObj.SetActive(true);
         m_backBtn.gameObject.SetActive(true);
+    }
+
+    void OnSceneLoaded()
+    {
+
     }
 }

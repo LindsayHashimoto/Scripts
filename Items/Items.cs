@@ -7,7 +7,8 @@ public class Items {
     protected int m_durability;
     protected string m_name;
     protected bool m_isWeapon = false;
-    protected bool m_isPotion = false; 
+    protected bool m_isPotion = false;
+    protected int m_sellPrice; 
 	// Use this for initialization
 	void Start ()
     {
@@ -44,8 +45,8 @@ public class Items {
         return m_isPotion; 
     }
 
-    public int SetDurability()
+    public int GetSellPrice()
     {
-        return m_durability; 
+        return m_sellPrice; 
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq; 
 
 public class EnemyTurn : MonoBehaviour {
-    public Inventory m_enemyInventory; 
+    private Inventory m_enemyInventory; 
 
     private CombatManager m_combatManager;
     private Stats m_lastTurn; 
@@ -12,6 +12,7 @@ public class EnemyTurn : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        m_enemyInventory = GameObject.Find("Enemy Inventory").GetComponent<Inventory>(); 
         m_combatManager = GetComponentInParent<CombatManager>();
         GenerateInventory(); 
     }

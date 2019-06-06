@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; 
 
 public class LoadNewArea : MonoBehaviour {
 
-    public string levelToLoad; 
-
+    public string m_levelToLoad; 
 	// Use this for initialization
-	void Start () {
-		
-	}
+	void Start ()
+    {
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -20,7 +21,7 @@ public class LoadNewArea : MonoBehaviour {
     {
         if(other.gameObject.name == "Player")
         {
-            Application.LoadLevel(levelToLoad);
+            SceneManager.LoadScene(m_levelToLoad); 
         }
     }
 }
