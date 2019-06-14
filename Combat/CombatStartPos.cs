@@ -17,20 +17,27 @@ public class CombatStartPos : MonoBehaviour {
                 PlayerController pCon = obj.GetComponent<PlayerController>();
                 if(pCon != null)
                 {
-                    pCon.GetAnim().SetFloat("MoveX", 1f);
-                    pCon.GetAnim().SetFloat("MoveY", 0f);
-                    pCon.GetAnim().SetBool("PlayerMoving", true);
+                    pCon.GetAnim().SetFloat("LastMoveX", 1f);
+                    pCon.GetAnim().SetFloat("LastMoveY", 0f);
+                    pCon.GetAnim().SetBool("PlayerMoving", false);
                     pCon.SetCanMove(false); 
                     
                 }
                 FollowerController fCon = obj.GetComponent<FollowerController>();
                 if (fCon != null)
                 {
-                    fCon.GetAnim().SetFloat("MoveX", 1f);
-                    fCon.GetAnim().SetFloat("MoveY", 0f);
-                    fCon.GetAnim().SetBool("PlayerMoving", true);
+                    fCon.GetAnim().SetBool("PlayerMoving", false);
+                    fCon.GetAnim().SetFloat("LastMoveX", 1f);
+                    fCon.GetAnim().SetFloat("LastMoveY", 0f);
                     fCon.SetCanMove(false);
-                    
+                }
+                EnemyBehavior eCon = obj.GetComponent<EnemyBehavior>();
+                if (eCon != null)
+                {
+                    eCon.GetAnim().SetBool("PlayerMoving", false);
+                    eCon.GetAnim().SetFloat("LastMoveX", -1f);
+                    eCon.GetAnim().SetFloat("LastMoveY", 0f);
+                    eCon.SetCanMove(false);
                 }
                 m_objectToMove.transform.position = this.transform.position;
             }
