@@ -56,13 +56,13 @@ public class FollowerController : MonoBehaviour {
             {
                 currentSpeed = moveSpeed;
             }
-        }
-        m_anim.SetFloat("MoveX", displacement.x);
-        m_anim.SetFloat("MoveY", displacement.y);
-        m_anim.SetBool("PlayerMoving", followerMoving);
-        m_anim.SetFloat("LastMoveX", displacement.x);
-        m_anim.SetFloat("LastMoveY", displacement.y);
         
+            m_anim.SetFloat("MoveX", displacement.x);
+            m_anim.SetFloat("MoveY", displacement.y);
+            m_anim.SetBool("PlayerMoving", followerMoving);
+            m_anim.SetFloat("LastMoveX", displacement.x);
+            m_anim.SetFloat("LastMoveY", displacement.y);
+        }
 
     }
 
