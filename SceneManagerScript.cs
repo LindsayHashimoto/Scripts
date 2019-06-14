@@ -47,12 +47,12 @@ public class SceneManagerScript : MonoBehaviour {
 		
 	}
 
-    public void SetLastScene(int a_lastScene)
+    public void SetLastSceneID(int a_lastScene)
     {
         m_lastScene = a_lastScene; 
     }
 
-    public int GetLastScene()
+    public int GetLastSceneID()
     {
         return m_lastScene; 
     }
