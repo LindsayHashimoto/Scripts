@@ -4,54 +4,70 @@ using UnityEngine;
 
 public class EnemyBehavior : MonoBehaviour {
 
-    public Transform player;
+    public Transform m_player;
 
-    public float runSpeed; 
+    public float m_runSpeed;
 
-    private bool chasingPlayer;
+    private bool m_canMove; 
+    private bool m_chasingPlayer;
+    private bool m_isMoving; 
 
-    private Animator anim;
-    private Vector3 displacement; 
+    private Animator m_anim;
+    private Vector3 m_displacement; 
 	// Use this for initialization
 	void Start ()
     {
-        anim = GetComponent<Animator>(); 
+        m_anim = GetComponent<Animator>();
+        m_canMove = true; 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (chasingPlayer)
+        m_isMoving = false; 
+        if (m_canMove)
         {
-            displacement = player.position - transform.position;
-            displacement = displacement.normalized;
-
-            if (Vector2.Distance(player.position, transform.position) > 1.0f)
+            if (m_chasingPlayer)
             {
-                transform.position += (displacement * runSpeed * Time.deltaTime);
-            }
-            
-        }
-        //patrol the area
-        else
-        {
+                m_displacement = m_player.position - transform.position;
+                m_displacement = m_displacement.normalized;
 
+                if (Vector2.Distance(m_player.position, transform.position) > 1.0f)
+                {
+                    transform.position += (m_displacement * m_runSpeed * Time.deltaTime);
+                    m_isMoving = true; 
+                }
+
+            }
+        
+            m_anim.SetFloat("MoveX", m_displacement.x);
+            m_anim.SetFloat("MoveY", m_displacement.y);
+            m_anim.SetBool("PlayerMoving", m_isMoving);
+            m_anim.SetFloat("LastMoveX", m_displacement.x);
+            m_anim.SetFloat("LastMoveY", m_displacement.y);
         }
-        anim.SetFloat("MoveX", displacement.x);
-        anim.SetFloat("MoveY", displacement.y);
-        anim.SetBool("PlayerMoving", chasingPlayer);
-        anim.SetFloat("LastMoveX", displacement.x);
-        anim.SetFloat("LastMoveY", displacement.y);
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name == "Player")
-        {
-            //start combat
-        }
         if(other.gameObject.tag == "Player's Weapon")
         {
-            chasingPlayer = true; 
+            m_chasingPlayer = true; 
         }
+    }
+
+    /**/
+    /*void EnemyBehavior::SetCanMove(bool a_canMove);
+     * NAME: 
+     * 
+    */
+    public void SetCanMove(bool a_canMove)
+    {
+        m_canMove = a_canMove; 
+    }
+
+    public Animator GetAnim()
+    {
+        return m_anim; 
     }
 }
