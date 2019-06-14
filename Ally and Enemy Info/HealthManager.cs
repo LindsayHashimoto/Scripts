@@ -16,25 +16,58 @@ public class HealthManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-        m_hpObj = GameObject.FindGameObjectsWithTag(this.tag)[0];
-        if (m_hpObj == this.gameObject)
-        {
-            m_hpObj = GameObject.FindGameObjectsWithTag(this.tag)[1];
-        }
-        m_healthBar = m_hpObj.GetComponentInChildren<Slider>();
-        m_healthText = m_hpObj.GetComponentInChildren<Text>();
-        m_fill = m_hpObj.GetComponentsInChildren<Image>()[1];
-        UpdateHealth();
+        
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        
-        // Remove the current entity when they have been defeated
-       
-        
-        //UpdateHealth();
+	void Update ()
+    {
+     
     }
+
+    /**/
+    /*
+     * SetUIHealthBars()
+     * NAME
+     *  SetUIHealthBars - Sets up the UI elements of the health bars
+     * SYNOPSIS
+     *  void SetUIHealthBars()
+     * DESCRIPTION
+     *  This function searches for the two GameObjects named "Ally Health Bars" and "Enemy Health Bars". 
+     *  These two GameObjects have children GameObjects which are the UI health bar elements. This funciton 
+     *  finds the health bar element that corresponds to the object that this class is attached to and sets 
+     *  the member values: m_healthBar, m_healthText, and m_fill to be the values under the UI health bars. 
+     *  After setting the values, the UpdateHealth funciton is called.
+     * RETURNS
+     *  None
+    */
+    /**/
+    public void SetUIHealthBars()
+    {
+        GameObject [] allyOrEnemyHealthBars = GameObject.FindGameObjectsWithTag("HealthBars");
+        foreach (GameObject allyOrEnemyHB in allyOrEnemyHealthBars)
+        {
+            Slider[] healthBars = allyOrEnemyHB.GetComponentsInChildren<Slider>();
+            foreach (Slider healthBarSlider in healthBars)
+            {
+                GameObject healthBar = healthBarSlider.gameObject;
+                if (healthBar.tag == this.tag)
+                {
+                    m_healthBar = healthBar.GetComponentInChildren<Slider>();
+                    m_healthText = healthBar.GetComponentInChildren<Text>();
+                    m_fill = healthBar.transform.Find("Fill Area").gameObject.GetComponentInChildren<Image>();
+                }
+            }
+        }
+        UpdateHealth();
+    }
+    /**/
+    /*
+     * DealDamage()
+     * NAME
+     *  DealDamage - 
+     */
+    /**/
     public void DealDamage(int a_damage)
     {
         m_currentHealth -= a_damage;
@@ -44,6 +77,7 @@ public class HealthManager : MonoBehaviour {
         }
         UpdateHealth();
     }
+
     public void Heal(int a_amountToHeal)
     {
         m_currentHealth += a_amountToHeal;
@@ -57,6 +91,12 @@ public class HealthManager : MonoBehaviour {
             gameObject.SetActive(true);
         }
         UpdateHealth(); 
+    }
+
+    public void FullyHeal()
+    {
+        m_currentHealth = m_maxHealth;
+        UpdateHealth();
     }
     // Updates the UI health bar.  
     public void UpdateHealth()
