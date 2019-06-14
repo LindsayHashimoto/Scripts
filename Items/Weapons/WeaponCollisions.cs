@@ -23,20 +23,22 @@ public class WeaponCollisions : MonoBehaviour
     }
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.isTrigger)
+        if (!other.isTrigger && this.gameObject.activeSelf)
         {
-            if (other.gameObject.tag == "Enemy")
+            if (other.gameObject.tag == "Enemy1")
             {
                 m_enemy = other.gameObject.GetComponent<Stats>(); 
                 other.gameObject.GetComponent<HealthManager>().DealDamage(CalculateThrownDamage());
                 m_throwWeapon.WeaponStop();
-                m_throwWeapon.ResetWeaponPosition(); 
+                m_throwWeapon.ResetWeaponPosition();
+                this.gameObject.SetActive(false); 
             }
             if (other.gameObject.tag == "Collision")
             {
                 m_throwWeapon.WeaponStop();
                 m_throwWeapon.DropWeapon();
-                m_throwWeapon.ResetWeaponPosition(); 
+                m_throwWeapon.ResetWeaponPosition();
+                this.gameObject.SetActive(false);
             }
         }
     }
