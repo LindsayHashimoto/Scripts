@@ -10,7 +10,9 @@ public class PauseMenuManager : MonoBehaviour {
     private GameObject m_inventoryObj; 
     private Button m_inventoryBtn;
 
-    private Button m_closeBtn; 
+    private Button m_closeBtn;
+
+    private GameObject m_inventoryList;
     // Use this for initialization
     void Start () {
         m_pauseMenu = this.gameObject.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
@@ -19,6 +21,8 @@ public class PauseMenuManager : MonoBehaviour {
         m_closeBtn = this.gameObject.GetComponentsInChildren<Button>()[1];
         m_inventoryBtn.onClick.AddListener(OpenInventory);
         m_closeBtn.onClick.AddListener(ClosePauseMenu);
+
+        m_inventoryList = m_inventoryObj.transform.Find("Inventory List").gameObject; 
         m_pauseMenu.SetActive(false);
         m_inventoryObj.SetActive(false);
     }
@@ -41,6 +45,7 @@ public class PauseMenuManager : MonoBehaviour {
     }
     private void OpenInventory()
     {
+        m_inventoryList.SetActive(true);
         m_inventoryObj.SetActive(true); 
     }
     private void ClosePauseMenu()
