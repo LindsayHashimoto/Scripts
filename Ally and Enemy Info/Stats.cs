@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI; 
 
-/**/
-
 public class Stats : MonoBehaviour {
 
     public string m_entityName;
@@ -30,7 +28,10 @@ public class Stats : MonoBehaviour {
         m_playerTurn = FindObjectOfType<PlayerTurn>();
         m_healthManager = this.gameObject.GetComponent<HealthManager>();
         m_highlight = this.gameObject.GetComponent<Light>();
-        
+        if (!m_isEnemy)
+        {
+            m_healthManager.SetUIHealthBars();
+        }
     }
 
     private void Update()
