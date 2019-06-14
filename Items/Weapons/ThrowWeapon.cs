@@ -101,6 +101,7 @@ public class ThrowWeapon : MonoBehaviour
     public void ResetWeaponPosition()
     {
         m_transformWeapon.position = this.transform.position;
+        m_weapon.SetActive(false);
     }
 
     private void SetDirection()
