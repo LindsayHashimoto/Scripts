@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour {
         if (!m_canMove)
         {
             m_rigidBody.velocity = Vector2.zero;
-            
+
         }
         else
         {
@@ -82,9 +82,9 @@ public class PlayerController : MonoBehaviour {
             {
                 currentSpeed = m_moveSpeed;
             }
-        }
-        // Game is not paused
-        if (Time.timeScale > 0f)
+
+            // Game is not paused
+            if (Time.timeScale > 0f)
             {
                 m_anim.SetFloat("MoveX", Input.GetAxisRaw("Horizontal"));
                 m_anim.SetFloat("MoveY", Input.GetAxisRaw("Vertical"));
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour {
                 m_anim.SetFloat("LastMoveX", m_lastMove.x);
                 m_anim.SetFloat("LastMoveY", m_lastMove.y);
             }
-        
+        }
     }
 
     public Vector2 GetLastMove()
