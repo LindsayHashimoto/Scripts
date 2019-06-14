@@ -7,12 +7,13 @@ public class OnCombatStart : MonoBehaviour {
 
     Scene m_thisScene;
     PlayerStartPoint m_startPoint;
-    GameObject m_combatData; 
+    GameObject m_combatData;
+    EnemyBehavior m_enemyBehavior; 
 
     // Use this for initialization
     void Start ()
     {
-        
+        m_enemyBehavior = FindObjectOfType<EnemyBehavior>(); 
         m_startPoint = FindObjectOfType<PlayerStartPoint>();
         m_combatData = GameObject.FindGameObjectWithTag("EnemyCombat");
         m_combatData.SetActive(false); 
@@ -28,6 +29,7 @@ public class OnCombatStart : MonoBehaviour {
     {
         if (other.gameObject.name == "Player")
         {
+            m_enemyBehavior.SetCanMove(false); 
             m_startPoint = FindObjectOfType<PlayerStartPoint>();
             m_thisScene = SceneManager.GetActiveScene();
             m_startPoint.transform.position = transform.position;
