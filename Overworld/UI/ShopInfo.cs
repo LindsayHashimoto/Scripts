@@ -9,43 +9,71 @@ public class ShopInfo : MonoBehaviour {
     private Button m_buyBtn;
     private Button m_sellBtn;
     private Button m_exitBtn;
-
-    private GameObject m_itemsToBuy;
-    private Button[] m_itemsInShop; 
+    
     private GameObject m_smsobj;
     private ExplinationText m_explinationText;
 
+    private GameObject m_itemsToBuy;
+
     private bool m_canTalk;
     private bool m_greetingIsActive;
-    private bool m_goodbyeIsActive; 
+    private bool m_goodbyeIsActive;
+    private bool m_menuActive; 
 
-	// Use this for initialization
-	void Start ()
+    private ShopkeeperData m_shopData; 
+
+    private SceneManagerScript m_sms; 
+    private Inventory m_playerInventory;
+    private InventoryManager m_invMan;
+    private GameObject m_inventoryMenu; 
+    private GameObject m_inventoryList;
+
+    private Button m_useBtn;
+    private Button m_registerBtn;
+    private Button m_buySellBtn; 
+
+    // Use this for initialization
+    void Start ()
     {
         m_shopMenuBtns = GameObject.Find("Shop Menu Buttons"); 
         m_buyBtn = GameObject.Find("Buy").GetComponent<Button>();
         m_sellBtn = GameObject.Find("Sell").GetComponent<Button>();
         m_exitBtn = GameObject.Find("Exit").GetComponent<Button>();
-        SetListeners(); 
+        SetListeners();
 
-        m_itemsToBuy = GameObject.Find("Items to Buy");
-        m_itemsInShop = m_itemsToBuy.GetComponentsInChildren<Button>(); 
-        
+        m_itemsToBuy = GameObject.Find("ShopKeeper Items");
+
+        m_shopData = FindObjectOfType<ShopkeeperData>(); 
+
         m_smsobj = SceneManagerScript.m_sm.gameObject; 
         m_explinationText = m_smsobj.GetComponentInChildren<ExplinationText>(true);
+        m_inventoryMenu = m_smsobj.transform.Find("Canvas").gameObject.transform.Find("Inventory Menu").gameObject;
+        m_inventoryList = m_inventoryMenu.transform.Find("Inventory List").gameObject;
+        m_useBtn = m_inventoryMenu.transform.Find("Use Item").gameObject.GetComponent<Button>();
+        m_registerBtn = m_inventoryMenu.transform.Find("Register Button").gameObject.GetComponent<Button>();
+        m_buySellBtn = m_inventoryMenu.transform.Find("Buy and Sell Button").gameObject.GetComponent<Button>();
+        m_playerInventory = m_smsobj.transform.Find("Allies").GetComponentInChildren<Inventory>();
+        m_invMan = m_inventoryMenu.GetComponentInChildren<InventoryManager>(true); 
+
 
         m_shopMenuBtns.SetActive(false); 
-        m_itemsToBuy.SetActive(false);
 
         m_canTalk = false;
         m_greetingIsActive = false;
-        m_goodbyeIsActive = false; 
+        m_goodbyeIsActive = false;
+        m_menuActive = false; 
+
+        m_useBtn.gameObject.SetActive(false);
+        m_registerBtn.gameObject.SetActive(false);
+        m_buySellBtn.gameObject.SetActive(false); 
+
+
 }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             if (m_canTalk)
             {
@@ -55,6 +83,9 @@ public class ShopInfo : MonoBehaviour {
             }
             else if (m_greetingIsActive)
             {
+                m_menuActive = true; 
+                m_inventoryList.SetActive(false);
+                m_inventoryMenu.SetActive(true); 
                 m_shopMenuBtns.SetActive(true); 
                 m_explinationText.gameObject.SetActive(false);
                 m_greetingIsActive = false;
@@ -62,13 +93,18 @@ public class ShopInfo : MonoBehaviour {
             }
             else if (m_goodbyeIsActive)
             {
+                m_menuActive = false;
                 m_explinationText.gameObject.SetActive(false);
                 m_goodbyeIsActive = false;
                 m_canTalk = true;
                 Time.timeScale = 1f; 
             }
         }
-        
+        if (m_menuActive)
+        {
+            m_useBtn.gameObject.SetActive(false);
+            m_registerBtn.gameObject.SetActive(false);
+        }
     }
 
     private void SetListeners()
@@ -108,18 +144,43 @@ public class ShopInfo : MonoBehaviour {
     void OnBuyClick()
     {
         m_itemsToBuy.SetActive(true);
+        m_inventoryList.SetActive(false);
+        m_buySellBtn.gameObject.GetComponentInChildren<Text>().text = "Buy Item";
+        m_buySellBtn.onClick.RemoveAllListeners();
+        m_buySellBtn.onClick.AddListener(OnBuyingClick);
+        
     }
 
     void OnSellClick()
     {
-
+        m_itemsToBuy.SetActive(false);
+        m_buySellBtn.gameObject.GetComponentInChildren<Text>().text = "Sell Item";
+        m_buySellBtn.onClick.RemoveAllListeners(); 
+        m_buySellBtn.onClick.AddListener(OnSellingClick);
+        m_buySellBtn.gameObject.SetActive(true); 
+        m_inventoryList.SetActive(true);
+        m_invMan.UpdateUIInventory(); 
     }
 
     void OnExitClick()
     {
+        m_buySellBtn.gameObject.SetActive(false); 
+        m_inventoryMenu.SetActive(false); 
         m_itemsToBuy.SetActive(false); 
         m_shopMenuBtns.SetActive(false); 
         m_explinationText.SetMessage("Blacksmith: Thank you! Come again!");
         m_goodbyeIsActive = true; 
+    }
+
+    void OnBuyingClick()
+    {
+        m_playerInventory.BuyItem(m_shopData.GetActiveItem());
+        m_shopData.UpdateShopData(); 
+    }
+
+    void OnSellingClick()
+    {
+        m_playerInventory.SellItem(m_invMan.GetActiveItem());
+        m_shopData.UpdateShopData();
     }
 }

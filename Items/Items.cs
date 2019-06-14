@@ -25,6 +25,11 @@ public class Items {
         m_durability--; 
     }
 
+    public void SetDurability(int a_durability)
+    {
+        m_durability = a_durability; 
+    }
+
     public string GetName()
     {
         return m_name; 
