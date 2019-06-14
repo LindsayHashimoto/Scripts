@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement; 
+using UnityEngine.SceneManagement;
+using System.Threading;
 
 public class CombatManager : MonoBehaviour {
 
@@ -31,7 +32,10 @@ public class CombatManager : MonoBehaviour {
     private OnCombatStart m_onCombatStart;
 
     private GameObject m_smsobj;
-    private SceneManagerScript m_sms; 
+    private SceneManagerScript m_sms;
+
+    private Thread m_thread;
+    private int m_sceneID; 
 
     // Use this for initialization
     void Start()
@@ -73,12 +77,23 @@ public class CombatManager : MonoBehaviour {
         m_turnOrder[m_currentTurn].OnCurrentTurn();
 
         m_backBtn.gameObject.SetActive(false);
+
+        foreach (Stats entity in m_turnOrder)
+        {
+            entity.GetHealthManager().SetUIHealthBars(); 
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (m_thread != null)
+        {
+            if (m_thread.ThreadState == ThreadState.Stopped)
+            {
+                SceneManager.LoadScene(m_sceneID);
+            }
+        }
     }
 
     public void SetListeners()
@@ -185,55 +200,14 @@ public class CombatManager : MonoBehaviour {
     //Moves onto the next person in combat
     public void NextTurn()
     {
+        //m_inventoryManager.UpdateUIInventory(); 
         if (PlayerWins())
         {
-            //Calculate prize money. Player should get more money the more powerful the foe is. 
-            int prizeMoney; 
-            int totalEnemyLevel = 0; 
-            foreach (Stats enemy in m_enemies)
-            {
-                totalEnemyLevel += enemy.m_level; 
-            }
-            prizeMoney = 10 * totalEnemyLevel;
-            m_inventoryManager.GetPlayerInventory().RecieveCurrency(prizeMoney);
-            m_explinationText.SetMessage("You recieved $" + prizeMoney + " for winning.");
-            foreach (Stats player in m_players)
-            {
-                PlayerController pc = player.gameObject.GetComponent<PlayerController>();
-                if (pc != null)
-                {
-                    pc.SetCanMove(true);
-                }
-                FollowerController fc = player.gameObject.GetComponent<FollowerController>();
-                if (fc != null)
-                {
-                    fc.SetCanMove(true);
-                }
-                player.gameObject.SetActive(true);
-            }
-            SceneManager.LoadScene(m_sms.GetLastScene());
+            OnPlayerWin(); 
         }
         if (EnemyWins())
         {
-            m_explinationText.SetMessage("Game Over!");
-           
-            //Reset health
-            foreach(Stats player in m_turnOrder)
-            {
-                PlayerController pc = player.gameObject.GetComponent<PlayerController>();
-                if (pc != null)
-                {
-                    pc.SetCanMove(true); 
-                }
-                FollowerController fc = player.gameObject.GetComponent<FollowerController>();
-                if (fc != null)
-                {
-                    fc.SetCanMove(true);
-                }
-                player.gameObject.SetActive(true); 
-                player.GetHealthManager().SetCurrentHealth(player.GetHealthManager().GetMaxHealth()); 
-            }
-            SceneManager.LoadScene("a");
+            OnEnemyWin(); 
         }
         m_turnOrder[m_currentTurn].NoLongerTurn();
         m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative;
@@ -430,8 +404,66 @@ public class CombatManager : MonoBehaviour {
         m_backBtn.gameObject.SetActive(true);
     }
 
-    void OnSceneLoaded()
+    private void OnPlayerWin()
     {
-
+        //Calculate prize money. Player should get more money the more powerful the foe is. 
+        int prizeMoney;
+        int totalEnemyLevel = 0;
+        foreach (Stats enemy in m_enemies)
+        {
+            totalEnemyLevel += enemy.m_level;
+        }
+        prizeMoney = 10 * totalEnemyLevel;
+        m_inventoryManager.GetPlayerInventory().RecieveCurrency(prizeMoney);
+        m_explinationText.SetMessage("You recieved $" + prizeMoney + " for winning.");
+        foreach (Stats player in m_players)
+        {
+            PlayerController pc = player.gameObject.GetComponent<PlayerController>();
+            if (pc != null)
+            {
+                pc.SetCanMove(true);
+            }
+            FollowerController fc = player.gameObject.GetComponent<FollowerController>();
+            if (fc != null)
+            {
+                fc.SetCanMove(true);
+            }
+            player.gameObject.SetActive(true);
+        }
+        m_sceneID = m_sms.GetLastSceneID();
+        m_thread = new Thread(ChangeScenesWhenDialogEnds);
+        m_thread.Start();
     }
+
+    private void OnEnemyWin()
+    {
+        m_explinationText.SetMessage("Game Over!");
+
+        //Reset health
+        foreach (Stats player in m_turnOrder)
+        {
+            PlayerController pc = player.gameObject.GetComponent<PlayerController>();
+            if (pc != null)
+            {
+                pc.SetCanMove(true);
+            }
+            FollowerController fc = player.gameObject.GetComponent<FollowerController>();
+            if (fc != null)
+            {
+                fc.SetCanMove(true);
+            }
+            player.gameObject.SetActive(true);
+            player.GetHealthManager().SetCurrentHealth(player.GetHealthManager().GetMaxHealth());
+        }
+        m_sceneID = 0;
+        m_thread = new Thread(ChangeScenesWhenDialogEnds);
+        m_thread.Start();
+    }
+    private void ChangeScenesWhenDialogEnds()
+    {
+        while(m_explinationText.GetAwaitingMessages().Count != 0)
+        {
+        }
+    }
+
 }
