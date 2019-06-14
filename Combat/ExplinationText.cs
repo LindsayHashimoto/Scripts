@@ -50,4 +50,9 @@ public class ExplinationText : MonoBehaviour {
         }
 
     }
+
+    public List<string> GetAwaitingMessages()
+    {
+        return m_awaitingMessages; 
+    }
 }
