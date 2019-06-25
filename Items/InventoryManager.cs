@@ -10,38 +10,57 @@ public class InventoryManager : MonoBehaviour {
     private Weapons m_registeredWeapon; 
     private Inventory m_playerInventory;
 
-    private Button[] m_inventoryBtns;
+    private GameObject m_inventoryBtnParent; 
+    private List<Button> m_inventoryBtns = new List<Button>();
     private Button m_useBtn;
-    private Button m_cancelBtn;
     private Button m_registerBtn;
-    private Button m_buySellBtn; 
+    private Button m_buySellBtn;
+    private Button m_cancelBtn; 
     private Text m_itemDescription;
     private GameObject m_inventoryList;
 
     private GameObject m_smsObj;
     private GameObject m_inventoryMenu;
 
-    private Text m_currencyTxt; 
+    private Text m_currencyTxt;
 
-    // Use this for initialization
+    /**/
+    /*
+     * Start()
+     * NAME
+     *  Start - Use this for initialization
+     * SYNOPSIS
+     *  void Start()
+     * DESCRIPTION
+     *  This sets the inital values of the above member variables and adds on click listeners to the register and cancel buttons. The register 
+     *  button and the buy and sell button are set to be not active and the use button is set to be active. Then, the interface elements 
+     *  are built. 
+     * RETURNS
+     *  None
+     */
+    /**/
     void Start ()
     {
         m_smsObj = SceneManagerScript.m_sm.gameObject;
         m_inventoryMenu = m_smsObj.transform.Find("Canvas").gameObject.transform.Find("Inventory Menu").gameObject;
 
         m_playerInventory = m_smsObj.transform.Find("Allies").gameObject.GetComponentInChildren<Inventory>();
-        m_inventoryBtns = GetInventoryButtons();
+
+        m_inventoryBtnParent = m_inventoryMenu.transform.Find("Inventory List").gameObject.transform.Find("Inventory UI Grid").gameObject;
+        m_inventoryBtns.Add(m_inventoryBtnParent.GetComponentInChildren<Button>());
+
         m_useBtn = m_inventoryMenu.transform.Find("Use Item").gameObject.GetComponent<Button>();
         m_registerBtn = m_inventoryMenu.transform.Find("Register Button").gameObject.GetComponent<Button>(); 
-        m_buySellBtn = m_inventoryMenu.transform.Find("Buy and Sell Button").gameObject.GetComponent<Button>(); 
+        m_buySellBtn = m_inventoryMenu.transform.Find("Buy and Sell Button").gameObject.GetComponent<Button>();
+        m_cancelBtn = m_inventoryMenu.transform.Find("Cancel").gameObject.GetComponent<Button>();
         m_itemDescription = m_inventoryMenu.transform.Find("Item Description Text").gameObject.GetComponent<Text>();
 
          
         m_currencyTxt = m_inventoryMenu.transform.Find("Currency").gameObject.GetComponent<Text>();
         m_inventoryList = m_inventoryMenu.transform.Find("Inventory List").gameObject;
 
-        m_cancelBtn.onClick.AddListener(OnCancelClick);
-        m_registerBtn.onClick.AddListener(OnRegiserClick); 
+        m_registerBtn.onClick.AddListener(OnRegiserClick);
+        m_cancelBtn.onClick.AddListener(OnCancelClick); 
 
 
         m_registerBtn.gameObject.SetActive(false);
@@ -52,31 +71,76 @@ public class InventoryManager : MonoBehaviour {
 
         UpdateUIInventory(); 
     }
-	
-	// Update is called once per frame
-	void Update ()
+    /*void Start();*/
+
+    /**/
+    /*
+     * Update()
+     * NAME 
+     *  Update - Update is called once per frame
+     * SYNOPSIS
+     *  void Update()
+     * DESCRIPTION
+     *  If the inventory user interface needs to be updated, this will update it. 
+     * RETURNS
+     *  None
+     */
+    /**/
+    void Update ()
     {
         if (m_playerInventory.GetIfNeedUpdate())
         {
             UpdateUIInventory(); 
         }
 	}
+    /*void Update();*/
 
     //https://docs.unity3d.com/ScriptReference/UI.Button-onClick.html
+    /**/
+    /*
+     * BuildUIInventory()
+     * NAME
+     *  BuildUIInventory - builds the interface of the inventory
+     * SYNOPSIS
+     *  void BuildUIInventory()
+     * DESCRIPTION
+     *  This makes the buttons in the inventory 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void BuildUIInventory()
     {
+        Button origin = m_inventoryBtns[0];
+        m_inventoryBtns.Clear(); 
         for (int i = 0; i < m_playerInventory.GetInventory().Count; i++)
         {
+            m_inventoryBtns.Add(Instantiate(origin, m_inventoryBtnParent.transform, true));
             m_inventoryBtns[i].GetComponentInChildren<Text>().text = m_playerInventory.GetInventory()[i].GetName();
             m_inventoryBtns[i].onClick.AddListener(OnItemClick);
             m_inventoryBtns[i].gameObject.SetActive(true);
         }
         m_currencyTxt.text = "You have: $" + m_playerInventory.GetCurrency();
     }
+    /*public void BuildUIInventory();*/
 
+    /**/
+    /*
+     * UpdateUIInventory()
+     * NAME
+     *  UpdateUIInvntory -
+     * SYNOPSIS
+     *  void UpdateUIInventory()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void UpdateUIInventory()
     {
-        foreach (Button button in m_inventoryBtns)
+        Button[] btns = m_inventoryBtnParent.GetComponentsInChildren<Button>(); 
+        foreach (Button button in btns)
         {
             button.gameObject.SetActive(false);
         }
@@ -84,7 +148,21 @@ public class InventoryManager : MonoBehaviour {
         ResetActiveItem();
         m_playerInventory.Updated(); 
     }
+    /*public void UpdateUIInventory();*/
 
+    /**/
+    /*
+     * ResetActiveItem()
+     * NAME
+     *  ResetActiveItem -
+     * SYNOPSIS
+     *  void ResetActiveItem()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void ResetActiveItem()
     {
         m_useBtn.gameObject.SetActive(false);
@@ -92,30 +170,21 @@ public class InventoryManager : MonoBehaviour {
         m_activeItem = null;
         m_itemDescription.text = "No Item Currently Selected.";
     }
+    /*public void ResetActiveItem();*/
 
-    public Items GetActiveItem()
-    {
-        return m_activeItem;
-    }
-
-    public Weapons GetRegisteredWeapon()
-    {
-        return m_registeredWeapon; 
-    }
-
-    private Button [] GetInventoryButtons()
-    { 
-        Button[] btns = m_inventoryMenu.transform.Find("Inventory List").gameObject.transform.Find("Inventory UI Grid").GetComponentsInChildren<Button>(true);
-        m_cancelBtn = btns[btns.Length - 1]; 
-        Button [] inventoryBtns = new Button[btns.Length - 1];
-        for (int i = 0; i < btns.Length - 1; i++)
-        {
-            inventoryBtns[i] = btns[i];
-            inventoryBtns[i].gameObject.SetActive(false); 
-        }
-        return inventoryBtns; 
-    }
-
+    /**/
+    /*
+     * OnItemClick()
+     * NAME
+     *  OnItemClick -
+     * SYNOPSIS
+     *  void OnItemClick()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     *  None
+     */
+    /**/
     private void OnItemClick()
     {
         //https://answers.unity.com/questions/828666/46-how-to-get-name-of-button-that-was-clicked.html
@@ -130,7 +199,7 @@ public class InventoryManager : MonoBehaviour {
                 break;
             }
         }
-        
+
         if (m_activeItem.GetIsWeapon())
         {
             m_itemDescription.text = "This is a weapon called " + m_activeItem.GetName() +
@@ -140,10 +209,10 @@ public class InventoryManager : MonoBehaviour {
 
             if (((Weapons)m_activeItem).GetIsThrowable())
             {
-                m_registerBtn.gameObject.SetActive(true); 
-                if(m_activeItem == m_registeredWeapon)
+                m_registerBtn.gameObject.SetActive(true);
+                if (m_activeItem == m_registeredWeapon)
                 {
-                    m_registerBtn.GetComponentInChildren<Text>().text = "Unregister"; 
+                    m_registerBtn.GetComponentInChildren<Text>().text = "Unregister";
                 }
                 else
                 {
@@ -160,16 +229,44 @@ public class InventoryManager : MonoBehaviour {
 
         m_useBtn.gameObject.SetActive(true);
     }
+    /*private void OnItemClick();*/
 
+    /**/
+    /*
+     * OnCancelClick() 
+     * NAME
+     *  OnCancelClick -
+     * SYNOPSIS
+     *  void OnCancelClick()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     *  None
+     */
+    /**/
     private void OnCancelClick()
     {
         this.gameObject.SetActive(false);
-        ResetActiveItem(); 
+        ResetActiveItem();
     }
+    /*private void OnCancelClick();*/
 
+    /**/
+    /*
+     * OnRegisterClick()
+     * NAME
+     *  OnRegisterClick -
+     * SYNOPSIS
+     *  void OnRegiserClick()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     *  None
+     */
+    /**/
     private void OnRegiserClick()
     {
-        if (m_registeredWeapon == (Weapons) m_activeItem)
+        if (m_registeredWeapon == (Weapons)m_activeItem)
         {
             m_registeredWeapon = null;
         }
@@ -177,11 +274,64 @@ public class InventoryManager : MonoBehaviour {
         {
             m_registeredWeapon = (Weapons)m_activeItem;
         }
-        ResetActiveItem(); 
+        ResetActiveItem();
     }
+    /*private void OnRegiserClick();*/
 
+    /**/
+    /*
+     * GetPlayerInventory()
+     * NAME
+     *  GetPlayerInventory - accessor for m_playerInventory. 
+     * SYNOPSIS
+     *  Inventory GetPlayerInventory()
+     * DESCRIPTION
+     *  
+     * RETURNS
+     *  m_playerInventory
+     */
+    /**/
     public Inventory GetPlayerInventory()
     {
-        return m_playerInventory; 
+        return m_playerInventory;
     }
+    /*public Inventory GetPlayerInventory();*/
+
+    /**/
+    /*
+     * GetActiveItem()
+     * NAME
+     *  GetActiveItem - accessor for m_activeItem
+     * SYNOPSIS
+     *  Items GetActiveItem()
+     * DESCRIPTION
+     *  Returns the current active item. 
+     * RETURNS
+     *  m_activeItem
+     */
+    /**/
+    public Items GetActiveItem()
+    {
+        return m_activeItem;
+    }
+    /*public Items GetActiveItem();*/
+
+    /**/
+    /*
+     * GetRegisteredWeapon()
+     * NAME
+     *  GetRegisteredWeapon - accessor for m_registeredWeapon. 
+     * SYNOPSIS
+     *  Weapons GetRegisteredWeapon()
+     * DESCRIPTION
+     *  Returns the weapon that the player set to be thrown. 
+     * RETURNS
+     *  m_registeredWeapon
+     */
+    /**/
+    public Weapons GetRegisteredWeapon()
+    {
+        return m_registeredWeapon; 
+    }
+    /*public Weapons GetRegisteredWeapon();*/
 }
