@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class HealArea : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
+    /**/
+    /*
+     * OnTriggerEnter2D()
+     * NAME
+     *  OnTriggerEnter2D - heals the player and their allies when they enter the box collider.
+     * SYNOPSIS
+     *  void OnTriggerEnter2D(Collider2D a_other)
+     * DESCRIPTION
+     *  This funciton finds all allies and heals them fully when they enter the box collider. 
+     * RETURNS
+     *  None
+     */
+    /**/
     private void OnTriggerEnter2D(Collider2D a_other)
     {
         if (a_other.tag == "Player")
@@ -28,4 +31,5 @@ public class HealArea : MonoBehaviour {
             }
         }
     }
+    /*private void OnTriggerEnter2D(Collider2D a_other);*/
 }

@@ -24,9 +24,21 @@ public class ThrowWeapon : MonoBehaviour
     private PlayerController m_playerController;
     public ErrorMessage error;
 
-    public GameObject droppedWeapon;
+    public GameObject m_droppedWeapon;
 
-    // Use this for initialization
+    /**/
+    /*
+     * Start()
+     * NAME
+     *  Start - Use this for initialization
+     * SYNOPSIS
+     *  void Start()
+     * DESCRIPTION
+     *  
+     * RETURNS
+     *  None
+     */
+    /**/
     void Start()
     {
         m_inventoryManager = FindObjectOfType<InventoryManager>();
@@ -42,8 +54,21 @@ public class ThrowWeapon : MonoBehaviour
         m_diagonalModifier = 1;
         m_weapon.SetActive(false); 
     }
+    /*void Start();*/
 
-    // Update is called once per frame
+    /**/
+    /*
+     * Update()
+     * NAME 
+     *  Update - Update is called once per frame
+     * SYNOPSIS
+     *  void Update()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     *  None
+     */
+    /**/
     void Update()
     {
         //If game is not paused
@@ -54,7 +79,7 @@ public class ThrowWeapon : MonoBehaviour
                 //if no weapon is set, display error message
                 if (m_inventoryManager.GetRegisteredWeapon() == null)
                 {
-                    error.displayMessage("No Weapon Set!");
+                    error.DisplayMessage("No Weapon Set!");
                 }
                 //else, decrement the ammo counter and use the weapon
                 else
@@ -62,7 +87,7 @@ public class ThrowWeapon : MonoBehaviour
                     //if ammo counter = 0, remove weapon from inventory. Display message that the weapon broke.
                     if (m_inventoryManager.GetRegisteredWeapon().GetDurability() <= 0)
                     {
-                        error.displayMessage("The set weapon is out of ammo!");
+                        error.DisplayMessage("The set weapon is out of ammo!");
                     }
 
                     // throw weapon
@@ -79,31 +104,89 @@ public class ThrowWeapon : MonoBehaviour
                     }
                     else
                     {
-                        error.displayMessage("Can't use that yet.");
+                        error.DisplayMessage("Can't use that yet.");
                     }
                 }
             }
         }
     }
-    // Spawns on the floor to be picked up by the player
+    /*void Update();*/
+
+    /**/
+    /*
+     * DropWeapon()
+     * NAME
+     *  DropWeapon - spawns a weapon on the floor to be picked up by the player
+     * SYNOPSIS
+     *  void DropWeapon()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void DropWeapon()
     {
-        droppedWeapon.transform.position = m_transformWeapon.position;
-        droppedWeapon.SetActive(true);
+        m_droppedWeapon.transform.position = m_transformWeapon.position;
+        m_droppedWeapon.SetActive(true);
     }
+    /*public void DropWeapon();*/
 
+    /**/
+    /*
+     * WeaponStop()
+     * NAME
+     *  WeaponStop - 
+     * SYNOPSIS
+     *  void WeaponStop()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void WeaponStop()
     {
+        m_movingDirection.x = -1;
+        m_movingDirection.y = 0;
         m_weaponMoving = false;
         m_weapon.SetActive(false);
     }
+    /*public void WeaponStop();*/
 
+    /**/
+    /*
+     * ResetWeaponPosition()
+     * NAME
+     *  ResetWeaponPosition -
+     * SYNOPSIS
+     *  void ResetWeaponPosition()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void ResetWeaponPosition()
     {
         m_transformWeapon.position = this.transform.position;
         m_weapon.SetActive(false);
     }
+    /*public void ResetWeaponPosition();*/
 
+    /**/
+    /*
+     * SetDirection()
+     * NAME
+     *  SetDirection -
+     * SYNOPSIS
+     *  void SetDirection()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     * 
+     */
+    /**/
     private void SetDirection()
     {
         if (m_playerController.GetLastMove().x > 0.5f || m_playerController.GetLastMove().x < -0.5f)
@@ -131,7 +214,21 @@ public class ThrowWeapon : MonoBehaviour
             m_diagonalModifier = 1f;
         }
     }
+    /*private void SetDirection();*/
 
+    /**/
+    /*
+     * SetRotation()
+     * NAME
+     *  SetRotation -
+     * SYNOPSIS
+     *  void SetRotation()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     *  None
+     */
+    /**/
     private void SetRotation()
     {
 
@@ -183,9 +280,24 @@ public class ThrowWeapon : MonoBehaviour
             m_transformWeapon.Rotate(0f, 0f, 180f);
         }
     }
+    /*private void SetRotation();*/
 
+    /**/
+    /*
+     * GetInventoryManager()
+     * NAME
+     *  GetInventoryManager - 
+     * SYNOPSIS
+     *  InventoryManager GetInventoryManager()
+     * DESCRIPTION
+     * 
+     * RETURNS
+     *  m_inventoryManager
+     */
+    /**/
     public InventoryManager GetInventoryManager()
     {
         return m_inventoryManager; 
     }
+    /*public InventoryManager GetInventoryManager();*/
 }

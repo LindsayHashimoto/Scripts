@@ -4,9 +4,23 @@ using UnityEngine;
 
 public class CombatStartPos : MonoBehaviour {
 
-    private GameObject m_objectToMove; 
-	// Use this for initialization
-	void Start ()
+    private GameObject m_objectToMove;
+
+    /**/
+    /*
+     * Start()
+     * NAME
+     *  Start - Use this for initialization
+     * SYNOPSIS
+     *  void Start()
+     * DESCRIPTION
+     *  At the start of combat, this funciton moves the eneities to their starting combat positions, faces them the correct way and
+     *  prevents them from moving around. 
+     * RETURNS
+     *  None
+     */
+    /**/
+    void Start ()
     {
         GameObject [] objectsToMove = GameObject.FindGameObjectsWithTag(this.tag); 
         foreach(GameObject obj in objectsToMove)
@@ -43,10 +57,5 @@ public class CombatStartPos : MonoBehaviour {
             }
         }
 	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
+    /*void Start();*/
 }

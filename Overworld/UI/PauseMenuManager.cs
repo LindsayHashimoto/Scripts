@@ -13,7 +13,21 @@ public class PauseMenuManager : MonoBehaviour {
     private Button m_closeBtn;
 
     private GameObject m_inventoryList;
-    // Use this for initialization
+
+    /**/
+    /*
+     * Start()
+     * NAME
+     *  Start - Use this for initialization
+     * SYNOPSIS
+     *  void Start()
+     * DESCRIPTION
+     *  Sets the values of the above member values and sets on click listeners for the buttons. The pause menu and inventory menu
+     *  are also set to be initally not active. 
+     * RETURNS
+     *  None
+     */
+    /**/
     void Start () {
         m_pauseMenu = this.gameObject.GetComponentInChildren<VerticalLayoutGroup>().gameObject;
         m_inventoryObj = GameObject.FindGameObjectWithTag("InventoryMenu");
@@ -26,9 +40,22 @@ public class PauseMenuManager : MonoBehaviour {
         m_pauseMenu.SetActive(false);
         m_inventoryObj.SetActive(false);
     }
-	
-	// Update is called once per frame
-	void Update () {
+    /*void Start();*/
+
+    /**/
+    /*
+     * Update()
+     * NAME 
+     *  Update - Update is called once per frame
+     * SYNOPSIS
+     *  void Update()
+     * DESCRIPTION
+     *  When the player presses the tab button, the pause menu opens up and the game is paused. 
+     * RETURNS
+     *  None
+     */
+    /**/
+    void Update () {
         //Pause Menu is opend by pressing Tab
         if (Input.GetKeyUp(KeyCode.Tab))
         {
@@ -37,20 +64,47 @@ public class PauseMenuManager : MonoBehaviour {
                 m_pauseMenu.SetActive(true);
                 Time.timeScale = 0f;
             }
-            else
-            {
-                ClosePauseMenu(); 
-            }
         }
     }
+    /*void Update();*/
+
+    /**/
+    /*
+     * OpenInventory()
+     * NAME
+     *  OpenInventory - opens the inventory menu
+     * SYNOPSIS
+     *  void OpenInventory()
+     * DESCRIPTION
+     *  The inventory menu is opened. 
+     * RETURNS
+     *  None
+     */
+    /**/
     private void OpenInventory()
     {
         m_inventoryList.SetActive(true);
         m_inventoryObj.SetActive(true); 
     }
+    /*private void OpenInventory();*/
+
+    /**/
+    /*
+     * ClosePauseMenu()
+     * NAME
+     *  ClosePauseMenu - closes the pause menu
+     * SYNOPSIS
+     *  void ClosePauseMenu()
+     * DESCRIPTION
+     *  The pause menu is closed and the game is no longer paused.
+     * RETURNS
+     *  None
+     */
+    /**/
     private void ClosePauseMenu()
     {
         m_pauseMenu.SetActive(false);
         Time.timeScale = 1f;
     }
+    /*private void ClosePauseMenu();*/
 }

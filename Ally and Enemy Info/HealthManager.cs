@@ -11,19 +11,47 @@ public class HealthManager : MonoBehaviour {
     private GameObject m_hpObj; 
     private Slider m_healthBar;
     private Text m_healthText;
-    private Image m_fill;  
+    private Image m_fill;
 
-	// Use this for initialization
-	void Start ()
+    /**/
+    /*
+     * UpdateHealth()
+     * NAME
+     *  UpdateHealth - Updates the UI health bar.
+     * SYNOPSIS
+     *  void UpdateHealth()
+     * DESCRIPTION
+     *  This fucntion is called whenever the UI health bar element needs to be updated. This makes the member values:
+     *  m_maxHealth and m_currentHealth consistent to what is shown to the user. This also changes the color of the 
+     *  health bar to green (>50% of health left), yellow(between 25% and 50%) or red (<25% of health left) depending 
+     *  on how hurt the current entity is.  
+     * RETURNS
+     *  None
+     */
+    /**/
+    public void UpdateHealth()
     {
-        
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-     
+        m_healthBar.maxValue = m_maxHealth;
+        m_healthBar.value = m_currentHealth;
+        m_healthText.text = "HP: " + m_currentHealth + " / " + m_maxHealth;
+        float healthPercentage = (float)m_currentHealth / m_maxHealth;
+        if (healthPercentage > 0.50)
+        {
+            //set color to green
+            m_fill.color = new Color(0, 255, 0);
+        }
+        else if (healthPercentage <= 0.25)
+        {
+            //set color to red
+            m_fill.color = new Color(255, 0, 0);
+        }
+        else
+        {
+            //set color to yellow
+            m_fill.color = new Color(250, 255, 0);
+        }
     }
+    /*void UpdateHealth();*/
 
     /**/
     /*
@@ -61,11 +89,22 @@ public class HealthManager : MonoBehaviour {
         }
         UpdateHealth();
     }
+    /*void SetUIHealthBars();*/
+
     /**/
     /*
      * DealDamage()
      * NAME
-     *  DealDamage - 
+     *  DealDamage - this entitiy takes a specified amount of damage
+     * SYNOPSIS
+     *  void DealDamage(int a_damage)
+     *      a_damage --> the  amount of damage that  the current entity will recieve
+     * DESCRIPTION
+     *  The current entity will take the amount of damage specified by the a_damage value. If this causes
+     *  m_currentHealth to drop below zero, the  currenty entity will be removed from play. After damage is 
+     *  done, UpdateHealth is called. 
+     * RETURNS
+     *  None
      */
     /**/
     public void DealDamage(int a_damage)
@@ -77,7 +116,25 @@ public class HealthManager : MonoBehaviour {
         }
         UpdateHealth();
     }
+    /*void DealDamage(int a_damage);*/
 
+    /**/
+    /*
+     * Heal()
+     * NAME
+     *  Heal - this entity is healed for a set amount
+     * SYNOPSIS
+     *  void Heal(int a_amountToHeal)
+     *      a_amountToHeal --> the amount of damage the current entity will heal
+     * DESCRIPTION
+     *  The currenty entity is healed for the amount specified by a_amountToHeal. If the amount healed were
+     *  to cause the current health to be greater than the max health, then the current health is set to be
+     *  equal to the max health. If this funciton were to cause the current entity to be healed above 0 health,
+     *  the entity is set to be active. UpdateHealth() is called at the end.  
+     * RETURNS
+     *  None
+     */
+    /**/
     public void Heal(int a_amountToHeal)
     {
         m_currentHealth += a_amountToHeal;
@@ -92,57 +149,122 @@ public class HealthManager : MonoBehaviour {
         }
         UpdateHealth(); 
     }
+    /*void Heal(int a_amountToHeal);*/
 
+    /**/
+    /*
+     * FullyHeal()
+     * NAME
+     *  FullyHeal - this entity is fully healed
+     * SYNOPSIS
+     *  void FullyHeal()
+     * DESCRIPTION
+     *  The currenty entity's current health is set to the max health. UpdateHealth() is called at the end. 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void FullyHeal()
     {
         m_currentHealth = m_maxHealth;
         UpdateHealth();
     }
-    // Updates the UI health bar.  
-    public void UpdateHealth()
+    /*void FullyHeal();*/
+
+    /**/
+    /*
+     * GetHealthPercentage()
+     * NAME
+     *  GetHealthPercentage - calculates the precentage of health this entity has left. 
+     * SYNOPSIS
+     *  float GetHealthPercentage()
+     * DESCRIPTION 
+     *  Retuns the amount of health left in the form of a percent in decimal form. 
+     * RETURNS
+     *  The percentage of health this entity has left.
+     */
+    /**/
+    public float GetHealthPercentage()
     {
-        m_healthBar.maxValue = m_maxHealth;
-        m_healthBar.value = m_currentHealth;
-        m_healthText.text = "HP: " + m_currentHealth + " / " + m_maxHealth;
-        float healthPercentage = (float) m_currentHealth / m_maxHealth; 
-        if (healthPercentage > 0.50)
-        {
-            //set color to green
-            m_fill.color = new Color (0, 255, 0);
-        }
-        else if (healthPercentage <= 0.25)
-        {
-            //set color to red
-            m_fill.color = new Color(255, 0, 0);
-        }
-        else
-        {
-            //set color to yellow
-            m_fill.color = new Color(250, 255, 0);
-        }
+        return (float)m_currentHealth / m_maxHealth;
     }
+    /*float GetHealthPercentage()*/
+
+    /**/
+    /* 
+     * SetMaxHealth()
+     * NAME
+     *  SetMaxHealth - setter method for m_maxHealth
+     * SYNOPSIS
+     *  void SetMaxHealth(int a_hp)
+     *      a_hp --> the value which m_maxHealth will be assigned to 
+     * DESCRIPTION
+     *  This allows the value of m_maxHealth to be changed to the value set by a_hp. 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void SetMaxHealth(int a_hp)
     {
         m_maxHealth = a_hp; 
     }
+    /*void SetMaxHealth(int a_hp);*/
 
+    /**/
+    /*
+     * SetCurrentHealth()
+     * NAME
+     *  SetCurrentHealth - setter for m_currentHealth
+     * SYNOPSIS
+     *  void SetCurrentHealth(int a_hp)
+     *      a_hp --> the value that will be assigned to m_currentHealth
+     * DESCRIPTION
+     *  This allows the private memeber value m_currentHealth to be changed to the value of a_hp. 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void SetCurrentHealth(int a_hp)
     {
         m_currentHealth = a_hp; 
     }
+    /*void SetCurrentHealth(int a_hp);*/
 
+    /**/
+    /*
+     * GetMaxHealth()
+     * NAME
+     *  GetMaxHealth - accessor for the member value m_maxHealth
+     * SYNOPSIS
+     *  int GetMaxHealth()
+     * DESCRIPTION
+     *  Allows other classes to access the private member value m_maxHealth. 
+     * RETURNS
+     *  m_maxHealth
+     */
+    /**/
     public int GetMaxHealth()
     {
         return m_maxHealth; 
     }
+    /*int GetMaxHealth();*/
 
+    /**/
+    /*
+     * GetCurrentHealth()
+     * NAME
+     *  GetCurrentHealth - accessor for the private member variable. 
+     * SYNOPSIS
+     *  int GetCurrentHealth()
+     * DESCRIPTION
+     *  Allows other classes to access the value of the private member vairable m_currentHealth. 
+     * RETURNS
+     *  m_currentHealth
+     */
+    /**/
     public int GetCurrentHealth()
     {
         return m_currentHealth; 
     }
-
-    public float GetHealthPercentage()
-    {
-        return (float) m_currentHealth / m_maxHealth;
-    }
+    /*int GetCurrentHealth();*/ 
 }

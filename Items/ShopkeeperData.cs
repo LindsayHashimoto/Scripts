@@ -22,7 +22,20 @@ public class ShopkeeperData : MonoBehaviour {
     private GameObject m_inventoryList;
     private Text m_currencyTxt;
     private Button m_buySellBtn;
-    // Use this for initialization
+
+    /**/
+    /*
+     * Start()
+     * NAME
+     *  Start - Use this for initialization
+     * SYNOPSIS
+     *  void Start()
+     * DESCRIPTION
+     *  This sets the intial values of the above memeber variables, builds the shop data and sets the interface to be not active. 
+     * RETURNS
+     *  None
+     */
+    /**/
     void Start ()
     {
         m_itemList.Add(ItemList.m_knife);
@@ -31,8 +44,6 @@ public class ShopkeeperData : MonoBehaviour {
 
         m_playerInventory = GameObject.FindGameObjectWithTag("Allies").GetComponentInChildren<Inventory>();
         
-
-
         m_smsobj = SceneManagerScript.m_sm.gameObject;
         m_inventoryMenu = m_smsobj.transform.Find("Canvas").gameObject.transform.Find("Inventory Menu").gameObject;
         m_itemDescription = m_inventoryMenu.transform.Find("Item Description Text").gameObject.GetComponent<Text>();
@@ -44,13 +55,22 @@ public class ShopkeeperData : MonoBehaviour {
         UpdateShopData();
         m_itemsToBuy.SetActive(false);
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
+    /*void Start();*/
 
+    /**/
+    /*
+     * BuildShopData()
+     * NAME
+     *  BuildShopData - build the user interface for the items that the shopkeeper sells. 
+     * SYNOPSIS
+     *  void BuildShopData()
+     * DESCRIPTION
+     *  The items that the shopkeeper sells are displayed as buttons. The buttons gain the on click listener "OnItemClick". 
+     *  How much money the player has is also displayed. 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void BuildShopData()
     {
         for (int i = 0; i < m_itemList.Count; i++)
@@ -61,7 +81,21 @@ public class ShopkeeperData : MonoBehaviour {
         }
         m_currencyTxt.text = "You have: $" + m_playerInventory.GetCurrency();
     }
+    /*public void BuildShopData();*/
 
+    /**/
+    /*
+     * UpdateShopData()
+     * NAME
+     *  UpdateShopData - the shop interface is updated
+     * SYNOPSIS
+     *  void UpdateShopData()
+     * DESCRIPTION
+     *  The shop interface is rebuilt and the active item is reset. 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void UpdateShopData()
     {
         foreach (Button button in m_itemBtns)
@@ -71,13 +105,41 @@ public class ShopkeeperData : MonoBehaviour {
         BuildShopData();
         ResetActiveItem();
     }
+    /*public void UpdateShopData();*/
 
+    /**/
+    /*
+     * ResetActiveItem()
+     * NAME
+     *  ResetActiveItem - sets the current active item to be null 
+     * SYNOPSIS
+     *  void ResetActiveItem()
+     * DESCRIPTION
+     *  The active item is set to null and the text describing the active item is set to "No Item Currently Selected.".
+     * RETURNS
+     *  None
+     */
+    /**/
     public void ResetActiveItem()
     {
         m_activeItem = null;
         m_itemDescription.text = "No Item Currently Selected.";
     }
+    /*public void ResetActiveItem();*/
 
+    /**/
+    /*
+     * OnItemClick()
+     * NAME
+     *  OnItemClick - is called when the user clicks on an item. 
+     * SYNOPSIS
+     *  void OnItemClick()
+     * DESCRIPTION
+     *  When an item is clicked, a short description of the item appears and the buy and sell button is set to be active. 
+     * RETURNS
+     *  None
+     */
+    /**/
     private void OnItemClick()
     { 
         GameObject thisButton = EventSystem.current.currentSelectedGameObject.gameObject;
@@ -106,8 +168,24 @@ public class ShopkeeperData : MonoBehaviour {
         }
         m_buySellBtn.gameObject.SetActive(true);
     }
+    /*private void OnItemClick();*/
+
+    /**/
+    /*
+     * GetActiveItem()
+     * NAME
+     *  GetActiveItem - accessor for m_activeItem
+     * SYNOPSIS
+     *  Items GetActiveItem()
+     * DESCRIPTION
+     *  Returns the current active item. 
+     * RETURNS
+     *  m_activeItem
+     */
+    /**/
     public Items GetActiveItem()
     {
         return m_activeItem; 
     }
+    /*public Items GetActiveItem();*/
 }

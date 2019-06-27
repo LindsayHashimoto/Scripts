@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    private float m_moveSpeed = 7;
+    private float m_moveSpeed;
     private float currentSpeed;
 
-    private float m_diagonalMoveModifier = 0.75f;
-    private float m_sprintModifier = 2; 
+    private float m_diagonalMoveModifier;
 
     private Animator m_anim;
     private Rigidbody2D m_rigidBody; 
@@ -20,15 +19,42 @@ public class PlayerController : MonoBehaviour {
 
     private bool m_canMove;
 
-	// Use this for initialization
-	void Start () {
+    /**/
+    /*
+     * Start()
+     * NAME
+     *  Start - Use this for initialization
+     * SYNOPSIS
+     *  void Start()
+     * DESCRIPTION
+     *  Sets inital values for the above member variables. 
+     * RETURNS
+     *  None
+     */
+    /**/
+    void Start () {
         m_canMove = true; 
         m_anim = GetComponent<Animator>();
         m_rigidBody = GetComponent<Rigidbody2D>();
+        m_diagonalMoveModifier = 0.75f;
+        m_moveSpeed = 7;
     }
-	
-	// Update is called once per frame
-	void Update () {
+    /*void Start();*/
+
+    /**/
+    /*
+     * Update()
+     * NAME 
+     *  Update - Update is called once per frame
+     * SYNOPSIS
+     *  void Update()
+     * DESCRIPTION
+     *  This takes in the movement input from the user and plays the appropriate animation. 
+     * RETURNS
+     *  None
+     */
+    /**/
+    void Update () {
         this.gameObject.SetActive(true); 
         m_playerMoving = false;
         if (!m_canMove)
@@ -72,16 +98,6 @@ public class PlayerController : MonoBehaviour {
             {
                 currentSpeed = m_moveSpeed;
             }
-            //Player is sprinting
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                currentSpeed = m_moveSpeed * m_sprintModifier;
-            }
-            //Player stopped sprinting
-            if (Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                currentSpeed = m_moveSpeed;
-            }
 
             // Game is not paused
             if (Time.timeScale > 0f)
@@ -94,24 +110,82 @@ public class PlayerController : MonoBehaviour {
             }
         }
     }
+    /*void Update();*/
 
+    /**/
+    /*
+     * GetLastMove()
+     * NAME
+     *  GetLastMove - accessor for m_lastMove
+     * SYNOPSIS
+     *  Vector2 GetLastMove()
+     * DESCRIPTION
+     *  Retuns which direction the player was moving last. 
+     * RETURNS
+     *  m_lastMove
+     */
+    /**/
     public Vector2 GetLastMove()
     {
         return m_lastMove; 
     }
+    /*public Vector2 GetLastMove();*/
 
+    /**/
+    /*
+     * GetCanMove()
+     * NAME
+     *  GetCanMove - accessor for m_canMove
+     * SYNOPSIS
+     *  bool GetCanMove()
+     * DESCRIPTION
+     *  Returns whether or not the player can move. 
+     * RETURNS
+     *  m_canMove
+     */
+    /**/
     public bool GetCanMove()
     {
         return m_canMove; 
     }
+    /*public bool GetCanMove();*/
 
+    /**/
+    /*
+     * GetAnim()
+     * NAME
+     *  GetAnim - accessor for m_anim
+     * SYNOPSIS
+     *  Animator GetAnim()
+     * DESCRIPTION
+     *  Returns the animator for the player. 
+     * RETURNS
+     *  m_anim
+     */
+    /**/
     public Animator GetAnim()
     {
         return m_anim;
     }
+    /*public Animator GetAnim();*/
 
+    /**/
+    /*
+     * SetCanMove()
+     * NAME
+     *  SetCanMove - setter for m_canMove
+     * SYNOPSIS
+     *  void SetCanMove(bool a_canMove)
+     *      a_canMove --> the value m_canMove will be set to.
+     * DESCRIPTION
+     *  Sets the value of m_canMove.
+     * RETURNS
+     *  m_canMove
+     */
+    /**/
     public void SetCanMove(bool a_canMove)
     {
         m_canMove = a_canMove; 
     }
+    /*public void SetCanMove(bool a_canMove);*/
 }
