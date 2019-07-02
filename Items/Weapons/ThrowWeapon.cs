@@ -14,17 +14,18 @@ public class ThrowWeapon : MonoBehaviour
     private Transform m_transformWeapon;
     private bool m_weaponMoving;
     private Vector2 m_movingDirection; 
-    private int weaponRange;
-    private float m_moveSpeed = 8;
+    private float m_moveSpeed;
 
     private float m_diagonalModifier = 0.75f;
 
 
-    private SpriteRenderer sr;
     private PlayerController m_playerController;
-    public ErrorMessage error;
 
-    public GameObject m_droppedWeapon;
+    private SceneManagerScript m_sm; 
+    private ErrorMessage m_error;
+    private GameObject m_droppedWeapon;
+
+    private int m_timer; 
 
     /**/
     /*
@@ -34,7 +35,7 @@ public class ThrowWeapon : MonoBehaviour
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  
+     *  This sets the inital values of the above member variables. 
      * RETURNS
      *  None
      */
@@ -52,7 +53,13 @@ public class ThrowWeapon : MonoBehaviour
         m_movingDirection.x = -1;
         m_movingDirection.y = 0;
         m_diagonalModifier = 1;
-        m_weapon.SetActive(false); 
+        m_weapon.SetActive(false);
+
+        m_moveSpeed = 8;
+        m_sm = SceneManagerScript.m_sm;
+        GameObject canvas = m_sm.transform.Find("Canvas").gameObject;
+        m_error = canvas.transform.Find("Error Message").gameObject.GetComponent<ErrorMessage>();
+        m_droppedWeapon = m_sm.transform.Find("Dropped Weapon").gameObject; 
     }
     /*void Start();*/
 
@@ -64,7 +71,11 @@ public class ThrowWeapon : MonoBehaviour
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
-     * 
+     *  This performs actions when the player presses the fire button. If there is no registgered weapon, an error message
+     *  will be displayed. If the weapon's durability is 0 or less, an error message is displayed and the inventory is 
+     *  updated. If the weapon is not already moving, the weapon will be thrown, the timer is set, and one durability is 
+     *  used up. While the game is not paused and a weapon is already moving, the timer will decrement until it reaches
+     *  zero and the weapon will be dropped.
      * RETURNS
      *  None
      */
@@ -79,7 +90,8 @@ public class ThrowWeapon : MonoBehaviour
                 //if no weapon is set, display error message
                 if (m_inventoryManager.GetRegisteredWeapon() == null)
                 {
-                    error.DisplayMessage("No Weapon Set!");
+                    m_error.DisplayMessage("No Weapon Set!");
+                    return;
                 }
                 //else, decrement the ammo counter and use the weapon
                 else
@@ -87,12 +99,15 @@ public class ThrowWeapon : MonoBehaviour
                     //if ammo counter = 0, remove weapon from inventory. Display message that the weapon broke.
                     if (m_inventoryManager.GetRegisteredWeapon().GetDurability() <= 0)
                     {
-                        error.DisplayMessage("The set weapon is out of ammo!");
+                        m_error.DisplayMessage("The set weapon is out of ammo!");
+                        m_inventoryManager.GetPlayerInventory().UpdateInventory();
+                        return;
                     }
 
                     // throw weapon
                     if (!m_weaponMoving)
                     {
+                        m_timer = 60; 
                         m_inventoryManager.GetRegisteredWeapon().RemoveDurability();
                         m_weaponMoving = true;
                         m_weapon.SetActive(true);
@@ -101,11 +116,23 @@ public class ThrowWeapon : MonoBehaviour
                         //weapon should face the direction it is heaing towards
                         SetRotation();
                         m_weaponBody.velocity = new Vector2(m_movingDirection.x * m_moveSpeed, m_movingDirection.y * m_moveSpeed) * m_diagonalModifier;
+                        m_inventoryManager.GetPlayerInventory().UpdateInventory(); 
                     }
                     else
                     {
-                        error.DisplayMessage("Can't use that yet.");
+                        m_error.DisplayMessage("Can't use that yet.");
                     }
+                }
+            }
+            if (m_weaponMoving)
+            {
+                m_timer--; 
+                if(m_timer <= 0)
+                {
+                    WeaponStop();
+                    DropWeapon();
+                    ResetWeaponPosition();
+                    m_weapon.SetActive(false); 
                 }
             }
         }
@@ -120,7 +147,7 @@ public class ThrowWeapon : MonoBehaviour
      * SYNOPSIS
      *  void DropWeapon()
      * DESCRIPTION
-     * 
+     *  This moves the weapon to be picked up to the position where the moving weapon stopped and sets it to be active.
      * RETURNS
      *  None
      */
@@ -136,19 +163,17 @@ public class ThrowWeapon : MonoBehaviour
     /*
      * WeaponStop()
      * NAME
-     *  WeaponStop - 
+     *  WeaponStop - stops a weapon that is moving
      * SYNOPSIS
      *  void WeaponStop()
      * DESCRIPTION
-     * 
+     *  The moving weapon is set to not be able to move and is set to be inactive. 
      * RETURNS
      *  None
      */
     /**/
     public void WeaponStop()
     {
-        m_movingDirection.x = -1;
-        m_movingDirection.y = 0;
         m_weaponMoving = false;
         m_weapon.SetActive(false);
     }
@@ -158,11 +183,11 @@ public class ThrowWeapon : MonoBehaviour
     /*
      * ResetWeaponPosition()
      * NAME
-     *  ResetWeaponPosition -
+     *  ResetWeaponPosition - moves the throwing weapon back to the player. 
      * SYNOPSIS
      *  void ResetWeaponPosition()
      * DESCRIPTION
-     * 
+     *  The weapon is moved to the position of the player and is set to be not active.
      * RETURNS
      *  None
      */
@@ -178,13 +203,13 @@ public class ThrowWeapon : MonoBehaviour
     /*
      * SetDirection()
      * NAME
-     *  SetDirection -
+     *  SetDirection - sets which direction the weapon is moving. 
      * SYNOPSIS
      *  void SetDirection()
      * DESCRIPTION
-     * 
+     *  This moves in the direction that the player was facing last. 
      * RETURNS
-     * 
+     *  None
      */
     /**/
     private void SetDirection()
@@ -220,18 +245,18 @@ public class ThrowWeapon : MonoBehaviour
     /*
      * SetRotation()
      * NAME
-     *  SetRotation -
+     *  SetRotation - sets which direction the weapon is facing. 
      * SYNOPSIS
      *  void SetRotation()
      * DESCRIPTION
-     * 
+     *  This first resets the rotation to be 0 degrees. Then the weapon is rotatated in the direction it will be moving in. 
      * RETURNS
      *  None
      */
     /**/
     private void SetRotation()
     {
-
+        m_transformWeapon.eulerAngles = new Vector3(0f, 0f, 0f); 
         if (m_movingDirection.x > 0.5f)
         {
             // moving up right
@@ -286,11 +311,11 @@ public class ThrowWeapon : MonoBehaviour
     /*
      * GetInventoryManager()
      * NAME
-     *  GetInventoryManager - 
+     *  GetInventoryManager - accessor for inventory manager. 
      * SYNOPSIS
      *  InventoryManager GetInventoryManager()
      * DESCRIPTION
-     * 
+     *  Returns the inventory manager class. 
      * RETURNS
      *  m_inventoryManager
      */

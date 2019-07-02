@@ -53,10 +53,10 @@ public class WeaponCollisions : MonoBehaviour
             if (a_other.gameObject.tag == "Enemy1")
             {
                 m_enemy = a_other.gameObject.GetComponent<Stats>(); 
-                a_other.gameObject.GetComponent<HealthManager>().DealDamage(CalculateThrownDamage());
                 m_throwWeapon.WeaponStop();
                 m_throwWeapon.ResetWeaponPosition();
-                this.gameObject.SetActive(false); 
+                this.gameObject.SetActive(false);
+                a_other.gameObject.GetComponent<HealthManager>().DealDamage(CalculateThrownDamage());
             }
             if (a_other.gameObject.tag == "Collision")
             {
