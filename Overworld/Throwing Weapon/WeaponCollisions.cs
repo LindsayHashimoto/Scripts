@@ -38,7 +38,7 @@ public class WeaponCollisions : MonoBehaviour
      *  void OnTriggerEnter2D(Collider2D a_other)
      *      a_other --> the object that enters this trigger. 
      * DESCRIPTION
-     *  If this item hits the enemy, the enemy takes damage and the weapon stops and is moved back to its origional position where 
+     *  If this item hits the enemy, the enemy takes damage and the weapon stops and is moved back to its original position where 
      *  it is no longer active. If the weapon hits a collision, the weapon stops and a dropped weapon object is placed at the location
      *  where the weapon stopped where it can be picked up by the player. The weapon's position is also reset and is set to be not 
      *  active. 

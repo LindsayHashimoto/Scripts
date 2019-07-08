@@ -102,7 +102,7 @@ public class ShopInfo : MonoBehaviour {
     /**/
     void Update ()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetButtonUp("Interact"))
         {
             if (m_canTalk)
             {

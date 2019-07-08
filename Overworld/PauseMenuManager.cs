@@ -57,7 +57,7 @@ public class PauseMenuManager : MonoBehaviour {
     /**/
     void Update () {
         //Pause Menu is opend by pressing Tab
-        if (Input.GetKeyUp(KeyCode.Tab))
+        if (Input.GetAxisRaw("Pause") > 0.5f)
         {
             if (!m_pauseMenu.activeSelf)
             {

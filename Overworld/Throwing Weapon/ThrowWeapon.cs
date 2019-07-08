@@ -85,7 +85,7 @@ public class ThrowWeapon : MonoBehaviour
         //If game is not paused
         if (Time.timeScale > 0f)
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetButtonUp("Fire"))
             {
                 //if no weapon is set, display error message
                 if (m_inventoryManager.GetRegisteredWeapon() == null)
