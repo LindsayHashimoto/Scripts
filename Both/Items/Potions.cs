@@ -12,6 +12,31 @@ public class Potions : Items {
      * NAME
      *  Potions - constructor for the Potions class. 
      * SYNOPSIS
+     *  Potions(Potions a_potions)
+     *      a_potions --> the member variables in this will be copied and set to this new
+     *          Potions object. 
+     * DESCRIPTION 
+     *  This sets the values of the member variables in this class and the Items class. 
+     * RETURNS 
+     *  None
+     */
+    /**/
+    public Potions(Potions a_potions)
+    {
+        m_name = a_potions.GetName();
+        m_durability = a_potions.GetDurability();
+        m_sellPrice = a_potions.GetSellPrice();
+        m_heal = a_potions.GetHeal();
+        m_isPotion = true;
+    }
+    /*public Potions(Potions a_potions);*/
+
+    /**/
+    /*
+     * Potions()
+     * NAME
+     *  Potions - constructor for the Potions class. 
+     * SYNOPSIS
      *  Potions(string a_name, int a_durability, int a_sellPrice, int a_heal)
      *      a_name --> the name of the potion
      *      a_durability --> how many more times the item can be used 

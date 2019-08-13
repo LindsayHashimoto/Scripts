@@ -24,11 +24,11 @@ public class Inventory : MonoBehaviour {
     /**/
     void Start ()
     {
-        //test data
-        m_inventory.Add(ItemList.m_knife);
+        //test data 
+        m_inventory.Add(new Weapons(ItemList.m_knife));
         //m_inventory.Add(ItemList.m_legendarySword);
-        m_inventory.Add(ItemList.m_minorPotion);
-        m_inventory.Add(ItemList.m_toySword);
+        m_inventory.Add(new Potions(ItemList.m_minorPotion));
+        m_inventory.Add(new Weapons(ItemList.m_toySword));
         m_currency = 100; 
         m_NeedToUpdate = true; 
     }
@@ -55,8 +55,15 @@ public class Inventory : MonoBehaviour {
         {
             return; 
         }
-        m_currency -= a_item.GetSellPrice(); 
-        m_inventory.Add(a_item);
+        m_currency -= a_item.GetSellPrice();
+        if (a_item.GetIsWeapon())
+        {
+            m_inventory.Add(new Weapons((Weapons)a_item));
+        }
+        else if (a_item.GetIsPotion())
+        {
+            m_inventory.Add(new Potions((Potions)a_item));
+        }
         UpdateInventory(); 
     }
     /*public void BuyItem(Items a_item)*/
@@ -104,7 +111,14 @@ public class Inventory : MonoBehaviour {
     {
         for(int i = 1; i <= a_amountToAdd; i++)
         {
-            m_inventory.Add(a_item); 
+            if (a_item.GetIsWeapon())
+            {
+                m_inventory.Add(new Weapons((Weapons)a_item));
+            }
+            else if (a_item.GetIsPotion())
+            {
+                m_inventory.Add(new Potions((Potions)a_item));
+            } 
         }
         UpdateInventory();
     }
@@ -147,15 +161,13 @@ public class Inventory : MonoBehaviour {
     /**/
     public void UpdateInventory()
     {
-        List<Items> newList = new List<Items>();
         foreach (Items item in m_inventory)
         {
-            if (item.GetDurability() > 0)
+            if (item.GetDurability() <= 0)
             {
-                newList.Add(item);
+                m_inventory.Remove(item);
             }
         }
-        m_inventory = newList;
         m_NeedToUpdate = true; 
     }
     /*public void UpdateInventory();*/

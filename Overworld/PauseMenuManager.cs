@@ -8,9 +8,11 @@ public class PauseMenuManager : MonoBehaviour {
     private GameObject m_pauseMenu; 
 
     private GameObject m_inventoryObj; 
-    private Button m_inventoryBtn;
 
+    private Button m_inventoryBtn;
     private Button m_closeBtn;
+
+    private bool m_canPause; 
 
     private GameObject m_inventoryList;
 
@@ -39,6 +41,7 @@ public class PauseMenuManager : MonoBehaviour {
         m_inventoryList = m_inventoryObj.transform.Find("Inventory List").gameObject; 
         m_pauseMenu.SetActive(false);
         m_inventoryObj.SetActive(false);
+        m_canPause = true; 
     }
     /*void Start();*/
 
@@ -57,12 +60,15 @@ public class PauseMenuManager : MonoBehaviour {
     /**/
     void Update () {
         //Pause Menu is opend by pressing Tab
-        if (Input.GetAxisRaw("Pause") > 0.5f)
+        if (m_canPause)
         {
-            if (!m_pauseMenu.activeSelf)
+            if (Input.GetButtonDown("Pause"))
             {
-                m_pauseMenu.SetActive(true);
-                Time.timeScale = 0f;
+                if (!m_pauseMenu.activeSelf)
+                {
+                    m_pauseMenu.SetActive(true);
+                    Time.timeScale = 0f;
+                }
             }
         }
     }
@@ -107,4 +113,43 @@ public class PauseMenuManager : MonoBehaviour {
         Time.timeScale = 1f;
     }
     /*private void ClosePauseMenu();*/
+
+    /**/
+    /*
+     * SetCanPause()
+     * NAME
+     *  SetCanPause - sets the value of m_canPause
+     * SYNOPSIS
+     *  void SetCanPause(bool a_canPause)
+     *      a_canPause --> the value m_canPause will be set to 
+     * DESCRIPTION
+     *  Sets the value of the member variable m_canPause to a_canPause. 
+     * RETURNS
+     *  None
+     */
+    /**/
+    public void SetCanPause(bool a_canPause)
+    {
+        m_canPause = a_canPause; 
+    }
+    /*public void SetCanPause(bool a_canPause);*/
+
+    /**/
+    /*
+     * GetCanPause()
+     * NAME
+     *  GetCanPause - returns the value of m_canPause
+     * SYNOPSIS
+     *  void GetCanPause()
+     * DESCRIPTION
+     *  This returns the value of m_canPause. 
+     * RETURNS
+     *  m_canPause
+     */
+    /**/
+    public bool GetCanPause()
+    {
+        return m_canPause; 
+    }
+    /*public bool GetCanPause();*/
 }

@@ -69,7 +69,6 @@ public class Stats : MonoBehaviour {
     /**/
     public void LevelUp(ExplinationText a_exTxt = null)
     {
-        
         m_level++;
         m_healthManager.SetMaxHealth(m_healthManager.GetMaxHealth() + 1);
         m_healthManager.Heal(1); 

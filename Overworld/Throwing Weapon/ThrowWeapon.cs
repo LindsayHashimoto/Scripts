@@ -9,11 +9,11 @@ public class ThrowWeapon : MonoBehaviour
 
     private InventoryManager m_inventoryManager;
 
-    private GameObject m_weapon; 
+    private GameObject m_weapon;
     private Rigidbody2D m_weaponBody;
     private Transform m_transformWeapon;
     private bool m_weaponMoving;
-    private Vector2 m_movingDirection; 
+    private Vector2 m_movingDirection;
     private float m_moveSpeed;
 
     private float m_diagonalModifier = 0.75f;
@@ -21,11 +21,13 @@ public class ThrowWeapon : MonoBehaviour
 
     private PlayerController m_playerController;
 
-    private SceneManagerScript m_sm; 
+    private SceneManagerScript m_sm;
     private ErrorMessage m_error;
     private GameObject m_droppedWeapon;
 
-    private int m_timer; 
+    private float m_timer;
+
+    private Weapons m_thrownWeapon;
 
     /**/
     /*
@@ -45,7 +47,7 @@ public class ThrowWeapon : MonoBehaviour
         m_inventoryManager = FindObjectOfType<InventoryManager>();
         m_playerController = FindObjectOfType<PlayerController>();
 
-        m_weapon = GameObject.FindGameObjectWithTag("Player's Weapon"); 
+        m_weapon = GameObject.FindGameObjectWithTag("Player's Weapon");
 
         m_weaponMoving = false;
         m_weaponBody = m_weapon.GetComponent<Rigidbody2D>();
@@ -59,7 +61,7 @@ public class ThrowWeapon : MonoBehaviour
         m_sm = SceneManagerScript.m_sm;
         GameObject canvas = m_sm.transform.Find("Canvas").gameObject;
         m_error = canvas.transform.Find("Error Message").gameObject.GetComponent<ErrorMessage>();
-        m_droppedWeapon = m_sm.transform.Find("Dropped Weapon").gameObject; 
+        m_droppedWeapon = m_sm.transform.Find("Dropped Weapon").gameObject;
     }
     /*void Start();*/
 
@@ -101,13 +103,15 @@ public class ThrowWeapon : MonoBehaviour
                     {
                         m_error.DisplayMessage("The set weapon is out of ammo!");
                         m_inventoryManager.GetPlayerInventory().UpdateInventory();
+                        m_inventoryManager.ResetRegisteredWeapon(); 
                         return;
                     }
 
                     // throw weapon
                     if (!m_weaponMoving)
                     {
-                        m_timer = 60; 
+                        m_thrownWeapon = m_inventoryManager.GetRegisteredWeapon();
+                        m_timer = 3;
                         m_inventoryManager.GetRegisteredWeapon().RemoveDurability();
                         m_weaponMoving = true;
                         m_weapon.SetActive(true);
@@ -116,7 +120,7 @@ public class ThrowWeapon : MonoBehaviour
                         //weapon should face the direction it is heaing towards
                         SetRotation();
                         m_weaponBody.velocity = new Vector2(m_movingDirection.x * m_moveSpeed, m_movingDirection.y * m_moveSpeed) * m_diagonalModifier;
-                        m_inventoryManager.GetPlayerInventory().UpdateInventory(); 
+                        m_inventoryManager.GetPlayerInventory().UpdateInventory();
                     }
                     else
                     {
@@ -126,13 +130,13 @@ public class ThrowWeapon : MonoBehaviour
             }
             if (m_weaponMoving)
             {
-                m_timer--; 
-                if(m_timer <= 0)
+                m_timer -= Time.deltaTime;
+                if (m_timer <= 0)
                 {
                     WeaponStop();
                     DropWeapon();
                     ResetWeaponPosition();
-                    m_weapon.SetActive(false); 
+                    m_weapon.SetActive(false);
                 }
             }
         }
@@ -156,6 +160,7 @@ public class ThrowWeapon : MonoBehaviour
     {
         m_droppedWeapon.transform.position = m_transformWeapon.position;
         m_droppedWeapon.SetActive(true);
+        m_droppedWeapon.GetComponent<PickUpWeapon>().SetPickedUpWeapon(m_thrownWeapon);
     }
     /*public void DropWeapon();*/
 
@@ -256,7 +261,7 @@ public class ThrowWeapon : MonoBehaviour
     /**/
     private void SetRotation()
     {
-        m_transformWeapon.eulerAngles = new Vector3(0f, 0f, 0f); 
+        m_transformWeapon.eulerAngles = new Vector3(0f, 0f, 0f);
         if (m_movingDirection.x > 0.5f)
         {
             // moving up right
@@ -322,7 +327,12 @@ public class ThrowWeapon : MonoBehaviour
     /**/
     public InventoryManager GetInventoryManager()
     {
-        return m_inventoryManager; 
+        return m_inventoryManager;
     }
     /*public InventoryManager GetInventoryManager();*/
+
+    public Weapons GetThrownWeapon()
+    {
+        return m_thrownWeapon; 
+    }
 }

@@ -34,7 +34,7 @@ public class HealthManager : MonoBehaviour {
         m_healthBar.maxValue = m_maxHealth;
         m_healthBar.value = m_currentHealth;
         m_healthText.text = "HP: " + m_currentHealth + " / " + m_maxHealth;
-        float healthPercentage = (float)m_currentHealth / m_maxHealth;
+        float healthPercentage = GetHealthPercentage(); 
         if (healthPercentage > 0.50)
         {
             //set color to green
@@ -167,6 +167,7 @@ public class HealthManager : MonoBehaviour {
     public void FullyHeal()
     {
         m_currentHealth = m_maxHealth;
+        gameObject.SetActive(true);
         UpdateHealth();
     }
     /*void FullyHeal();*/

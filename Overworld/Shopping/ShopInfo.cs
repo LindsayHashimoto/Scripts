@@ -27,10 +27,12 @@ public class ShopInfo : MonoBehaviour {
     private InventoryManager m_invMan;
     private GameObject m_inventoryMenu; 
     private GameObject m_inventoryList;
+    private PauseMenuManager m_pmm; 
 
     private Button m_useBtn;
     private Button m_registerBtn;
     private Button m_buySellBtn;
+    private Button m_cancelBtn; 
 
     /**/
     /*
@@ -66,6 +68,8 @@ public class ShopInfo : MonoBehaviour {
         m_buySellBtn = m_inventoryMenu.transform.Find("Buy and Sell Button").gameObject.GetComponent<Button>();
         m_playerInventory = m_smsobj.transform.Find("Allies").GetComponentInChildren<Inventory>();
         m_invMan = m_inventoryMenu.GetComponentInChildren<InventoryManager>(true); 
+        m_cancelBtn = m_inventoryMenu.transform.Find("Cancel").gameObject.GetComponent<Button>();
+        m_pmm = m_smsobj.GetComponentInChildren<PauseMenuManager>(); 
 
 
         m_shopMenuBtns.SetActive(false); 
@@ -106,6 +110,7 @@ public class ShopInfo : MonoBehaviour {
         {
             if (m_canTalk)
             {
+                m_explinationText.SetMessage("Shopkeeper: Hello and welcome to my shop!");
                 m_greetingIsActive = true; 
                 m_canTalk = false; 
             }
@@ -116,7 +121,9 @@ public class ShopInfo : MonoBehaviour {
                 m_inventoryMenu.SetActive(true); 
                 m_shopMenuBtns.SetActive(true); 
                 m_explinationText.gameObject.SetActive(false);
+                m_cancelBtn.gameObject.SetActive(false);
                 m_greetingIsActive = false;
+                m_pmm.SetCanPause(false);
                 Time.timeScale = 0f;
             }
             else if (m_goodbyeIsActive)
@@ -125,6 +132,8 @@ public class ShopInfo : MonoBehaviour {
                 m_explinationText.gameObject.SetActive(false);
                 m_goodbyeIsActive = false;
                 m_canTalk = true;
+                m_cancelBtn.gameObject.SetActive(true);
+                m_pmm.SetCanPause(true);
                 Time.timeScale = 1f; 
             }
         }
@@ -132,6 +141,7 @@ public class ShopInfo : MonoBehaviour {
         {
             m_useBtn.gameObject.SetActive(false);
             m_registerBtn.gameObject.SetActive(false);
+            m_pmm.SetCanPause(false); 
         }
     }
     /*void Update();*/
@@ -157,30 +167,6 @@ public class ShopInfo : MonoBehaviour {
     }
     /*private void SetListeners();*/
 
-    /**/
-    /*
-     * OnTriggerStay2D()
-     * NAME
-     *  OnTriggerStay2D - perform action when an object is staying in the trigger. 
-     * SYNOPSIS
-     *  void OnTriggerStay2D(Collider2D a_other)
-     *      a_other --> the object that is in the trigger
-     * DESCRIPTION  
-     *  When the player presses the space bar while in this trigger, the player intearacts with the shopkeeper.
-     * RETURNS
-     *  None
-     */
-    /**/
-    private void OnTriggerStay2D(Collider2D a_other)
-    {
-        if (a_other.gameObject.name == "Player")
-        {
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                m_explinationText.SetMessage("Blacksmith: Hello and welcome to my shop!");
-            }
-        }
-    }
     /*private void OnTriggerStay2D(Collider2D other);*/
 
     /**/
@@ -247,6 +233,7 @@ public class ShopInfo : MonoBehaviour {
     {
         m_itemsToBuy.SetActive(true);
         m_inventoryList.SetActive(false);
+        m_shopData.UpdateShopData(); 
 
         m_buySellBtn.gameObject.GetComponentInChildren<Text>().text = "Buy Item";
         m_buySellBtn.onClick.RemoveAllListeners();
@@ -301,7 +288,7 @@ public class ShopInfo : MonoBehaviour {
         m_inventoryMenu.SetActive(false); 
         m_itemsToBuy.SetActive(false); 
         m_shopMenuBtns.SetActive(false); 
-        m_explinationText.SetMessage("Blacksmith: Thank you! Come again!");
+        m_explinationText.SetMessage("Shopkeeper: Thank you! Come again!");
         m_goodbyeIsActive = true; 
     }
     /*void OnExitClick();*/

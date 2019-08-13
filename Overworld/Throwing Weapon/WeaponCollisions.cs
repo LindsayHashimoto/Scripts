@@ -8,6 +8,7 @@ public class WeaponCollisions : MonoBehaviour
     private ThrowWeapon m_throwWeapon;
     private Stats m_player;
     private Stats m_enemy;
+    private Weapons m_registeredWeapon; 
 
     /**/
     /*
@@ -85,7 +86,7 @@ public class WeaponCollisions : MonoBehaviour
     /**/
     private int CalculateThrownDamage()
     {
-        int damage = m_throwWeapon.GetInventoryManager().GetRegisteredWeapon().GetDamage();
+        int damage = m_throwWeapon.GetThrownWeapon().GetDamage();
         damage += m_player.m_atk - m_enemy.m_def;
         if (damage < 1)
             damage = 1;

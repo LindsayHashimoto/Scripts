@@ -54,6 +54,8 @@ public class FollowerController : MonoBehaviour {
      *  is facing and whether or not they are currently moving. 
      * RETURNS
      *  None
+     * SOURCE 
+     *  https://answers.unity.com/questions/607100/how-to-make-an-ai-to-follow-the-player-in-2d-c.html
      */
     /**/
     void Update()

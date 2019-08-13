@@ -6,7 +6,7 @@ public class EnemyBehavior : MonoBehaviour {
 
     public Transform m_player;
 
-    public float m_runSpeed;
+    private float m_runSpeed;
 
     private bool m_canMove; 
     private bool m_chasingPlayer;
@@ -31,6 +31,7 @@ public class EnemyBehavior : MonoBehaviour {
     void Start ()
     {
         m_anim = GetComponent<Animator>();
+        m_runSpeed = 10; 
         m_canMove = true; 
 	}
     /*void Start();*/

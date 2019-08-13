@@ -196,6 +196,24 @@ public class InventoryManager : MonoBehaviour {
 
     /**/
     /*
+     * ResetRegisteredWeapon()
+     * NAME
+     *  ResetRegisteredWeapon - resets the current registered weapon
+     * SYNOPSIS
+     *  void ResetRegisteredWeapon()
+     * DESCRIPTION
+     *  m_registeredWeapon is set to null. 
+     * RETURNS
+     *  None
+    /**/
+    public void ResetRegisteredWeapon()
+    {
+        m_registeredWeapon = null; 
+    }
+    /*public void ResetRegisteredWeapon();*/
+
+    /**/
+    /*
      * OnItemClick()
      * NAME
      *  OnItemClick - is called when the user clicks on an item button. 
@@ -212,15 +230,16 @@ public class InventoryManager : MonoBehaviour {
     {
         //https://answers.unity.com/questions/828666/46-how-to-get-name-of-button-that-was-clicked.html
         GameObject thisButton = EventSystem.current.currentSelectedGameObject.gameObject;
-        string itemName = thisButton.GetComponentInChildren<Text>().text;
         m_registerBtn.gameObject.SetActive(false);
-        foreach (Items item in m_playerInventory.GetInventory())
+        int index = 0; 
+        foreach (Button button in m_inventoryBtns)
         {
-            if (itemName == item.GetName())
+            if (button.gameObject == thisButton)
             {
-                m_activeItem = item;
+                m_activeItem = m_playerInventory.GetInventory()[index]; 
                 break;
             }
+            index++; 
         }
 
         if (m_activeItem.GetIsWeapon())

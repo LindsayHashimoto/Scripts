@@ -14,6 +14,33 @@ public class Weapons : Items {
      * NAME
      *  Weapons - constructor of a weapon. 
      * SYNOPSIS
+     *  Weapons(Weapons a_weapons)
+     *      a_weapons --> this is the weapons object that will be copied to this new object.
+     * DESCRIPTION
+     *  This is the constructor for the Weapons class. This sets the values of the member variables in this class and the 
+     *  parent class: Items. 
+     * RETURNS
+     *  None
+     */
+    /**/
+    public Weapons(Weapons a_weapons)
+    {
+        m_name = a_weapons.GetName();
+        m_durability = a_weapons.GetDurability();
+        m_sellPrice = a_weapons.GetSellPrice();
+        m_damage = a_weapons.GetDamage();
+        m_accuracy = a_weapons.GetAccuracy();
+        m_isThrowable = a_weapons.GetIsThrowable();
+        m_isWeapon = true;
+    }
+    /*public Weapons(Weapons a_weapons);*/
+
+    /**/
+    /*
+     * Weapons()
+     * NAME
+     *  Weapons - constructor of a weapon. 
+     * SYNOPSIS
      *  Weapons(string a_name, int a_durability, int a_sellPrice, int a_damage, int a_accuracy, bool a_isThrowable)
      *      a_name --> the name of the weapon. 
      *      a_durability --> how many times a weapon can be used before being destroyed. 

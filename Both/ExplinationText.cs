@@ -8,6 +8,9 @@ public class ExplinationText : MonoBehaviour {
     private Text m_messageBox;
     private List<string> m_awaitingMessages = new List<string>();
 
+    private GameObject m_sms;
+    private PauseMenuManager m_pmm; 
+
     /**/
     /*
      * Start()
@@ -16,13 +19,16 @@ public class ExplinationText : MonoBehaviour {
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  This sets the inital value for m_messageBox and sets it to be initally not active. 
+     *  This sets the inital values for m_pmm and m_messageBox and sets it to be initally not active. 
      * RETURNS
      *  None
      */
     /**/
     void Start()
     {
+        m_sms = SceneManagerScript.m_sm.gameObject;
+        m_pmm = m_sms.GetComponentInChildren<PauseMenuManager>();
+
         m_messageBox = GetComponentInChildren<Text>();
         this.gameObject.SetActive(false); 
     }
@@ -46,10 +52,10 @@ public class ExplinationText : MonoBehaviour {
     /**/
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("Interact"))
         {
             if (this.gameObject.activeSelf)
-            {
+            { 
                 if (m_awaitingMessages.Count > 0)
                 {
                     m_messageBox.text = m_awaitingMessages[0];
@@ -59,6 +65,7 @@ public class ExplinationText : MonoBehaviour {
                 {
                     this.gameObject.SetActive(false);
                     Time.timeScale = 1f;
+                    m_pmm.SetCanPause(true);
                 }
             }
         }
@@ -75,7 +82,7 @@ public class ExplinationText : MonoBehaviour {
      *      a_message --> the message that will be shown to the user. 
      * DESCRIPTION
      *  If this gameobject is not active, the message text is set to be the sent message, the message box appears and the game is
-     *  paused. If the message box is already active, the message is added to the awaitingMessages list. 
+     *  paused and the pause menu is disabled. If the message box is already active, the message is added to the awaitingMessages list. 
      * RETURNS
      *  None
      */
@@ -90,7 +97,8 @@ public class ExplinationText : MonoBehaviour {
         {
             m_messageBox.text = a_message;
             this.gameObject.SetActive(true);
-            Time.timeScale = 0f; 
+            Time.timeScale = 0f;
+            m_pmm.SetCanPause(false);
         }
 
     }

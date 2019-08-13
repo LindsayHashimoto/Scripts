@@ -33,6 +33,7 @@ public class CombatManager : MonoBehaviour {
 
     private GameObject m_smsobj;
     private SceneManagerScript m_sms;
+    private PauseMenuManager m_pmm; 
 
     private Thread m_thread;
     private int m_sceneID;
@@ -60,7 +61,8 @@ public class CombatManager : MonoBehaviour {
         m_backBtn = GameObject.FindGameObjectWithTag("BackBtn").GetComponent<Button>();
 
         m_smsobj = SceneManagerScript.m_sm.gameObject;
-        m_sms = m_smsobj.GetComponent<SceneManagerScript>(); 
+        m_sms = m_smsobj.GetComponent<SceneManagerScript>();
+        m_pmm = m_smsobj.GetComponentInChildren<PauseMenuManager>();
 
         m_inventoryManager = m_smsobj.GetComponentInChildren<InventoryManager>(true);
         Button[] btns = m_inventoryManager.gameObject.GetComponentsInChildren<Button>(true);
@@ -106,7 +108,7 @@ public class CombatManager : MonoBehaviour {
      *  void Update()
      * DESCRIPTION
      *  This waits for the thread, which will run ChangeScenesWhenDialogEnds(), to end. When it does end, the new scene
-     *  is loaded.
+     *  is loaded and the user can open the pause menu again. Each frame, the player is set to be unable to pause. 
      * RETURNS
      *  None
      */
@@ -117,9 +119,11 @@ public class CombatManager : MonoBehaviour {
         {
             if (m_thread.ThreadState == ThreadState.Stopped)
             {
+                m_pmm.SetCanPause(true);
                 SceneManager.LoadScene(m_sceneID);
             }
         }
+        m_pmm.SetCanPause(false);
     }
     /*void Update();*/
 
@@ -159,7 +163,8 @@ public class CombatManager : MonoBehaviour {
      *  This funciton initally finds all entities that are allies and enemies separately and puts them in the 
      *  member arrays: m_players and m_enemies. These two arrays are combined into the m_turnOrder array. The text
      *  data from m_turnOrder is then placed in the m_turnOrderUI array that will later be used to show the user
-     *  the turn order and which entity is currently able to act. 
+     *  the turn order and which entity is currently able to act. The sight distance for the first enemy is also 
+     *  set to be inactive to allow the user to be able to select him for a target. 
      * RETURNS 
      *  None
      */
@@ -170,6 +175,7 @@ public class CombatManager : MonoBehaviour {
         m_enemies = SceneManagerScript.m_sm.transform.Find("Enemies").GetComponentsInChildren<Stats>(true);
         m_turnOrder = new Stats[m_players.Length + m_enemies.Length];
 
+        m_enemies[0].GetComponentInChildren<CircleCollider2D>().gameObject.SetActive(false); 
         int index = 0;
         foreach (Stats player in m_players)
         {
@@ -378,6 +384,7 @@ public class CombatManager : MonoBehaviour {
             }
         //move onto next enitity if current is dead. 
         } while (m_turnOrder[m_currentTurn].GetHealthManager().m_currentHealth <= 0);
+
         m_turnOrderUI[m_currentTurn].GetComponent<Text>().text = m_turnOrder[m_currentTurn].m_entityName + ": " + m_turnOrder[m_currentTurn].m_initiative + "<";
         if (!m_turnOrder[m_currentTurn].m_isEnemy)
         {
@@ -705,6 +712,7 @@ public class CombatManager : MonoBehaviour {
         foreach (Stats enemy in m_enemies)
         {
             totalEnemyLevel += enemy.m_level;
+            enemy.NoLongerTurn();
         }
         prizeMoney = 10 * totalEnemyLevel;
         m_inventoryManager.GetPlayerInventory().RecieveCurrency(prizeMoney);
@@ -722,6 +730,7 @@ public class CombatManager : MonoBehaviour {
                 fc.SetCanMove(true);
             }
             player.gameObject.SetActive(true);
+            player.NoLongerTurn();
         }
         m_sceneID = m_sms.GetLastSceneID();
         m_thread = new Thread(ChangeScenesWhenDialogEnds);
@@ -762,7 +771,9 @@ public class CombatManager : MonoBehaviour {
             }
             player.gameObject.SetActive(true);
             player.GetHealthManager().FullyHeal();
+            player.NoLongerTurn(); 
         }
+        m_enemies[0].GetComponentInChildren<CircleCollider2D>(true).gameObject.SetActive(true);
         m_sceneID = 0;
         m_thread = new Thread(ChangeScenesWhenDialogEnds);
         m_thread.Start();

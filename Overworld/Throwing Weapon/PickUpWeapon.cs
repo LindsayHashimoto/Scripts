@@ -6,6 +6,7 @@ public class PickUpWeapon : MonoBehaviour {
     private InventoryManager m_inventoryManager;
     private ExplinationText m_exTxt;
     private SceneManagerScript m_sm;
+    private Weapons m_pickedUpWeapon; 
 
     /**/
     /*
@@ -49,17 +50,25 @@ public class PickUpWeapon : MonoBehaviour {
     {
         if(a_other.tag == "Player")
         {
-            Inventory playerInventory = m_inventoryManager.GetPlayerInventory();
-            Weapons registeredWeapon = m_inventoryManager.GetRegisteredWeapon();
-            registeredWeapon.SetDurability(registeredWeapon.GetDurability() + 1);
-            if (registeredWeapon.GetDurability() == 1)
+            Inventory playerInventory = m_inventoryManager.GetPlayerInventory(); 
+            if (m_pickedUpWeapon.GetDurability() == 0)
             {
-                playerInventory.AddItems(registeredWeapon, 1);
+                m_pickedUpWeapon.SetDurability(1); 
+                playerInventory.AddItems(m_pickedUpWeapon, 1);
+            }
+            else
+            {
+                m_pickedUpWeapon.SetDurability(m_pickedUpWeapon.GetDurability() + 1);
             }
             playerInventory.UpdateInventory();            
             this.gameObject.SetActive(false);
-            m_exTxt.SetMessage("You picked up the " + registeredWeapon.GetName());
+            m_exTxt.SetMessage("You picked up the " + m_pickedUpWeapon.GetName());
         }
     }
     /*private void OnTriggerEnter2D(Collider2D a_other);*/
+
+    public void SetPickedUpWeapon(Weapons a_pickedUpWeapon)
+    {
+        m_pickedUpWeapon = a_pickedUpWeapon; 
+    }
 }

@@ -52,6 +52,8 @@ public class PlayerController : MonoBehaviour {
      *  This takes in the movement input from the user and plays the appropriate animation. 
      * RETURNS
      *  None
+     * SOURCE
+     *  https://www.youtube.com/playlist?list=PLiyfvmtjWC_X6e0EYLPczO9tNCkm2dzkm
      */
     /**/
     void Update () {
