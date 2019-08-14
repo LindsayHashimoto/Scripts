@@ -26,7 +26,7 @@ public class Stats : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
@@ -54,10 +54,10 @@ public class Stats : MonoBehaviour {
     /*
      * LevelUp()
      * NAME
-     *  LevelUp - makes the player stronger
+     *  LevelUp - makes the player stronger.
      * SYNOPSIS
      *  void LevelUp(ExplinationText a_exTxt = null)
-     *      a_exTxt --> the class that allows the program to send messages to the user
+     *      a_exTxt --> the class that allows the program to send messages to the user.
      * DESCIPTION
      *  When the player gets 100 experience points, they will level up and this will be called. This function 
      *  makes the player slightly more powerful by increasing thier level, max health, current health, attack 
@@ -85,11 +85,11 @@ public class Stats : MonoBehaviour {
     /*
      * GainExp()
      * NAME 
-     *  GainExp - player gains experience by a specified amount
+     *  GainExp - the player's experience increases by a specified amount.
      * SYNOPSIS
      *  void GainExp(int a_exp, ExplinationText a_exTxt = null)
-     *      a_exp --> the amount of experience that will be added
-     *      a_exTxt --> the class that sends messages to the user
+     *      a_exp --> the amount of experience that will be added.
+     *      a_exTxt --> the class that sends messages to the user.
      * DESCRIPTION
      *  The player gains experience specified by a_exp. If this were to cause the player to gain
      *  more than 100 experience, the player will level up and the experience number is reduced 
@@ -114,7 +114,7 @@ public class Stats : MonoBehaviour {
     /*
      * GenerateInitiative()
      * NAME
-     *  GenerateInititative - generate a number that will determine the turn order in combat.
+     *  GenerateInititative - generates a number that will determine the turn order in combat.
      * SYNOPSIS
      *  void GenerateInitiative()
      * DESCRIPTION
@@ -134,11 +134,11 @@ public class Stats : MonoBehaviour {
     /*
      * OnCurrentTurn()
      * NAME
-     *  OnCurrentTurn - makes the entity glow green if it is currently their turn
+     *  OnCurrentTurn - makes the entity glow green if it is currently their turn.
      * SYNOPSIS
      *  void OnCurrentTurn()
      * DESCRIPTION
-     *  This is called when the current entity's turn starts. This fuction makes the current
+     *  This is called when the current entity's turn starts. This function makes the current
      *  entity glow green and sets m_currentTurn to be true. 
      * RETURNS 
      *  None
@@ -156,7 +156,7 @@ public class Stats : MonoBehaviour {
     /*
      * NoLongerTurn()
      * NAME
-     *  NoLongerTurn - performs action when it is no longer the current entity's turn
+     *  NoLongerTurn - performs actions when it is no longer the current entity's turn
      * SYNOPSIS
      *  void NoLongerTurn()
      * DESCRIPTION
@@ -178,11 +178,11 @@ public class Stats : MonoBehaviour {
     /*
      * OnMouseOver()
      * NAME
-     *  OnMouseOver - makes the current entity light up when the user hovers over it
+     *  OnMouseOver - makes the current entity light up when the user hovers over it.
      * SYNOPSIS
      *  void OnMouseOver()
      * DESCRIPTION
-     *  This is called whenever the user hovers thier mouse over the current entity. When they do this, the 
+     *  This is called whenever the user hovers their mouse over the current entity. When they do this, the 
      *  current entity's yellow highlight becomes visible.  
      * RETURNS
      *  None
@@ -201,7 +201,7 @@ public class Stats : MonoBehaviour {
     /*
      * OnMouseExit()
      * NAME
-     *  OnMouseExit - performs action when the user's mouse exits an entity
+     *  OnMouseExit - performs actions when the user's mouse exits an entity.
      * SYNOPSIS
      *  void OnMouseExit()
      * DESCRIPTION
@@ -224,7 +224,7 @@ public class Stats : MonoBehaviour {
     /*
      * OnMouseDown()
      * NAME
-     *  OnMouseDown - performs action when the user clicks on the entity
+     *  OnMouseDown - performs actions when the user clicks on the entity.
      * SYNOPSIS
      *  void OnMouseDown()
      * DESCRIPTION
@@ -246,7 +246,7 @@ public class Stats : MonoBehaviour {
     /*
      * GetHealthManager()
      * NAME
-     *  GetHealthManager - accessor for m_healthManager
+     *  GetHealthManager - accessor for m_healthManager.
      * SYNOPSIS
      *  HealthManager GetHealthManager()
      * DESCRIPTION

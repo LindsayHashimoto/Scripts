@@ -38,7 +38,7 @@ public class ShopInfo : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
@@ -91,15 +91,16 @@ public class ShopInfo : MonoBehaviour {
     /*
      * Update()
      * NAME 
-     *  Update - Update is called once per frame
+     *  Update - Update is called once per frame.
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
-     *  This handles what happens when the user presses the space bar. If the player is able to talk to the shopowner, the shopowner
-     *  will greet the player. When the greeting is active and the player pushes the space bar again, the game pauses and makes the 
-     *  shop interface appear. When the player exits the shop, the shopkeeper says a goodbye statement. When this is active and the 
-     *  player presses the space bar agaian, the game is no longer paused. If the shop menu is open, the use and register buttons 
-     *  should not be interactable. 
+     *  This handles what happens when the user presses the interact key. If the player is able to talk to the 
+     *  shopowner, the shopowner will greet the player. When the greeting is active and the player pushes the
+     *  interact key again, the game pauses and makes the shop interface appear. When the player exits the shop, 
+     *  the shopkeeper says a goodbye statement. When this is active and the player presses the interact key again, 
+     *  the game is no longer paused. If the shop menu is open, the use and register buttons should not be 
+     *  interactable. 
      * RETURNS
      *  None
      */
@@ -154,7 +155,7 @@ public class ShopInfo : MonoBehaviour {
      * SYNOPSIS
      *  void SetListeners()
      * DESCRIPTION
-     *  This funciton sets up the on click listeners for the shopkeeper menu. 
+     *  This function sets up the on click listeners for the shopkeeper menu. 
      * RETURNS
      *  None
      */
@@ -173,10 +174,10 @@ public class ShopInfo : MonoBehaviour {
     /*
      * OnTriggerEnter2D()
      * NAME
-     *  OnTriggerEnter2D - perform action when an object enters this trigger. 
+     *  OnTriggerEnter2D - perform actions when an object enters this trigger. 
      * SYNOPSIS
      *  void OnTriggerEnter2D(Collider2D a_other)
-     *      a_other --> the objected that entered this trigger. 
+     *      a_other --> the object that entered this trigger. 
      * DESCRIPTION
      *  When the player enters this trigger, the player should be able to talk to the shopkeeper. 
      * RETURNS
@@ -196,7 +197,7 @@ public class ShopInfo : MonoBehaviour {
     /*
      * OnTriggerExit2D()
      * NAME
-     *  OnTriggerExit2D - perform action when an object exits the trigger. 
+     *  OnTriggerExit2D - perform actions when an object exits the trigger. 
      * SYNOPSIS
      *  void OnTriggerExit2D(Collider2D a_other)
      *      a_other --> the object leaving this trigger. 
@@ -223,8 +224,9 @@ public class ShopInfo : MonoBehaviour {
      * SYNOPSIS
      *  void OnBuyClick()
      * DESCRIPTION
-     *  When the player clicks on this button, the list of purchasable items appears to the user. The buying and selling 
-     *  button's text changes to "Buy Item" and when the user clicks this button, they will purchase the selected item. 
+     *  When the player clicks on this button, the list of purchasable items appears to the user. The buying and 
+     *  selling   button's text changes to "Buy Item" and when the user clicks this button, they will purchase 
+     *  the selected item. 
      * RETURNS 
      *  None
      */
@@ -250,8 +252,8 @@ public class ShopInfo : MonoBehaviour {
      * SYNOPSIS
      *  void OnSellClick()
      * DESCRIPTION
-     *  When this button is clicked, the player's inventory appears. The buy and sell button's text changes to "Sell Item" and 
-     *  when the user clicks on that button, the player will sell the selected item. 
+     *  When this button is clicked, the player's inventory appears. The buy and sell button's text changes to 
+     *  "Sell Item" and when the user clicks on that button, the player will sell the selected item. 
      * RETURNS
      *  None
      */
@@ -277,7 +279,8 @@ public class ShopInfo : MonoBehaviour {
      * SYNOPSIS
      *  void OnExitClick()
      * DESCRIPTION
-     *  When the user clicks this button, the shopping interface becomes inactive and the shopkeeper says a "goodbye" message. 
+     *  When the user clicks this button, the shopping interface becomes inactive and the shopkeeper says a
+     *  "goodbye" message. 
      * RETURNS
      *  None
      */

@@ -21,7 +21,7 @@ public class HealthManager : MonoBehaviour {
      * SYNOPSIS
      *  void UpdateHealth()
      * DESCRIPTION
-     *  This fucntion is called whenever the UI health bar element needs to be updated. This makes the member values:
+     *  This fucntion is called whenever the UI health bar element needs to be updated. This makes the member variables:
      *  m_maxHealth and m_currentHealth consistent to what is shown to the user. This also changes the color of the 
      *  health bar to green (>50% of health left), yellow(between 25% and 50%) or red (<25% of health left) depending 
      *  on how hurt the current entity is.  
@@ -57,15 +57,15 @@ public class HealthManager : MonoBehaviour {
     /*
      * SetUIHealthBars()
      * NAME
-     *  SetUIHealthBars - Sets up the UI elements of the health bars
+     *  SetUIHealthBars - Sets up the UI elements of the health bars.
      * SYNOPSIS
      *  void SetUIHealthBars()
      * DESCRIPTION
      *  This function searches for the two GameObjects named "Ally Health Bars" and "Enemy Health Bars". 
      *  These two GameObjects have children GameObjects which are the UI health bar elements. This funciton 
      *  finds the health bar element that corresponds to the object that this class is attached to and sets 
-     *  the member values: m_healthBar, m_healthText, and m_fill to be the values under the UI health bars. 
-     *  After setting the values, the UpdateHealth funciton is called.
+     *  the member variables: m_healthBar, m_healthText, and m_fill to be the values under the UI health bars. 
+     *  After setting the values, the UpdateHealth function is called.
      * RETURNS
      *  None
     */
@@ -95,13 +95,13 @@ public class HealthManager : MonoBehaviour {
     /*
      * DealDamage()
      * NAME
-     *  DealDamage - this entitiy takes a specified amount of damage
+     *  DealDamage - this entitiy takes a specified amount of damage.
      * SYNOPSIS
      *  void DealDamage(int a_damage)
-     *      a_damage --> the  amount of damage that  the current entity will recieve
+     *      a_damage --> the  amount of damage that  the current entity will recieve.
      * DESCRIPTION
      *  The current entity will take the amount of damage specified by the a_damage value. If this causes
-     *  m_currentHealth to drop below zero, the  currenty entity will be removed from play. After damage is 
+     *  m_currentHealth to drop below zero, the currenty entity will be removed from play. After damage is 
      *  done, UpdateHealth is called. 
      * RETURNS
      *  None
@@ -122,10 +122,10 @@ public class HealthManager : MonoBehaviour {
     /*
      * Heal()
      * NAME
-     *  Heal - this entity is healed for a set amount
+     *  Heal - this entity is healed for a set amount.
      * SYNOPSIS
      *  void Heal(int a_amountToHeal)
-     *      a_amountToHeal --> the amount of damage the current entity will heal
+     *      a_amountToHeal --> the amount of damage the current entity will heal.
      * DESCRIPTION
      *  The currenty entity is healed for the amount specified by a_amountToHeal. If the amount healed were
      *  to cause the current health to be greater than the max health, then the current health is set to be
@@ -155,7 +155,7 @@ public class HealthManager : MonoBehaviour {
     /*
      * FullyHeal()
      * NAME
-     *  FullyHeal - this entity is fully healed
+     *  FullyHeal - this entity is fully healed.
      * SYNOPSIS
      *  void FullyHeal()
      * DESCRIPTION
@@ -195,10 +195,10 @@ public class HealthManager : MonoBehaviour {
     /* 
      * SetMaxHealth()
      * NAME
-     *  SetMaxHealth - setter method for m_maxHealth
+     *  SetMaxHealth - setter method for m_maxHealth.
      * SYNOPSIS
      *  void SetMaxHealth(int a_hp)
-     *      a_hp --> the value which m_maxHealth will be assigned to 
+     *      a_hp --> the value which m_maxHealth will be assigned to.
      * DESCRIPTION
      *  This allows the value of m_maxHealth to be changed to the value set by a_hp. 
      * RETURNS
@@ -215,10 +215,10 @@ public class HealthManager : MonoBehaviour {
     /*
      * SetCurrentHealth()
      * NAME
-     *  SetCurrentHealth - setter for m_currentHealth
+     *  SetCurrentHealth - setter for m_currentHealth.
      * SYNOPSIS
      *  void SetCurrentHealth(int a_hp)
-     *      a_hp --> the value that will be assigned to m_currentHealth
+     *      a_hp --> the value that will be assigned to m_currentHealth.
      * DESCRIPTION
      *  This allows the private memeber value m_currentHealth to be changed to the value of a_hp. 
      * RETURNS
@@ -235,7 +235,7 @@ public class HealthManager : MonoBehaviour {
     /*
      * GetMaxHealth()
      * NAME
-     *  GetMaxHealth - accessor for the member value m_maxHealth
+     *  GetMaxHealth - accessor for the member value m_maxHealth.
      * SYNOPSIS
      *  int GetMaxHealth()
      * DESCRIPTION

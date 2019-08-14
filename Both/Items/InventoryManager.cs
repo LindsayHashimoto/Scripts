@@ -28,13 +28,13 @@ public class InventoryManager : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  This sets the inital values of the above member variables and adds on click listeners to the register and cancel buttons. The 
-     *  register button and the buy and sell button are set to be not active and the use button is set to be active. Then, the
-     *  interface elements are built. 
+     *  This sets the inital values of the above member variables and adds on click listeners to the register and 
+     *  cancel buttons. The register button and the buy and sell button are set to be not active and the use button 
+     *  is set to be active. Then, the interface elements are built. 
      * RETURNS
      *  None
      */
@@ -77,7 +77,7 @@ public class InventoryManager : MonoBehaviour {
     /*
      * Update()
      * NAME 
-     *  Update - Update is called once per frame
+     *  Update - Update is called once per frame.
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
@@ -100,12 +100,12 @@ public class InventoryManager : MonoBehaviour {
     /*
      * BuildUIInventory()
      * NAME
-     *  BuildUIInventory - builds the interface of the inventory
+     *  BuildUIInventory - builds the interface of the inventory.
      * SYNOPSIS
      *  void BuildUIInventory()
      * DESCRIPTION
-     *  This clones the original button up to the number of items in the player's inventory. The button's text matches the names
-     *  of the items in the inventory. On click listeners are added to each of the buttons.
+     *  This clones the original button up to the number of items in the player's inventory. The button's text 
+     *  matches the names of the items in the inventory. On click listeners are added to each of the buttons.
      * RETURNS
      *  None
      */
@@ -128,7 +128,7 @@ public class InventoryManager : MonoBehaviour {
     /*
      * UpdateCurrency()
      * NAME
-     *  UpdateCurrency - updates the UI element that shows the user how much money they have
+     *  UpdateCurrency - updates the UI element that shows the user how much money they have.
      * SYNOPISIS
      *  void UpdateCurrency()
      * DESCRIPTION
@@ -151,8 +151,9 @@ public class InventoryManager : MonoBehaviour {
      * SYNOPSIS
      *  void UpdateUIInventory()
      * DESCRIPTION
-     *  First, this informs m_playerInventory that the inventory no longer needs to be updated. Then this destroys and rebuilds the 
-     *  buttons when this needs to be updated. It also updates the currency and sets the active item to be null.   
+     *  First, this informs m_playerInventory that the inventory no longer needs to be updated. Then this destroys 
+     *  and rebuilds the buttons when this needs to be updated. It also updates the currency and sets the active item
+     *  to be null.   
      * RETURNS
      *  None
      */
@@ -179,8 +180,8 @@ public class InventoryManager : MonoBehaviour {
      * SYNOPSIS
      *  void ResetActiveItem()
      * DESCRIPTION
-     *  The active item is set to be null, the buttons that appear when an item is click are set to not be active and the 
-     *  description text is set to say "No Item Currently Selected.".
+     *  The active item is set to be null, the buttons that appear when an item is click are set to not be active and 
+     *  the description text is set to say "No Item Currently Selected.".
      * RETURNS
      *  None
      */
@@ -198,7 +199,7 @@ public class InventoryManager : MonoBehaviour {
     /*
      * ResetRegisteredWeapon()
      * NAME
-     *  ResetRegisteredWeapon - resets the current registered weapon
+     *  ResetRegisteredWeapon - resets the current registered weapon.
      * SYNOPSIS
      *  void ResetRegisteredWeapon()
      * DESCRIPTION
@@ -220,8 +221,8 @@ public class InventoryManager : MonoBehaviour {
      * SYNOPSIS
      *  void OnItemClick()
      * DESCRIPTION
-     *  When the user clicks on an item, a short description is given. If the items is throwable, the register button appears. 
-     *  The use button also is set to be active. 
+     *  When the user clicks on an item, a short description is given. If the items is throwable, the register button 
+     *  appears. The use button also is set to be active. 
      * RETURNS
      *  None
      */
@@ -301,8 +302,8 @@ public class InventoryManager : MonoBehaviour {
      * SYNOPSIS
      *  void OnRegiserClick()
      * DESCRIPTION
-     *  If the active item is already the current registered weapon, the registered weapon is un-registered. Ohterwise, the 
-     *  registered weapon is now the active item. Finally, the active item is reset. 
+     *  If the active item is already the current registered weapon, the registered weapon is un-registered. Ohterwise,
+     *  the registered weapon is now the active item. Finally, the active item is reset. 
      * RETURNS
      *  None
      */
@@ -344,7 +345,7 @@ public class InventoryManager : MonoBehaviour {
     /*
      * GetActiveItem()
      * NAME
-     *  GetActiveItem - accessor for m_activeItem
+     *  GetActiveItem - accessor for m_activeItem.
      * SYNOPSIS
      *  Items GetActiveItem()
      * DESCRIPTION

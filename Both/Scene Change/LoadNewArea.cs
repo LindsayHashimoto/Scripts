@@ -16,8 +16,8 @@ public class LoadNewArea : MonoBehaviour {
      *  void OnTriggerEnter2D(Collider2D a_other)
      *      a_other --> the object that entered this area. 
      * DESCRIPTION 
-     *  When the player enters the object this script is attached to, the new scene specified by the game object in the 
-     *  unity editor is loaded. 
+     *  When the player enters the object this script is attached to, the new scene specified by the game object in 
+     *  the unity editor is loaded. 
      * RETURNS 
      *  None
      */

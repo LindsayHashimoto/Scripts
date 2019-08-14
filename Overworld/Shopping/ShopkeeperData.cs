@@ -27,11 +27,12 @@ public class ShopkeeperData : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  This sets the intial values of the above memeber variables, builds the shop data and sets the interface to be not active. 
+     *  This sets the intial values of the above memeber variables, builds the shop data and sets the interface 
+     *  to be not active. 
      * RETURNS
      *  None
      */
@@ -65,8 +66,8 @@ public class ShopkeeperData : MonoBehaviour {
      * SYNOPSIS
      *  void BuildShopData()
      * DESCRIPTION
-     *  The items that the shopkeeper sells are displayed as buttons. The buttons gain the on click listener "OnItemClick". 
-     *  How much money the player has is also displayed. 
+     *  The items that the shopkeeper sells are displayed as buttons. The buttons gain the on click listener 
+     *  "OnItemClick". The amount of money the player has is also displayed. 
      * RETURNS
      *  None
      */
@@ -87,7 +88,7 @@ public class ShopkeeperData : MonoBehaviour {
     /*
      * UpdateShopData()
      * NAME
-     *  UpdateShopData - the shop interface is updated
+     *  UpdateShopData - the shop interface is updated.
      * SYNOPSIS
      *  void UpdateShopData()
      * DESCRIPTION
@@ -111,7 +112,7 @@ public class ShopkeeperData : MonoBehaviour {
     /*
      * ResetActiveItem()
      * NAME
-     *  ResetActiveItem - sets the current active item to be null 
+     *  ResetActiveItem - sets the current active item to be null. 
      * SYNOPSIS
      *  void ResetActiveItem()
      * DESCRIPTION
@@ -135,7 +136,8 @@ public class ShopkeeperData : MonoBehaviour {
      * SYNOPSIS
      *  void OnItemClick()
      * DESCRIPTION
-     *  When an item is clicked, a short description of the item appears and the buy and sell button is set to be active. 
+     *  When an item is clicked, a short description of the item appears and the buy and sell button is set to be 
+     *  active. 
      * RETURNS
      *  None
      */

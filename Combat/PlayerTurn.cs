@@ -18,12 +18,12 @@ public class PlayerTurn : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  This sets the value of m_combatManager and assignes m_inventoryManager and m_turnMenu when m_combatManager assigns their
-     *  values. 
+     *  This sets the value of m_combatManager and asigns m_inventoryManager and m_turnMenu when m_combatManager 
+     *  sets their values. 
      * RETURNS
      *  None
      */
@@ -43,12 +43,12 @@ public class PlayerTurn : MonoBehaviour {
     /*
      * Update()
      * NAME 
-     *  Update - Update is called once per frame
+     *  Update - Update is called once per frame.
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
-     *  If the game is paused, the turn menu should be set to be not active. When the game is un-paused, the turn menu should be 
-     *  re-activated. 
+     *  If the game is paused, the turn menu should be set to be not active. When the game is un-paused, the turn 
+     *  menu should be re-activated. 
      * RETURNS
      *  None
      */
@@ -80,8 +80,9 @@ public class PlayerTurn : MonoBehaviour {
      *  void GetTargetFromUser(Stats a_target)
      *      a_target --> the target the user selected
      * DESCRIPTION
-     *  If the user clicked on the attack button before selecting a target, they will do a basic attack. If the user clicked on the 
-     *  item button, selected an item and then clicked on a target, the user will use that item on the selected target. 
+     *  If the user clicked on the attack button before selecting a target, they will do a basic attack. If the user 
+     *  clicked on the item button, selected an item and then clicked on a target, the user will use that item on 
+     *  the selected target. 
      * RETURNS
      *  None
      */
@@ -118,9 +119,9 @@ public class PlayerTurn : MonoBehaviour {
      * SYNOPSIS
      *  void WaitForAssignment()
      * DESCRIPTION
-     *  This occurs on a separate thread. It watis for the turn menu and inventory manager in the combat manager to not be null 
-     *  and then assigns the value to m_turnMenu and m_inventoryManager. When m_inventoryManager is assigned, m_playerInventory
-     *  can also be assigned. 
+     *  This occurs on a separate thread. It watis for the turn menu and inventory manager in the combat manager to 
+     *  not be null and then assigns the value to m_turnMenu and m_inventoryManager. When m_inventoryManager is 
+     *  assigned, m_playerInventory can also be assigned. 
      * RETURNS
      *  None
      */

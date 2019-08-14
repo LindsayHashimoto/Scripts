@@ -20,12 +20,12 @@ public class PauseMenuManager : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  Sets the values of the above member values and sets on click listeners for the buttons. The pause menu and inventory menu
-     *  are also set to be initally not active. 
+     *  Sets the values of the above member variables and sets on click listeners for the buttons. The pause menu 
+     *  and inventory menu are also set to be initally not active. 
      * RETURNS
      *  None
      */
@@ -49,11 +49,11 @@ public class PauseMenuManager : MonoBehaviour {
     /*
      * Update()
      * NAME 
-     *  Update - Update is called once per frame
+     *  Update - Update is called once per frame.
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
-     *  When the player presses the tab button, the pause menu opens up and the game is paused. 
+     *  When the player presses the pause key, the pause menu opens up and the game is paused. 
      * RETURNS
      *  None
      */
@@ -78,7 +78,7 @@ public class PauseMenuManager : MonoBehaviour {
     /*
      * OpenInventory()
      * NAME
-     *  OpenInventory - opens the inventory menu
+     *  OpenInventory - opens the inventory menu.
      * SYNOPSIS
      *  void OpenInventory()
      * DESCRIPTION
@@ -98,7 +98,7 @@ public class PauseMenuManager : MonoBehaviour {
     /*
      * ClosePauseMenu()
      * NAME
-     *  ClosePauseMenu - closes the pause menu
+     *  ClosePauseMenu - closes the pause menu.
      * SYNOPSIS
      *  void ClosePauseMenu()
      * DESCRIPTION
@@ -118,10 +118,10 @@ public class PauseMenuManager : MonoBehaviour {
     /*
      * SetCanPause()
      * NAME
-     *  SetCanPause - sets the value of m_canPause
+     *  SetCanPause - sets the value of m_canPause.
      * SYNOPSIS
      *  void SetCanPause(bool a_canPause)
-     *      a_canPause --> the value m_canPause will be set to 
+     *      a_canPause --> the value m_canPause will be set to. 
      * DESCRIPTION
      *  Sets the value of the member variable m_canPause to a_canPause. 
      * RETURNS
@@ -138,7 +138,7 @@ public class PauseMenuManager : MonoBehaviour {
     /*
      * GetCanPause()
      * NAME
-     *  GetCanPause - returns the value of m_canPause
+     *  GetCanPause - returns the value of m_canPause.
      * SYNOPSIS
      *  void GetCanPause()
      * DESCRIPTION

@@ -14,7 +14,7 @@ public class WeaponCollisions : MonoBehaviour
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
@@ -39,10 +39,10 @@ public class WeaponCollisions : MonoBehaviour
      *  void OnTriggerEnter2D(Collider2D a_other)
      *      a_other --> the object that enters this trigger. 
      * DESCRIPTION
-     *  If this item hits the enemy, the enemy takes damage and the weapon stops and is moved back to its original position where 
-     *  it is no longer active. If the weapon hits a collision, the weapon stops and a dropped weapon object is placed at the location
-     *  where the weapon stopped where it can be picked up by the player. The weapon's position is also reset and is set to be not 
-     *  active. 
+     *  If this item hits the enemy, the enemy takes damage and the weapon stops and is moved back to its original 
+     *  position where it is no longer active. If the weapon hits a collision, the weapon stops and a dropped weapon 
+     *  object is placed at the location where the weapon stopped where it can be picked up by the player. The
+     *  weapon's position is also reset and is set to be not active. 
      * RETURNS
      *  None
      */
@@ -78,8 +78,8 @@ public class WeaponCollisions : MonoBehaviour
      * SYNOPSIS
      *  int CalculateThrownDamage()
      * DESCRIPTION
-     *  This calculates the damage the weapon will do based on the base damage of the item, the attack of the player and the defense
-     *  of the enemy. If the damage ends up being less than 1, the damage is set to 1. 
+     *  This calculates the damage the weapon will do based on the base damage of the item, the attack of the player 
+     *  and the defense of the enemy. If the damage ends up being less than 1, the damage is set to 1. 
      * RETURNS
      *  The amount of damage the enemy will take. 
      */

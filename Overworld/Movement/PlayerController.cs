@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
@@ -45,15 +45,15 @@ public class PlayerController : MonoBehaviour {
     /*
      * Update()
      * NAME 
-     *  Update - Update is called once per frame
+     *  Update - Update is called once per frame.
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
      *  This takes in the movement input from the user and plays the appropriate animation. 
-     * RETURNS
-     *  None
      * SOURCE
      *  https://www.youtube.com/playlist?list=PLiyfvmtjWC_X6e0EYLPczO9tNCkm2dzkm
+     * RETURNS
+     *  None
      */
     /**/
     void Update () {
@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour {
     /*
      * GetLastMove()
      * NAME
-     *  GetLastMove - accessor for m_lastMove
+     *  GetLastMove - accessor for m_lastMove.
      * SYNOPSIS
      *  Vector2 GetLastMove()
      * DESCRIPTION
@@ -137,7 +137,7 @@ public class PlayerController : MonoBehaviour {
     /*
      * GetCanMove()
      * NAME
-     *  GetCanMove - accessor for m_canMove
+     *  GetCanMove - accessor for m_canMove.
      * SYNOPSIS
      *  bool GetCanMove()
      * DESCRIPTION
@@ -156,7 +156,7 @@ public class PlayerController : MonoBehaviour {
     /*
      * GetAnim()
      * NAME
-     *  GetAnim - accessor for m_anim
+     *  GetAnim - accessor for m_anim.
      * SYNOPSIS
      *  Animator GetAnim()
      * DESCRIPTION
@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour {
     /*
      * SetCanMove()
      * NAME
-     *  SetCanMove - setter for m_canMove
+     *  SetCanMove - setter for m_canMove.
      * SYNOPSIS
      *  void SetCanMove(bool a_canMove)
      *      a_canMove --> the value m_canMove will be set to.

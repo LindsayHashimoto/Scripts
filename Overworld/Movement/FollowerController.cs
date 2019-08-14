@@ -21,7 +21,7 @@ public class FollowerController : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
@@ -44,18 +44,18 @@ public class FollowerController : MonoBehaviour {
     /*
      * Update()
      * NAME 
-     *  Update - Update is called once per frame
+     *  Update - Update is called once per frame.
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
-     *  This function makes the follower follow the selected target. If the follower is set to be able to move, the distance
-     *  the follower is from the target is calculated and the follower moves that distance towards the target at a speed of 
-     *  m_currentSpeed. The follower also displays walking or standing animations depending on which direction the follower 
-     *  is facing and whether or not they are currently moving. 
-     * RETURNS
-     *  None
+     *  This function makes the follower follow the selected target. If the follower is set to be able to move, 
+     *  the distance the follower is from the target is calculated and the follower moves that distance towards 
+     *  the target at a speed of m_currentSpeed. The follower also displays walking or standing animations depending 
+     *  on which direction the follower is facing and whether or not they are currently moving.
      * SOURCE 
      *  https://answers.unity.com/questions/607100/how-to-make-an-ai-to-follow-the-player-in-2d-c.html
+     * RETURNS
+     *  None
      */
     /**/
     void Update()
@@ -123,12 +123,13 @@ public class FollowerController : MonoBehaviour {
     /*
      * SetCanMove()
      * NAME
-     *  SetCanMove - sets the value of m_canMove
+     *  SetCanMove - sets the value of m_canMove.
      * SYNOPSIS
      *  void SetCanMove(bool a_canMove)
      *      a_canMove --> the value that m_canMove will be set to. 
      * DESCRIPTION
-     *  This allows the value of m_canMove to be changed if another class wants the follower to be able to or not be able to move.  
+     *  This allows the value of m_canMove to be changed if another class wants the follower to be able to or 
+     *  not be able to move.  
      * RETURNS
      *  None
      */

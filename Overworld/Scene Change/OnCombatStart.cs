@@ -13,11 +13,11 @@ public class OnCombatStart : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  This sets the balues of the above member values and sets m_combatData to be not active. 
+     *  This sets the values of the above member values and sets m_combatData to be not active. 
      * RETURNS
      *  None
      */
@@ -38,10 +38,11 @@ public class OnCombatStart : MonoBehaviour {
      *  OnTriggerEnter2D - sets up combat when player enters the enemy's sight box. 
      * SYNOPSIS
      *  void OnTriggerEnter2D(Collider2D a_other)
-     *      a_other --> the object that entered the line of sight
+     *      a_other --> the object that entered the line of sight.
      * DESCRIPTION
-     *  When the player enters the enemy's line of sight, the enemy is set to not be able to move. The position where the 
-     *  player will re-enter the current scene will be moved to the current position. Then, the combat starts. 
+     *  When the player enters the enemy's line of sight, the enemy is set to not be able to move. The position 
+     *  where the player will re-enter the current scene will be moved to the current position. Then, the 
+     *  combat scene starts. 
      * RETURNS 
      *  None
      */

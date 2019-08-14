@@ -15,11 +15,11 @@ public class ExplinationText : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  This sets the inital values for m_pmm and m_messageBox and sets it to be initally not active. 
+     *  This sets the inital values for m_pmm and m_messageBox and sets the latter to be initally not active. 
      * RETURNS
      *  None
      */
@@ -38,14 +38,14 @@ public class ExplinationText : MonoBehaviour {
     /*
      * Update()
      * NAME 
-     *  Update - Update is called once per frame
+     *  Update - Update is called once per frame.
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
-     *  When the user presses the space bar and the message box is active, one of two actions are performed depending on if there 
-     *  are messages in the m_awaitingMessages list. If there are messages, the message box text is changed to the first item in 
-     *  m_awaitingMessages and the first item is removed from the list. Otherwise, the message box is set to longer be active and
-     *  the game is un-paused. 
+     *  When the user presses the interact button and the message box is active, one of two actions are performed 
+     *  depending on if there are messages in the m_awaitingMessages list. If there are messages, the message box 
+     *  text is changed to the first item in m_awaitingMessages and the first item is removed from the list. 
+     *  Otherwise, the message box is set to longer be active and the game is un-paused. 
      * RETURNS
      *  None
      */
@@ -81,8 +81,9 @@ public class ExplinationText : MonoBehaviour {
      *  void SetMessage(string a_message)
      *      a_message --> the message that will be shown to the user. 
      * DESCRIPTION
-     *  If this gameobject is not active, the message text is set to be the sent message, the message box appears and the game is
-     *  paused and the pause menu is disabled. If the message box is already active, the message is added to the awaitingMessages list. 
+     *  If this gameobject is not active, the message text is set to be the sent message, the message box appears 
+     *  and the game is paused and the pause menu is disabled. If the message box is already active, the message 
+     *  is added to the awaitingMessages list. 
      * RETURNS
      *  None
      */
@@ -108,7 +109,7 @@ public class ExplinationText : MonoBehaviour {
     /*
      * GetAwaitingMessages()
      * NAME
-     *  GetAwaitingMessages - accessor for m_awaitingMessages
+     *  GetAwaitingMessages - accessor for m_awaitingMessages.
      * SYNOPSIS
      *  List<string> GetAwaitingMessages()
      * DESCRIPTION

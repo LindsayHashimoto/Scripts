@@ -19,7 +19,7 @@ public class EnemyBehavior : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization 
+     *  Start - Use this for initialization. 
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
@@ -40,12 +40,12 @@ public class EnemyBehavior : MonoBehaviour {
     /*
      * Update()
      * NAME 
-     *  Update - Update is called once per frame
+     *  Update - Update is called once per frame.
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
-     *  If the enemy can move and is chasing the player, the enemy will run towards the player. The enemy will also have walking 
-     *  animations when moving towards the player. 
+     *  If the enemy can move and is chasing the player, the enemy will run towards the player. The enemy will also 
+     *  have walking animations when moving towards the player. 
      * RETURNS
      *  None
      */
@@ -86,7 +86,8 @@ public class EnemyBehavior : MonoBehaviour {
      *  void OnTriggerEnter2D(Collider2D a_other)
      *      a_other --> an object that enters this BoxCollider2D. 
      * DESCRIPTION
-     *  When a weapon thrown by the player enters this box collider, this entity should chase the player and initiate combat. 
+     *  When a weapon thrown by the player enters this box collider, this entity should chase the player and 
+     *  attempt to initiate combat. 
      * RETURN
      *  None
      */
@@ -104,12 +105,12 @@ public class EnemyBehavior : MonoBehaviour {
     /*
      * void SetCanMove(bool a_canMove)
      * NAME 
-     *  SetCanMove - sets the value for the member value: m_canMove 
+     *  SetCanMove - sets the value for the member variable: m_canMove 
      * SYNOPSIS 
      *  void SetCanMove(bool a_canMove)
      *      a_canMove --> the value that m_canMove will be set to
      * DESCRIPTION
-     *  Sets the value for m_canMove. 
+     *  Sets the value of m_canMove. 
      * RETURNS
      *  None
     */

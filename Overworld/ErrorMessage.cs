@@ -33,7 +33,7 @@ public class ErrorMessage : MonoBehaviour {
     /*
      * Update()
      * NAME 
-     *  Update - Update is called once per frame
+     *  Update - Update is called once per frame.
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
@@ -60,7 +60,8 @@ public class ErrorMessage : MonoBehaviour {
      *  void DisplayMessage(string a_message)
      *      a_message --> the message that will be displayed to the user.
      * DESCRIPTION
-     *  The message text is set to be a_message and appears to the user. The message stays for a second and disappears.
+     *  The message text is set to be a_message and appears to the user. The message stays for a second 
+     *  and disappears.
      * RETURNS
      *  None
      */

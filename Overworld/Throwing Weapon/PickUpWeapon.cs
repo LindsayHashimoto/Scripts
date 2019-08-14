@@ -12,7 +12,7 @@ public class PickUpWeapon : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
@@ -35,13 +35,13 @@ public class PickUpWeapon : MonoBehaviour {
     /*
      * OnTriggerEnter2D()
      * NAME
-     *  OnTriggerEnter2D -
+     *  OnTriggerEnter2D - performs actions when something enters this object. 
      * SYNOPSIS 
      *  void OnTriggerEnter2D(Collider2D a_other)
      *      a_other --> the collison that enters this object.
      * DESCRIPTION
-     *  When the player enters this collider, they will pick up the registered weapon and add it to their inventory. This
-     *  item will also be set to be inactive after the user picks this item up. 
+     *  When the player enters this collider, they will pick up the registered weapon and add it to their inventory. 
+     *  This item will also be set to be inactive after the user picks this item up. 
      * RETURNS 
      *  None
      */
@@ -67,8 +67,23 @@ public class PickUpWeapon : MonoBehaviour {
     }
     /*private void OnTriggerEnter2D(Collider2D a_other);*/
 
+    /**/
+    /*
+     * SetPickedUpWeapon()
+     * NAME
+     *  SetPickedUpWeapon - setter for m_pickedUpWeapon.
+     * SYNOPSIS
+     *  void SetPickedUpWeapon(Weapons a_pickedUpWeapon)
+     *      a_pickedUpWeapon --> the value m_pickedUpWeapon will be assigned to. 
+     * DESCRIPTION
+     *  The value of a_pickedUpWeapon is assigned to m_pickedUpWeapon. 
+     * RETURNS
+     *  None
+     */
+    /**/
     public void SetPickedUpWeapon(Weapons a_pickedUpWeapon)
     {
         m_pickedUpWeapon = a_pickedUpWeapon; 
     }
+    /*public void SetPickedUpWeapon(Weapons a_pickedUpWeapon);*/
 }

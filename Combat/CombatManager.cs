@@ -42,7 +42,7 @@ public class CombatManager : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
@@ -103,12 +103,13 @@ public class CombatManager : MonoBehaviour {
     /*
      * Update()
      * NAME 
-     *  Update - Update is called once per frame
+     *  Update - Update is called once per frame.
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
-     *  This waits for the thread, which will run ChangeScenesWhenDialogEnds(), to end. When it does end, the new scene
-     *  is loaded and the user can open the pause menu again. Each frame, the player is set to be unable to pause. 
+     *  This waits for the thread, which will run ChangeScenesWhenDialogEnds(), to end. When it does end, 
+     *  the new scene is loaded and the user can open the pause menu again. Each frame, the player is set 
+     *  to be unable to pause. 
      * RETURNS
      *  None
      */
@@ -131,7 +132,7 @@ public class CombatManager : MonoBehaviour {
     /*
      * SetListeners()
      * NAME
-     *  SetListeners - sets the on click listeners for the buttons in combat
+     *  SetListeners - sets the on click listeners for the buttons in combat.
      * SYNOPSIS
      *  void SetListeners()
      * DESCRIPTION 
@@ -211,6 +212,8 @@ public class CombatManager : MonoBehaviour {
      *  the array should be 8. 
      * SOURCE
      *   https://www.geeksforgeeks.org/insertion-sort/
+     * RETURNS 
+     *  None
      */
     /**/
     private void InsertionSort(Stats [] a_sortArray)
@@ -266,9 +269,9 @@ public class CombatManager : MonoBehaviour {
      * DESCRIPTION
      *  This funciton sets up the UI element that shows the user the turn order and who's turn it is. This is 
      *  symbolized by the entity's name and the number they rolled when determining the turn order. The entity
-     *  whose turn it is gets a "<" to the right of the string. 
-     *  There is a maximum of 8 entities that can participate in combat. This funciton makes sure that there are
-     *  the same number of names in the UI element than there are entities. 
+     *  whose turn it is gets a "<" to the right of the string. There is a maximum of 8 entities that can participate 
+     *  in combat. This funciton makes sure that there are the same number of names in the UI element than there 
+     *  are entities. 
      * RETURNS
      *  None
      */
@@ -345,7 +348,7 @@ public class CombatManager : MonoBehaviour {
     /*
      * NextTurn()
      * NAME
-     *  NextTurn - performs the actions needed to move on to the next turn of vombat
+     *  NextTurn - performs the actions needed to move on to the next turn of combat.
      * SYNOPIS
      *  void NextTurn()
      * DESCRIPTION
@@ -430,17 +433,17 @@ public class CombatManager : MonoBehaviour {
     /*
      * UseWeapon()
      * NAME
-     *  UseWeapon - the target is attacked with a weapon
+     *  UseWeapon - the target is attacked with a weapon.
      * SYNOPSIS
      *  void UseWeapon(Stats a_target, Weapons a_item)
-     *      a_target --> the entity that will be attacked
-     *      a_item --> the weapon that will be used against the target
+     *      a_target --> the entity that will be attacked.
+     *      a_item --> the weapon that will be used against the target.
      * DESCRIPTION
-     *  The current entity uses a weapon on the selected target. If the weapon has no durability left, an error message is displayed
-     *  because this should not happen under normal circumstances. If the weapon passes the error check, a random number is generated
-     *  between 1 and 100. If the randomly generated number is greater than the item's accuracy, the attack misses and combat moves
-     *  on to the next turn. Otherwise, the attack hits, damage is calculated and deducted from the target, the item loses one 
-     *  durability and the current entity's turn ends. 
+     *  The current entity uses a weapon on the selected target. If the weapon has no durability left, an error 
+     *  message is displayed because this should not happen under normal circumstances. If the weapon passes the 
+     *  error check, a random number is generated between 1 and 100. If the randomly generated number is greater than 
+     *  the item's accuracy, the attack misses and combat moves on to the next turn. Otherwise, the attack hits, damage 
+     *  is calculated and deducted from the target, the item loses one durability and the current entity's turn ends. 
      * RETURNS
      *  None
      */
@@ -481,12 +484,12 @@ public class CombatManager : MonoBehaviour {
      *  UsePotion - the current entiy uses a healing potion on a target. 
      * SYNOPSIS
      *  void UsePotion(Stats a_target, Potions a_item)
-     *      a_target --> the person that will be healed
-     *      a_item --> the item that will be used
+     *      a_target --> the person that will be healed.
+     *      a_item --> the item that will be used.
      * DESCRIPTION
-     *  If the entity is somehow able to use an item with no durability left, an error message is displayed since this should not
-     *  happen under normal circumstances. The target is healed by an amount given by the item data. The item loses one durabilty
-     *  and the combat moves on to the next turn. 
+     *  If the entity is somehow able to use an item with no durability left, an error message is displayed since 
+     *  this should not happen under normal circumstances. The target is healed by an amount given by the item data. 
+     *  The item loses one durabilty and combat moves on to the next turn. 
      * RETURNS 
      *  None
      */
@@ -509,18 +512,18 @@ public class CombatManager : MonoBehaviour {
     /*
      * CalculateDamage()
      * NAME
-     *  CalculateDamage - the amount of damage the target will take is calculated
+     *  CalculateDamage - the amount of damage the target will take is calculated.
      * SYNOPSIS
      *  int CalculateDamage(Stats a_user, Stats a_target, int a_baseDamage)
-     *      a_user --> the entity using the attack
-     *      a_target --> the entity that will be attacked
-     *      a_baseDamage --> how powerful the attack is without accounting for attack and defense
+     *      a_user --> the entity using the attack.
+     *      a_target --> the entity that will be attacked.
+     *      a_baseDamage --> how powerful the attack is without accounting for attack and defense.
      * DESCRIPTION
-     *  The damage is calculated by taking the base damage, adding the attack stat of the user and subtracting the defense stat of
-     *  the target. Since a target with high defense can cause this number to become negative, the damage number is set to 1 if 
-     *  the damage calculation becomes 0 or less. 
+     *  The damage is calculated by taking the base damage, adding the attack stat of the user and subtracting 
+     *  the defense stat of the target. Since a target with high defense can cause this number to become negative, 
+     *  the damage number is set to 1 if the damage calculation becomes 0 or less. 
      * RETURNS
-     *  The amount of damage the target will take
+     *  The amount of damage the target will take.
      */
     /**/
     public int CalculateDamage(Stats a_user, Stats a_target, int a_baseDamage)
@@ -585,8 +588,8 @@ public class CombatManager : MonoBehaviour {
      * SYNOPSIS
      *  void OnAttackClick()
      * DESCRIPTION
-     *  When the attack button is cliked, the turn menu disappears and the user can select a target to attack. They are
-     *  also able to click the back button to go back to the turn menu.
+     *  When the attack button is clicked, the turn menu disappears and the user can select a target to attack. 
+     *  They are also able to click the back button to go back to the turn menu.
      * RETURNS
      *  None
      */
@@ -625,7 +628,7 @@ public class CombatManager : MonoBehaviour {
     /*
      * void OnPassClick()
      * NAME
-     *  OnPassClick - is called when user clicks the pass button
+     *  OnPassClick - is called when user clicks the pass button.
      * SYNOPSIS
      *  void OnPassClick()
      * DESCRIPTION
@@ -693,13 +696,13 @@ public class CombatManager : MonoBehaviour {
     /*
      *  OnPlayerWin()
      * NAME
-     *  OnPlayerWin - performs aciton when the player wins. 
+     *  OnPlayerWin - performs actions when the player wins. 
      * SYNOPSIS
      *  void OnPlayerWin()
      * DESCRIPTION
      *  When the player wins, the player gets prize money. All players that were defeated are set to be active again. 
-     *  After all the explination text is seen by the user, the players are sent back to the previous scene and are able
-     *  to move again.
+     *  After all the explination text is seen by the user, the allied characters are sent back to the previous scene 
+     *  and are able to move again.
      * RETURNS
      *  None
      */
@@ -742,12 +745,12 @@ public class CombatManager : MonoBehaviour {
     /*
      * OnEnemyWin()
      * NAME
-     *  OnEnemyWin - performs aciton when the enemy wins
+     *  OnEnemyWin - performs acitons when the enemy wins.
      * SYNOPSIS
      *  void OnEnemyWin()
      * DESCRIPTION
-     *  When the enemy wins, everyone's health is reset and the player is sent back to the overworld when the user is 
-     *  done reading the explination text. 
+     *  When the enemy wins, everyone's health is reset and the player is sent back to the overworld when the 
+     *  user is done reading the explination text. A "Game Over" message is also shown to the user. 
      * RETURNS
      *  None
      */
@@ -784,12 +787,12 @@ public class CombatManager : MonoBehaviour {
     /*
      * ChangeScenesWhenDialogEnds()
      * NAME
-     *  ChangeScenesWhenDialogEnds - waits for dialog to end before changing scenes
+     *  ChangeScenesWhenDialogEnds - waits for dialog to end before changing scenes.
      * SYNOPSIS
      *  void ChangeScenesWhenDialogEnds()
      * DESCRIPTION
-     *  This will be called as a thread that waits for there to be no more remaining messages in awaiting messages
-     *  for the explinaiton text. 
+     *  This will be called as a thread that waits for there to be no more remaining messages in m_awaitingMessages
+     *  in the ExplinaitonText class. 
      * RETURNS
      *  None
      */
@@ -843,7 +846,7 @@ public class CombatManager : MonoBehaviour {
     /*
      * GetTurnMenu()
      * NAME
-     *  GetTurnMenu - accessor for m_turnMenu
+     *  GetTurnMenu - accessor for m_turnMenu.
      * SYNOPSIS
      *  GameObject GetTurnMenu()
      * DESCRIPTION
@@ -939,12 +942,12 @@ public class CombatManager : MonoBehaviour {
     /*
      * SetItemClicked()
      * NAME
-     *  SetItemClicked - setter for m_itemClicked
+     *  SetItemClicked - setter for m_itemClicked.
      * SYNOPSIS
      *  void SetItemClicked(bool a_input)
-     *      a_input -->
+     *      a_input --> the value m_itemClicked will be set to. 
      * DESCRIPTION
-     * 
+     *  Sets the value of m_itemClicked to a_input. 
      * RETURNS
      *  None
      */

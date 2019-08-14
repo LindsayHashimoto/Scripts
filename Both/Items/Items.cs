@@ -14,7 +14,7 @@ public class Items {
     /*
      * RemoveDurability()
      * NAME
-     *  RemoveDurability - removes one durability from the weapon
+     *  RemoveDurability - removes one durability point from the item. 
      * SYNOPSIS
      *  void RemoveDurability()
      * DESCRIPTION
@@ -33,7 +33,7 @@ public class Items {
     /*
      * SetDurability()
      * NAME
-     *  SetDurability - setter for m_durability
+     *  SetDurability - setter for m_durability.
      * SYNOPSIS
      *  void SetDurability(int a_durability)
      *      a_durability --> the value m_durability will be set to. 
@@ -53,7 +53,7 @@ public class Items {
     /*
      * GetName()
      * NAME
-     *  GetName - accessor for m_name
+     *  GetName - accessor for m_name.
      * SYNOPSIS
      *  string GetName()
      * DESCRIPTION
@@ -91,7 +91,7 @@ public class Items {
     /*
      * GetIsWeapon()
      * NAME
-     *  GetIsWeapon - accessor for m_isWeapon
+     *  GetIsWeapon - accessor for m_isWeapon.
      * SYNOPSIS
      *  bool GetIsWeapon()
      * DESCRIPTION
@@ -110,7 +110,7 @@ public class Items {
     /*
      * GetIsPotion()
      * NAME
-     *  GetIsPotion - accessor for m_isPotion
+     *  GetIsPotion - accessor for m_isPotion.
      * SYNOPSIS
      *  bool GetIsPotion()
      * DESCRIPTION

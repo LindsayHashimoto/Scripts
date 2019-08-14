@@ -13,11 +13,11 @@ public class Inventory : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  This adds some items to the inventory initally for testing purposes. 
+     *  This adds items that are initally in the inventory. 
      * RETURNS
      *  None
      */
@@ -43,8 +43,9 @@ public class Inventory : MonoBehaviour {
      *  void BuyItem(Items a_item)
      *      a_item --> the item that is being bought. 
      * DESCRIPTION
-     *  If the player has less money than what the item is worth, they should not be able to buy it. Otherwise, the amount of 
-     *  money the item is worth is deducted from the player's currency and the item is added to their inventory. 
+     *  If the player has less money than what the item is worth, they should not be able to buy it. Otherwise, the 
+     *  amount of money the item is worth is deducted from the player's currency and the item is added to their 
+     *  inventory. 
      * RETURNS
      *  None
      */
@@ -99,7 +100,7 @@ public class Inventory : MonoBehaviour {
      *  AddItems - a specified amount of items is added to the inventory. 
      * SYNOPSIS
      *  void AddItems(Items a_item, int a_amountToAdd)
-     *      a_item --> the item that will be added to the inventory
+     *      a_item --> the item that will be added to the inventory.
      *      a_amountToAdd --> the number of items that will be added. 
      * DESCRIPTION
      *  A specified amount of the same item is added to the inventory. 
@@ -149,12 +150,12 @@ public class Inventory : MonoBehaviour {
     /*
      * UpdateInventory()
      * NAME
-     *  UpdateInventory - is called whenever the inventory needs to update
+     *  UpdateInventory - is called whenever the inventory needs to update.
      * SYNOPSIS
      *  void UpdateInventory()
      * DESCRIPTION
-     *  A temporary list is created. All items that have not lost all thier durabiliy will be added to the new list. Then the
-     *  new list replaces m_inventory. This also lets the InventoryManager class know that the interface needs to be updated. 
+     *  All items that have no durability left are removed from the inventory. This also lets the InventoryManager 
+     *  class know that the interface needs to be updated. 
      * RETURNS
      *  None
      */
@@ -195,7 +196,7 @@ public class Inventory : MonoBehaviour {
     /*
      * GetIfNeedUpdate()
      * NAME
-     *  GetIfNeedUpdate - accessor for m_NeedToUpdate
+     *  GetIfNeedUpdate - accessor for m_NeedToUpdate.
      * SYNOPSIS
      *  bool GetIfNeedUpdate()
      * DESCRIPTION
@@ -214,7 +215,7 @@ public class Inventory : MonoBehaviour {
     /*
      * GetCurrency()
      * NAME
-     *  GetCurrency - accessor for m_currency
+     *  GetCurrency - accessor for m_currency.
      * SYNOPSIS
      *  int GetCurrency()
      * DESCRIPTION
@@ -233,7 +234,7 @@ public class Inventory : MonoBehaviour {
     /*
      * GetInventory()
      * NAME
-     *  GetInventory - accessor for m_inventory
+     *  GetInventory - accessor for m_inventory.
      * SYNOPSIS
      *  List<Items> GetInventory()
      * DESCRIPTION

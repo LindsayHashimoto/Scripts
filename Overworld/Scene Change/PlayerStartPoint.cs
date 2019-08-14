@@ -13,12 +13,12 @@ public class PlayerStartPoint : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  The position of this game object should be where the player spawns when the scene loads. This moves the player, the followers
-     *  and the camera to the positon of this gameoject on start. 
+     *  The position of this game object should be where the player spawns when the scene loads. This moves the 
+     *  player, the followers and the camera to the positon of this GameObject on start. 
      * RETURNS
      *  None
      */

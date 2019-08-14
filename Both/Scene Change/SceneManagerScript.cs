@@ -14,12 +14,12 @@ public class SceneManagerScript : MonoBehaviour {
     /*
      * Awake()
      * NAME
-     *  Awake - perform action before the game starts
+     *  Awake - perform action before the game starts.
      * SYNOPSIS
      *  void Awake()
      * DESCRIPTION
-     *  When this is called, MakeThisTheOnlyGameObj is called which makes sure the static memeber value m_sm is set and there
-     *  are no duplicates of it. 
+     *  When this is called, MakeThisTheOnlyGameObj is called which makes sure the static memeber variable m_sm is 
+     *  set and there are no duplicates of it. 
      * RETURNS
      *  None
      */ 
@@ -34,12 +34,13 @@ public class SceneManagerScript : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  This initially loads the first scene called "a". This also makes the two funcitons OnSceneChange and OnSceneLoaded be called
-     *  when the active scene changes and when a new scene is loaded respectively. The values for m_dontDestroyObjs are also set.  
+     *  This initially loads the first scene called "a". This also makes the two funcitons OnSceneChange and 
+     *  OnSceneLoaded be called when the active scene changes and when a new scene is loaded respectively. 
+     *  The values for m_dontDestroyObjs are also set.  
      * RETURNS
      *  None
      */
@@ -57,12 +58,13 @@ public class SceneManagerScript : MonoBehaviour {
     /*
      * MakeThisTheOnlyGameObj()
      * NAME
-     *  MakeThisTheOnlyGameObj - makes sure this object is not destroyed when switching scenes and no new game objects are created
+     *  MakeThisTheOnlyGameObj - makes sure this object is not destroyed when switching scenes and no new game objects 
+     *  are created.
      * SYNOPSIS
      *  void MakeThisTheOnlyGameObj()
      * DESCRIPTION
-     *  m_sm is an important static value that is needed to access dont destroy on load objects in other scenes. This function 
-     *  makes sure that this value is set to this class and there are no clones of it. 
+     *  m_sm is an important static variable that is needed to access dont destroy on load objects in other scenes. 
+     *  This function makes sure that this variable is set to this class and there are no clones of it. 
      * RETURNS
      *  None
      * SOURCE 
@@ -96,10 +98,11 @@ public class SceneManagerScript : MonoBehaviour {
      *      a_current --> the current scene
      *      a_next --> the scene that will be loaded
      * DESCRIPTION
-     *  When the scene changes, this funciton saves the current and next scene as the member values m_lastScene and m_currentScene. 
-     *  The names are changed to last and current because when they are refered to again, the scene would have already changed to 
-     *  the next scene. This also sets the original DontDestroy objects' member value m_dontDestroy to be true so that they can be 
-     *  differentiated from the clones that are made when switching scenes.  
+     *  When the scene changes, this funciton saves the current and next scene as the member variables m_lastScene and 
+     *  m_currentScene. The names are changed to last and current from current and next because when they are refered 
+     *  to again, the scene would have already moved on to the next scene. This also sets the original DontDestroy 
+     *  object's member variable m_dontDestroy to be true so that they can be differentiated from the clones that 
+     *  are made when switching scenes.  
      * RETURNS
      *  None.
      */
@@ -119,15 +122,15 @@ public class SceneManagerScript : MonoBehaviour {
     /*
      * OnSceneLoaded()
      * NAME
-     *  OnSceneLoaded - when the scene is loaded, manage the dont destroy objects
+     *  OnSceneLoaded - when the scene is loaded, manage the dont destroy objects.
      * SYNOPSIS
      *  void OnSceneLoaded(Scene a_scene, LoadSceneMode a_mode)
-     *      a_scene, a_mode --> these two values are not used in the funciton but are needed in order for this funciton to be called 
-     *      on scene load. 
+     *      a_scene, a_mode --> these two variables are not used in the funciton but are needed in order for this 
+     *      funciton to be called on scene load. 
      * DESCRIPTION
-     *  This funciton finds all of the objects that contain the class "DontDestroy". The original object should have the member value
-     *  m_dontDestroy set to true and all copies made when switching scenes have it set to false. This funciton destroys all objects
-     *  that are excess copies. 
+     *  This funciton finds all of the objects that contain the class "DontDestroy". The original object should have 
+     *  the member variable m_dontDestroy set to true and all copies made when switching scenes have it set to false. 
+     *  This funciton destroys all objects that are excess copies. 
      * RETURNS
      *  None.
      */
@@ -149,12 +152,12 @@ public class SceneManagerScript : MonoBehaviour {
     /*
      * SetLastSceneID()
      * NAME
-     *  SetLstSceneID - setter for the member value m_lastScene
+     *  SetLstSceneID - setter for the member variable m_lastScene.
      * SYNOPSIS
      *  void SetLastSceneID(int a_lastScene)
-     *      a_lastScene --> the value that m_lastScene will be set to
+     *      a_lastScene --> the value that m_lastScene will be set to.
      * DESCRIPTION
-     *  This is used to change the value of the private member value m_lastScene. 
+     *  This is used to change the value of the private member variable m_lastScene. 
      * RETURNS 
      *  None     
      */
@@ -169,13 +172,13 @@ public class SceneManagerScript : MonoBehaviour {
     /*
      * GetLastSceneID()
      * NAME
-     *  GetLastSceneID - accessor for the private member value m_lastScene
+     *  GetLastSceneID - accessor for the private member variable m_lastScene
      * SYNOPSIS
      *  int GetLastSceneID()
      * DESCRIPTION
-     *  This is used to access the value of the private member value m_lastScene. 
+     *  This is used to access the value of the private member variable m_lastScene. 
      * RETURNS
-     *  The private member value m_lastScene
+     *  The private member variable m_lastScene
      */
     /**/
     public int GetLastSceneID()

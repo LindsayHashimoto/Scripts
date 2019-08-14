@@ -33,7 +33,7 @@ public class ThrowWeapon : MonoBehaviour
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
@@ -69,15 +69,15 @@ public class ThrowWeapon : MonoBehaviour
     /*
      * Update()
      * NAME 
-     *  Update - Update is called once per frame
+     *  Update - Update is called once per frame.
      * SYNOPSIS
      *  void Update()
      * DESCRIPTION
-     *  This performs actions when the player presses the fire button. If there is no registgered weapon, an error message
-     *  will be displayed. If the weapon's durability is 0 or less, an error message is displayed and the inventory is 
-     *  updated. If the weapon is not already moving, the weapon will be thrown, the timer is set, and one durability is 
-     *  used up. While the game is not paused and a weapon is already moving, the timer will decrement until it reaches
-     *  zero and the weapon will be dropped.
+     *  This performs actions when the player presses the fire button. If there is no registgered weapon, an error 
+     *  message will be displayed. If the weapon's durability is 0 or less, an error message is displayed and the 
+     *  inventory is updated. If the weapon is not already moving, the weapon will be thrown, the timer is set, 
+     *  and one durability is used up. While the game is not paused and a weapon is already moving, the timer will 
+     *  decrement by Time.deltaTime until it reaches zero and the weapon will be dropped.
      * RETURNS
      *  None
      */
@@ -147,7 +147,7 @@ public class ThrowWeapon : MonoBehaviour
     /*
      * DropWeapon()
      * NAME
-     *  DropWeapon - spawns a weapon on the floor to be picked up by the player
+     *  DropWeapon - spawns a weapon on the floor to be picked up by the player.
      * SYNOPSIS
      *  void DropWeapon()
      * DESCRIPTION
@@ -168,7 +168,7 @@ public class ThrowWeapon : MonoBehaviour
     /*
      * WeaponStop()
      * NAME
-     *  WeaponStop - stops a weapon that is moving
+     *  WeaponStop - stops a weapon that is moving.
      * SYNOPSIS
      *  void WeaponStop()
      * DESCRIPTION
@@ -254,7 +254,8 @@ public class ThrowWeapon : MonoBehaviour
      * SYNOPSIS
      *  void SetRotation()
      * DESCRIPTION
-     *  This first resets the rotation to be 0 degrees. Then the weapon is rotatated in the direction it will be moving in. 
+     *  This first resets the rotation to be 0 degrees. Then the weapon is rotatated in the direction that it will be 
+     *  moving in. 
      * RETURNS
      *  None
      */
@@ -320,7 +321,7 @@ public class ThrowWeapon : MonoBehaviour
      * SYNOPSIS
      *  InventoryManager GetInventoryManager()
      * DESCRIPTION
-     *  Returns the inventory manager class. 
+     *  Returns the InventoryManager class. 
      * RETURNS
      *  m_inventoryManager
      */
@@ -331,8 +332,22 @@ public class ThrowWeapon : MonoBehaviour
     }
     /*public InventoryManager GetInventoryManager();*/
 
+    /**/
+    /*
+     * GetThrownWeapon()
+     * NAME
+     *  GetThrownWeapon - accessor for m_thrownWeapon.
+     * SYNOPSIS
+     *  Weapons GetThrownWeapon()
+     * DESCRIPTION
+     *  Returns the weapon that was thrown. 
+     * RETURNS
+     *  m_thrownWeapon. 
+     */
+    /**/
     public Weapons GetThrownWeapon()
     {
         return m_thrownWeapon; 
     }
+    /*public Weapons GetThrownWeapon();*/
 }

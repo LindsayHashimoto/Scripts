@@ -14,8 +14,8 @@ public class CombatStartPos : MonoBehaviour {
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  At the start of combat, this funciton moves the eneities to their starting combat positions, faces them the correct way and
-     *  prevents them from moving around. 
+     *  At the start of combat, this funciton moves the entities to their starting combat positions, faces them in the 
+     *  correct direction and prevents them from moving around. 
      * RETURNS
      *  None
      */

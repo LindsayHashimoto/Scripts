@@ -12,13 +12,13 @@ public class Weapons : Items {
     /*
      * Weapons()
      * NAME
-     *  Weapons - constructor of a weapon. 
+     *  Weapons - constructor for the Weapons class. 
      * SYNOPSIS
      *  Weapons(Weapons a_weapons)
      *      a_weapons --> this is the weapons object that will be copied to this new object.
      * DESCRIPTION
-     *  This is the constructor for the Weapons class. This sets the values of the member variables in this class and the 
-     *  parent class: Items. 
+     *  This is the constructor for the Weapons class. This sets the values of the member variables in this 
+     *  class and the parent class: Items. 
      * RETURNS
      *  None
      */
@@ -39,7 +39,7 @@ public class Weapons : Items {
     /*
      * Weapons()
      * NAME
-     *  Weapons - constructor of a weapon. 
+     *  Weapons - constructor for the Weapons class.
      * SYNOPSIS
      *  Weapons(string a_name, int a_durability, int a_sellPrice, int a_damage, int a_accuracy, bool a_isThrowable)
      *      a_name --> the name of the weapon. 
@@ -49,8 +49,8 @@ public class Weapons : Items {
      *      a_accuracy --> the chance of this weapon hitting its target. 
      *      a_isThrowable --> if true, this item can be thrown in the overworld. 
      * DESCRIPTION
-     *  This is the constructor for the Weapons class. This sets the values of the member variables in this class and the 
-     *  parent class: Items. 
+     *  This is the constructor for the Weapons class. This sets the values of the member variables in this class 
+     *  and the parent class: Items. 
      * RETURNS
      *  None
      */
@@ -71,7 +71,7 @@ public class Weapons : Items {
     /*
      * GetDamage()
      * NAME
-     *  GetDamage - accessor for m_damage
+     *  GetDamage - accessor for m_damage.
      * SYNOPSIS
      *  int GetDamage()
      * DESCRIPTION
@@ -90,7 +90,7 @@ public class Weapons : Items {
     /*
      * GetAccuracy()
      * NAME
-     *  GetAccuracy - accessor for m_accuracy
+     *  GetAccuracy - accessor for m_accuracy.
      * SYNOPSIS
      *  int GetAccuracy()
      * DESCRIPTION
@@ -109,7 +109,7 @@ public class Weapons : Items {
     /*
      * GetIsThrowable()
      * NAME
-     *  GetIsTrowable - accessor for m_isThrowable
+     *  GetIsTrowable - accessor for m_isThrowable.
      * SYNOPSIS
      *  bool GetIsThrowable()
      * DESCRIPTION

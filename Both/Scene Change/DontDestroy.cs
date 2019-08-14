@@ -10,11 +10,11 @@ public class DontDestroy : MonoBehaviour {
     /*
      * Start()
      * NAME
-     *  Start - Use this for initialization
+     *  Start - Use this for initialization.
      * SYNOPSIS
      *  void Start()
      * DESCRIPTION
-     *  On start, m_dontDestroy is initally set to false and this game object is not destroyed on scene change. 
+     *  On start, m_dontDestroy is initally set to false and this GameObject is not destroyed on scene change. 
      * RETURNS
      *  None
      */
@@ -49,7 +49,7 @@ public class DontDestroy : MonoBehaviour {
     /*
      * GetDontDestroy()
      * NAME
-     *  GetDontDestroy - accessor for m_dontDestory
+     *  GetDontDestroy - accessor for m_dontDestory.
      * SYNOPSIS
      *  bool GetDontDestroy()
      * DESCRIPTION

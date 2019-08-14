@@ -38,10 +38,10 @@ public class Potions : Items {
      *  Potions - constructor for the Potions class. 
      * SYNOPSIS
      *  Potions(string a_name, int a_durability, int a_sellPrice, int a_heal)
-     *      a_name --> the name of the potion
-     *      a_durability --> how many more times the item can be used 
-     *      a_sellPrice --> how much the item is worth to shops
-     *      a_heal --> how much health the potion will heal
+     *      a_name --> the name of the potion.
+     *      a_durability --> how many more times the item can be used. 
+     *      a_sellPrice --> how much the item is worth to shops.
+     *      a_heal --> how much health the potion will heal.
      * DESCRIPTION 
      *  This sets the values of the member variables in this class and the Items class. 
      * RETURNS 
@@ -62,7 +62,7 @@ public class Potions : Items {
     /*
      * GetHeal()
      * NAME
-     *  GetHeal - accessor for m_heal
+     *  GetHeal - accessor for m_heal.
      * SYNOPSIS
      *  int GetHeal()
      * DESCRIPTION
